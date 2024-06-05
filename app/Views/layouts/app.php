@@ -17,7 +17,7 @@
     <!-- Logo -->
     <div class="container-fluid">
       <a class="navbar-brand" href="javascript:void(0)">
-        <img src="images/logo_pusat-racun.png" alt="Logo" width="350px">
+        <img src="images/logo_pusat-racun.png" alt="Logo" width="300px">
       </a>
     </div>
     <!-- End logo -->  
@@ -30,14 +30,20 @@
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)">About</a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="javascript:void(0)">Username</a>
+        <li class="nav-item">
+          <a class="nav-link active" href="javascript:void(0)">Username</a>
         </li>
       </ul>
     </div>
     <!-- End nav item -->
   </nav>
   <!-- End navigation bar -->
+
+  <!-- Content Section -->
+  <div class="app">
+    <?= $this->renderSection('content'); ?>
+  </div>
+  <!-- End content section -->
 
   </body>
 </html>
