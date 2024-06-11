@@ -41,4 +41,49 @@ class Validation extends BaseConfig
     // --------------------------------------------------------------------
     // Rules
     // --------------------------------------------------------------------
+    public $registration = [
+        'comp_reg_no' => [
+            'label' => 'Company Registration No',
+            'rules' => [
+                'required',
+                'max_length[30]',
+                'min_length[3]',
+            ],
+        ],
+        'comp_name' => [
+            'label' => 'Company Name',
+            'rules' => [
+                'required',
+            ],
+        ],
+        'name' => [
+            'label' => 'Name',
+            'rules' => [
+                'required',
+                'min_length[3]',
+            ],
+        ],
+        'email' => [
+            'label' => 'Auth.email',
+            'rules' => [
+                'required',
+                'max_length[254]',
+                'valid_email',
+                'is_unique[identities.secret]',
+            ],
+        ],
+        'password' => [
+            'label' => 'Auth.password',
+            'rules' => 'required|max_byte[72]|strong_password[]',
+            'errors' => [
+                'max_byte' => 'Auth.errorPasswordTooLongBytes'
+            ]
+        ],
+        'password_confirm' => [
+            'label' => 'Auth.passwordConfirm',
+            'rules' => 'required|matches[password]',
+        ],
+    ];
+
 }
+

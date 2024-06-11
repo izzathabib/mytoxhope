@@ -27,16 +27,30 @@
                 <form action="<?= url_to('register') ?>" method="post">
                     <?= csrf_field() ?>
 
+                    <!-- Company Registration No -->
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" name="comp_reg_no" placeholder="Company Register No" value="<?= old('comp_reg_no') ?>" required>        
+                        <label for="comp_reg_no">Company Registration No</label>
+                    </div>
+                    <!---->
+
+                    <!-- Company Name -->
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" name="comp_name" placeholder="Company Name" value="<?= old('comp_name') ?>" required>        
+                        <label for="comp_name">Company Name</label>
+                    </div>
+                    <!---->
+                    
+                    <!-- Name -->
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control" name="name" placeholder="Name" value="<?= old('name') ?>" required>
+                        <label for="name">Name</label>
+                    </div>
+
                     <!-- Email -->
                     <div class="form-floating mb-2">
                         <input type="email" class="form-control" id="floatingEmailInput" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>
                         <label for="floatingEmailInput"><?= lang('Auth.email') ?></label>
-                    </div>
-
-                    <!-- Username -->
-                    <div class="form-floating mb-4">
-                        <input type="text" class="form-control" id="floatingUsernameInput" name="username" inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required>
-                        <label for="floatingUsernameInput"><?= lang('Auth.username') ?></label>
                     </div>
 
                     <!-- Password -->
@@ -48,7 +62,7 @@
                     <!-- Password (Again) -->
                     <div class="form-floating mb-5">
                         <input type="password" class="form-control" id="floatingPasswordConfirmInput" name="password_confirm" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.passwordConfirm') ?>" required>
-                        <label for="floatingPasswordConfirmInput"><?= lang('Auth.passwordConfirm') ?></label>
+                        <label for="floatingPasswordConfirmInput">Repeat Password</label>
                     </div>
 
                     <div class="d-grid col-12 col-md-8 mx-auto m-3">
