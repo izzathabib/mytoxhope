@@ -1,9 +1,9 @@
-<!<!DOCTYPE html>
+<l!<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?= $this->renderSection('title') ?></title>
+    <title><?= esc($title); ?></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="<?= base_url('public/assets') ?>/" >
@@ -30,9 +30,12 @@
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)">About</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="javascript:void(0)">Username</a>
+        <!-- Check if user login -->
+        <?php if(auth()->loggedIn()): ?>
+        <li class="has-children">
+          <a class="nav-link active" href="javascript:void(0)"><?= esc(auth()->user()->name); ?></a>
         </li>
+        <?php endif; ?>
       </ul>
     </div>
     <!-- End nav item -->
@@ -40,7 +43,7 @@
   <!-- End navigation bar -->
 
   <!-- Content Section -->
-  <div class="app">
+  <div>
     <?= $this->renderSection('content'); ?>
   </div>
   <!-- End content section -->

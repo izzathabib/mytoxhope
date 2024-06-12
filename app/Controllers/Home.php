@@ -19,8 +19,11 @@ class Home extends BaseController
         // Create instance for model
         $model = new Company();
         // Fetch data from model
-        $company_detail = $model -> findAll();
+        $data = [
+            'company_detail' => $model -> findAll(),
+            'title' => 'Dashboard',
+        ];
 
-        return view('dashboard', compact('company_detail'));
+        return view('dashboard', $data);
     }
 }
