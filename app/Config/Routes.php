@@ -7,8 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 service('auth')->routes($routes);
-
-
 $routes->get('dashboard', 'Home::dashboard');
+$routes->get('add-product', 'Products\ProductsController::addProduct', ['as' => 'addProduct']);
+
 
 
