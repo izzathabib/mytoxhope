@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?= esc($title); ?></title>
+    <title><?= esc($title) ?></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="<?= base_url('public/assets') ?>/" >
@@ -32,10 +32,19 @@
         </li>
         <!-- Check if user login -->
         <?php if(auth()->loggedIn()): ?>
-        <li class="has-children">
-          <a class="nav-link active" href="javascript:void(0)"><?= esc(auth()->user()->name); ?></a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="javascript:void(0)" role="button" data-bs-toggle="dropdown"><?= esc(auth()->user()->name); ?></a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
+          </ul>
+        </li>
+        <?php else : ?>
+        <li class="nav-item">
+          <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
         </li>
         <?php endif; ?>
+        <!-- End check user login part -->
       </ul>
     </div>
     <!-- End nav item -->

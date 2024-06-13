@@ -11,7 +11,8 @@ class Home extends BaseController
     }
     public function index(): string
     {
-        return view('home');
+        $title = 'Home';
+        return view('home',compact('title'));
     }
 
     public function dashboard(): string
@@ -19,11 +20,9 @@ class Home extends BaseController
         // Create instance for model
         $model = new Company();
         // Fetch data from model
-        $data = [
-            'company_detail' => $model -> findAll(),
-            'title' => 'Dashboard',
-        ];
+        $company_detail = $model -> findAll();
+        $title = 'Dashboard';
 
-        return view('dashboard', $data);
+        return view('dashboard', compact('company_detail','title'));
     }
 }
