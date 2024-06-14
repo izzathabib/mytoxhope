@@ -27,6 +27,8 @@ abstract class BaseController extends Controller
      * @var CLIRequest|IncomingRequest
      */
     protected $request;
+    protected $db;
+
 
     /**
      * An array of helpers to be loaded automatically upon

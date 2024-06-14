@@ -5,7 +5,8 @@
 
 <div class="card">
   <div class="card-body">
-  <form action="/action_page.php">
+  
+  <form method="POST" action="<?= url_to('saveProdDetail'); ?>">
 
     <div class="row">
       <div class="col">
@@ -23,8 +24,8 @@
 
         <!-- Type of Poison -->
         <div class="form-group">
-          <label for="poison_type">Type of Poison</label>
-          <select id="poison_type" name="poison_type" class="form-control">
+          <label for="type_poison">Type of Poison</label>
+          <select id="type_poison" name="type_poison" class="form-control">
             <option value="Please select">Please select</option>
             <option value="List 1">List 1</option>
             <option value="List 2">List 2</option>
@@ -34,14 +35,14 @@
 
         <!-- Active ingredient -->
         <div class="form-group">
-          <label for="active_ingredient">Active Ingredient/ Chemical Name</label>
-          <input type="text" id="active_ingredient" name="active_ingredient" class="form-control"><br>
+          <label for="active_ing">Active Ingredient/ Chemical Name</label>
+          <input type="text" id="active_ing" name="active_ing" class="form-control"><br>
         </div>
 
         <!-- Inactive ingredient -->
         <div class="form-group">
-          <label for="inactive_ingredient">Inactive Ingredients</label>
-          <textarea type="textarea" id="inactive_ingredient" name="inactive_ingredient" class="form-control">
+          <label for="inactive_ing">Inactive Ingredients</label>
+          <textarea type="textarea" id="inactive_ing" name="inactive_ing" class="form-control">
           </textarea><br>
         </div>
       </div>
@@ -61,8 +62,8 @@
 
         <!-- Subtype of Household / Consumer Product -->
         <div class="form-group">
-          <label for="type_household">Subtype of Household / Consumer Product</label>
-          <select id="type_household" name="type_household" class="form-control">
+          <label for="subtype_household">Subtype of Household / Consumer Product</label>
+          <select id="subtype_household" name="subtype_household" class="form-control">
             <option value="Please select">Please select</option>
             <option value="List 1">List 1</option>
             <option value="List 2">List 2</option>
@@ -76,6 +77,7 @@
         </div>
       </div>
     </div>
+      
   </form>
   </div>
 </div>

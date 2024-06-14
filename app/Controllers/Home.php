@@ -17,12 +17,9 @@ class Home extends BaseController
 
     public function dashboard(): string
     {
-        // Create instance for model
-        $model = new Company();
-        // Fetch data from model
-        $company_detail = $model -> findAll();
+        
         $title = 'Dashboard';
 
-        return view('dashboard', compact('company_detail','title'));
+        return view('dashboard', compact('title'));
     }
 }
