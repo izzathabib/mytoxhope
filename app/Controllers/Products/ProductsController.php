@@ -32,6 +32,7 @@ class ProductsController extends BaseController
             "brand_name" => $this->request->getPost('brand_name'),
             "msds" => $this->request->getPost('msds'),
             "subtype_household" => $this->request->getPost('subtype_household'),
+            "updated_at" => $this->request->getPost('updated_at'),
         ];
 
         // Save $model data to database

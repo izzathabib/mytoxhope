@@ -52,7 +52,7 @@
   <!-- End navigation bar -->
 
   <!-- Content Section -->
-  <div>
+  <div class="container-fluid">
     <?= $this->renderSection('content'); ?>
   </div>
   <!-- End content section -->
