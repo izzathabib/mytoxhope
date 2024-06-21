@@ -15,16 +15,18 @@
 <!-- Main card -->
 <div class="container card">
   <div class="row card-body">
+    <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
     <div class="col">
       <div class="card">
         <div class="card-body">
           <img>
-          <h4 class="card-title">Knowledge Base</h4>
-          <p class="card-text">Description goes here</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h4 class="card-title">User List</h4>
+          <p class="card-text">View List Of User</p>
+          <a href="<?= url_to('viewUser') ?>" class="btn btn-primary">View User</a>
         </div>
       </div>
     </div>
+    <?php endif; ?>
     <div class="col">
       <div class="card">
         <div class="card-body">

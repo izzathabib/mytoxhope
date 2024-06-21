@@ -8,4 +8,4 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
- $routes->get('Admin/users', '\Admin\Controllers\Users::index');
+ $routes->get('Admin/users', '\Admin\Controllers\Users::index',['as' => 'viewUser']);
