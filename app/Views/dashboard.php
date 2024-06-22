@@ -15,6 +15,7 @@
 <!-- Main card -->
 <div class="container card">
   <div class="row card-body">
+  <!-- This function are disable for normal user -->
     <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
     <div class="col">
       <div class="card">
@@ -26,6 +27,7 @@
         </div>
       </div>
     </div>
+    <!---->
     <?php endif; ?>
     <div class="col">
       <div class="card">
