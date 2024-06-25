@@ -46,9 +46,13 @@ class Validation extends BaseConfig
             'label' => 'Company Registration No',
             'rules' => [
                 'required',
+                'is_unique[users.comp_reg_no]',
                 'max_length[30]',
                 'min_length[3]',
             ],
+            'errors' => [
+                'is_unique' => 'Your company already have an account registered for this system'
+            ]
         ],
         'comp_name' => [
             'label' => 'Company Name',
@@ -71,6 +75,9 @@ class Validation extends BaseConfig
                 'valid_email',
                 'is_unique[identities.secret]',
             ],
+            'errors' => [
+                'is_unique' => 'Please contact your company Person In Charge for further information'
+            ]
         ],
         'password' => [
             'label' => 'Auth.password',
