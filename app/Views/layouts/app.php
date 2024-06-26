@@ -13,7 +13,7 @@
   <body>
   
   <!-- Navigation bar -->
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark d-flex justify-content-between">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <!-- Logo -->
     <div class="container-fluid">
       <a class="navbar-brand" href="javascript:void(0)">
