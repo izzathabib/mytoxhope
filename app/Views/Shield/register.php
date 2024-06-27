@@ -5,13 +5,13 @@
     <div class="container d-flex justify-content-center p-5">
         <div class="card col-12 col-md-5 shadow-sm">
             <div class="card-body">
-                <h5 class="card-title mb-5">Percubaan Register</h5>
+                <h5 class="card-title mb-5">Company Registration</h5>
 
-                <?php if (session('error') !== null) : ?>
-                    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+                <?php if (isset($errors)) : ?>
+                    <div class="alert alert-danger" role="alert"><?= esc($errors) ?></div>
                 <?php elseif (session('errors') !== null) : ?>
                     <div class="alert alert-danger" role="alert">
-                        <?php if (is_array(session('errors'))) : ?>
+                        <?php if (isset($errors)) : ?>
                             <?php foreach (session('errors') as $error) : ?>
                                 <?= $error ?>
                                 <br>
