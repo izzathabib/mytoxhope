@@ -2,35 +2,6 @@
 <?= $this->extend('layouts/app.php'); ?>
 <?= $this->section('content'); ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyToxHope</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        .card-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-
-        .card {
-            margin: 10px;
-            width: 22%;
-            min-width: 200px;
-        }
-
-        .fa-home {
-            margin-right: 8px;
-        }
-    </style>
-</head>
-
-<body>
     <div class="container my-4">
         <h4 class="text-left">
             <i class="fas fa-home"></i>
@@ -75,11 +46,5 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
-
 
 <?= $this->endsection(); ?>
