@@ -41,14 +41,16 @@ class RegisterController extends BaseController
 
         return view('Shield/success',compact('title'));
     }*/
-
+    public function __construct() {
+        $this->db = \Config\Database::connect();
+    }
     public function index() {
         $title = 'Company Registration';
         return view('Shield/register',compact('title'));
     }
 
     public function checkRegister() {
-        $session = session(); 
+        //$session = session(); 
 
         $title = 'Company Registration';
         $model = new UserModel();
@@ -63,14 +65,33 @@ class RegisterController extends BaseController
         ];
 
         // Get the existing user data
-        $data = $model->where('comp_reg_no', $userData['comp_reg_no'])->first();
+        $existingUser = $model->where('comp_reg_no', $userData['comp_reg_no'])->first();
 
         // Action if the comp_reg_no already exists
-        if ($data) {
-            $currentUser = $userData['name'];
-            $errors = "A user with the same Company Registration Number already exists. For assistance, please contact ".$currentUser;
-            return view('Shield/register',compact('title','errors'));
-        } else {
+        if ($existingUser) {
+            
+            $error = "A user with the same Company Registration Number already exists. For assistance, please contact ".$existingUser->name;
+            return redirect()->back()->withInput()
+            ->with('error', $error)
+            ->with('title', $title);
+            
+        }  else {
+
+            $rules = [
+                'comp_reg_no' => 'required|min_length[3]|max_length[20]|is_unique[users.comp_reg_no]',
+                'comp_name' => 'required|min_length[3]|max_length[255]',
+                'name' => 'required|min_length[3]|max_length[255]',
+                'email' => 'required|valid_email|is_unique[identities.secret]',
+                'password' => 'required|min_length[8]',
+                'password_confirm' => 'required|matches[password]',
+            ];
+
+            if (! $this->validateData($userData, $rules)) {
+            return redirect()->back()->withInput()
+            ->with('errors', $this->validator->getErrors())
+            ->with('title',$title);
+            }
+
             return redirect()->to('/login');
         }
 

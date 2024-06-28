@@ -7,11 +7,11 @@
             <div class="card-body">
                 <h5 class="card-title mb-5">Company Registration</h5>
 
-                <?php if (isset($errors)) : ?>
-                    <div class="alert alert-danger" role="alert"><?= esc($errors) ?></div>
+                <?php if (session('error') !== null) : ?>
+                    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
                 <?php elseif (session('errors') !== null) : ?>
                     <div class="alert alert-danger" role="alert">
-                        <?php if (isset($errors)) : ?>
+                        <?php if (is_array(session('errors'))) : ?>
                             <?php foreach (session('errors') as $error) : ?>
                                 <?= $error ?>
                                 <br>
@@ -22,7 +22,7 @@
                     </div>
                 <?php endif ?>
 
-                <form action="<?= url_to('register') ?>" method="post">
+                <form action="<?= url_to('checkRegister') ?>" method="post">
                     <?= csrf_field() ?>
 
                     <!-- Company Registration No -->
