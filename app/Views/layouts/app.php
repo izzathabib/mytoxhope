@@ -25,6 +25,26 @@
         .fa-home {
             margin-right: 8px;
         }
+
+        .card-icon {
+          display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+        }
+
+        .card-icon img {
+          width: 30px;
+          height: 30px;
+        }
+
+        .card-text {
+          margin-bottom: 1.5rem;
+        }
     </style>
   </head>
   <body>
