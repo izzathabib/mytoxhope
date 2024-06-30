@@ -18,7 +18,7 @@
   <!-- This function are disable for normal user -->
     <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
     <div class="col-md-4">
-      <div class="card text-center h-100 w-100">
+      <div class="card text-center h-100 w-100 shadow-sm">
         <div class="card-body">
           <div class="card-icon bg-light">
             <i class="fa fa-list"></i>
@@ -33,7 +33,7 @@
     <?php endif; ?>
             <!-- Knowledge Base Card -->
             <div class="col-md-4">
-                <div class="card text-center h-100 w-100">
+                <div class="card text-center h-100 w-100 shadow-sm">
                     <div class="card-body">
                         <div class="card-icon bg-light">
                             <i class="fas fa-book"></i>
@@ -46,7 +46,7 @@
             </div>
             <!-- Products Card -->
             <div class="col-md-4">
-                <div class="card text-center h-100 w-100">
+                <div class="card text-center h-100 w-100 shadow-sm">
                     <div class="card-body">
                         <div class="card-icon bg-light">
                         <i class="fas fa-box"></i>
@@ -59,7 +59,7 @@
             </div>
             <!-- Support Center Card -->
             <div class="col-md-4">
-                <div class="card text-center h-100 w-100">
+                <div class="card text-center h-100 w-100 shadow-sm">
                     <div class="card-body">
                         <div class="card-icon bg-light">
                         <i class="fas fa-hands-helping"></i>

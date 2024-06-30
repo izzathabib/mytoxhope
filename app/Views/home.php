@@ -8,7 +8,7 @@
             <b>Malaysian Toxicological Data (Household Products) - MyToxHope</b>
         </h4>
         <div class="card-container">
-            <div class="card">
+            <div class="card shadow-sm">
                 <img src="images/demo/flat/1.png" class="card-img-top"
                     alt="Toxicological / Poisoning Case Notification">
                 <div class="card-body">
@@ -17,7 +17,7 @@
                         clinical information retrieval.</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card shadow-sm">
                 <img src="images/demo/flat/2.png" class="card-img-top" alt="Identification of Poisoning Substances">
                 <div class="card-body">
                     <h5 class="card-title">Identification of Poisoning Substances</h5>
@@ -26,7 +26,7 @@
                         submission of the notification form.</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card shadow-sm">
                 <img src="images/demo/flat/3.png" class="card-img-top"
                     alt="Treatment and Clinical Information Retrieval">
                 <div class="card-body">
@@ -36,7 +36,7 @@
                         information on the toxicity of the substance associated with the case.</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card shadow-sm">
                 <img src="images/demo/flat/6.png" class="card-img-top" alt="Statistical Report Access for Stakeholders">
                 <div class="card-body">
                     <h5 class="card-title">Statistical Report Access for Stakeholders</h5>
