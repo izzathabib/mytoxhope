@@ -22,4 +22,10 @@ class Home extends BaseController
 
         return view('dashboard', compact('title'));
     }
+
+    public function about(): string
+    {
+        $title = 'About MyToxHope';
+        return view('about', compact('title'));
+    }
 }

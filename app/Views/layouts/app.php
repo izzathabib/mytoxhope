@@ -79,7 +79,7 @@
             <a class="nav-link" href="<?= base_url(); ?>"><i class="fa-solid fa-house"></i> Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)"><i class="fa-solid fa-circle-exclamation"></i> About MyToxData</a>
+            <a class="nav-link" href="<?= base_url('about'); ?>"><i class="fa-solid fa-circle-exclamation"></i> About MyToxData</a>
           </li>
           <!-- Check if user login -->
           <?php if (auth()->loggedIn()): ?>
