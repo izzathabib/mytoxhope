@@ -4,76 +4,92 @@
 
 <?= $this->section('content') ?>
 
-    <div class="container d-flex justify-content-center p-5">
-        <div class="card col-12 col-md-5 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title mb-5"><?= lang('Auth.register') ?></h5>
+<div class="container-fluid position-relative vh-100"
+    style="background-image: url('images/login-bg.png'); background-size: cover; background-position: center;">
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="card w-50 shadow-sm"
+                style="max-width: 500px; background-color: rgba(255, 255, 255, 0.8); z-index: 1;">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-3"><?= lang('Auth.register') ?></h3>
+                    <p class="text-center">Enter details to register your account</p>
+                    <?php if (session('error') !== null): ?>
+                        <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+                    <?php elseif (session('errors') !== null): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php if (is_array(session('errors'))): ?>
+                                <?php foreach (session('errors') as $error): ?>
+                                    <?= $error ?>
+                                    <br>
+                                <?php endforeach ?>
+                            <?php else: ?>
+                                <?= session('errors') ?>
+                            <?php endif ?>
+                        </div>
+                    <?php endif ?>
 
-                <?php if (session('error') !== null) : ?>
-                    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
-                <?php elseif (session('errors') !== null) : ?>
-                    <div class="alert alert-danger" role="alert">
-                        <?php if (is_array(session('errors'))) : ?>
-                            <?php foreach (session('errors') as $error) : ?>
-                                <?= $error ?>
-                                <br>
-                            <?php endforeach ?>
-                        <?php else : ?>
-                            <?= session('errors') ?>
-                        <?php endif ?>
-                    </div>
-                <?php endif ?>
+                    <form action="<?= url_to('register') ?>" method="post">
+                        <?= csrf_field() ?>
 
-                <form action="<?= url_to('register') ?>" method="post">
-                    <?= csrf_field() ?>
+                        <!-- Company Registration No -->
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" name="comp_reg_no" placeholder="Company Register No"
+                                value="<?= old('comp_reg_no') ?>" required>
+                            <label for="comp_reg_no">Company Registration No</label>
+                        </div>
+                        <!---->
 
-                    <!-- Company Registration No -->
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" name="comp_reg_no" placeholder="Company Register No" value="<?= old('comp_reg_no') ?>" required>        
-                        <label for="comp_reg_no">Company Registration No</label>
-                    </div>
-                    <!---->
+                        <!-- Company Name -->
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" name="comp_name" placeholder="Company Name"
+                                value="<?= old('comp_name') ?>" required>
+                            <label for="comp_name">Company Name</label>
+                        </div>
+                        <!---->
 
-                    <!-- Company Name -->
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" name="comp_name" placeholder="Company Name" value="<?= old('comp_name') ?>" required>        
-                        <label for="comp_name">Company Name</label>
-                    </div>
-                    <!---->
-                    
-                    <!-- Name -->
-                    <div class="form-floating mb-4">
-                        <input type="text" class="form-control" name="name" placeholder="Name" value="<?= old('name') ?>" required>
-                        <label for="name">Name</label>
-                    </div>
+                        <!-- Name -->
+                        <div class="form-floating mb-4">
+                            <input type="text" class="form-control" name="name" placeholder="Name"
+                                value="<?= old('name') ?>" required>
+                            <label for="name">Name</label>
+                        </div>
 
-                    <!-- Email -->
-                    <div class="form-floating mb-2">
-                        <input type="email" class="form-control" id="email" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>
-                        <label for="email">Company Email Address</label>
-                    </div>
+                        <!-- Email -->
+                        <div class="form-floating mb-2">
+                            <input type="email" class="form-control" id="email" name="email" inputmode="email"
+                                autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>"
+                                required>
+                            <label for="email">Company Email Address</label>
+                        </div>
 
-                    <!-- Password -->
-                    <div class="form-floating mb-2">
-                        <input type="password" class="form-control" id="password" name="password" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>" required>
-                        <label for="password"><?= lang('Auth.password') ?></label>
-                    </div>
+                        <!-- Password -->
+                        <div class="form-floating mb-2">
+                            <input type="password" class="form-control" id="password" name="password" inputmode="text"
+                                autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>" required>
+                            <label for="password"><?= lang('Auth.password') ?></label>
+                        </div>
 
-                    <!-- Password (Again) -->
-                    <div class="form-floating mb-5">
-                        <input type="password" class="form-control" id="password_confirm" name="password_confirm" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.passwordConfirm') ?>" required>
-                        <label for="password_confirm">Repeat Password</label>
-                    </div>
+                        <!-- Password (Again) -->
+                        <div class="form-floating mb-5">
+                            <input type="password" class="form-control" id="password_confirm" name="password_confirm"
+                                inputmode="text" autocomplete="new-password"
+                                placeholder="<?= lang('Auth.passwordConfirm') ?>" required>
+                            <label for="password_confirm">Repeat Password</label>
+                        </div>
 
-                    <div class="d-grid col-12 col-md-8 mx-auto m-3">
-                        <button  type="submit" class="btn btn-primary btn-block"><?= lang('Auth.register') ?></button>
-                    </div>
+                        <div class="d-grid col-12 col-md-8 mx-auto m-3">
+                            <button type="submit"
+                                class="btn btn-primary btn-block"><?= lang('Auth.register') ?></button>
+                        </div>
 
-                    <p class="text-center"><?= lang('Auth.haveAccount') ?> <a href="<?= url_to('login') ?>"><?= lang('Auth.login') ?></a></p>
+                        <p class="text-center"><?= lang('Auth.haveAccount') ?> <a
+                                href="<?= url_to('login') ?>"><?= lang('Auth.login') ?></a></p>
 
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
 <?= $this->endSection() ?>
