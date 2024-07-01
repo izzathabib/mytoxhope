@@ -45,31 +45,41 @@
         .card-text {
           margin-bottom: 1.5rem;
         }
+
+        .form-group {
+          margin-bottom: 1.5rem;
+        }
+
+        .navbar-brand img {
+            max-height: 60px;
+        }
+
+        .nav-link i {
+            margin-right: 8px;
+        }
     </style>
   </head>
   <body>
   
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
       <!-- Logo -->
-      <div class="container-fluid d-flex align-items-center">
-        <div class="d-flex align-items-center">
-          <a class="navbar-brand" href="<?= base_url(); ?>">
-            <img src="images/logo_pusat-racun.png" alt="Logo 1" width="300px">
-          </a>
-          <a class="navbar-brand ms-0" href="<?= base_url(); ?>">
-            <img src="images/mytoxhope-white.png" alt="Logo 2" width="100px">
-          </a>
-        </div>
-      </div>
-      <!-- End logo -->
-      <!-- Nav item -->
-      <div class="collapse navbar-collapse" id="mynavbar">
-        <ul class="navbar-nav me-auto">
+      <a class="navbar-brand" href="<?= base_url(); ?>">
+        <img src="images/logo_pusat-racun.png" alt="Logo 1" width="150">
+        <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
+      </a>
+      <!-- Navbar toggler for mobile view -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Nav items -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <a class="nav-link" href="<?= base_url(); ?>"><i class="fa-solid fa-house"></i> Home</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)"><i class="fa-solid fa-circle-exclamation"></i> About MyToxData</a>
+            <a class="nav-link" href="javascript:void(0)"><i class="fa-solid fa-circle-exclamation"></i> About MyToxData</a>
           </li>
           <!-- Check if user login -->
           <?php if (auth()->loggedIn()): ?>
@@ -89,8 +99,9 @@
           <!-- End check user login part -->
         </ul>
       </div>
-      <!-- End nav item -->
-    </nav>
+      <!-- End nav items -->
+    </div>
+  </nav>
     <!-- End navigation bar -->
 
   <!-- Content Section -->
