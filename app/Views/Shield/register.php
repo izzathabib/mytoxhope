@@ -22,7 +22,7 @@
                     </div>
                 <?php endif ?>
 
-                <form action="<?= url_to('checkRegister') ?>" method="post">
+                <form action="<?= url_to('register') ?>" method="post">
                     <?= csrf_field() ?>
 
                     <!-- Company Registration No -->

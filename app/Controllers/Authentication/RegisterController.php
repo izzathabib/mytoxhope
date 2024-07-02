@@ -1,59 +1,49 @@
 <?php
 
 namespace App\Controllers\Authentication;
-use App\Controllers\BaseController;
-use App\Models\UserModel;
-use CodeIgniter\Shield\Entities\Login;
+use App\Models\Company;
+use CodeIgniter\Shield\Controllers\RegisterController as ShieldRegister;
+use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\Shield\Exceptions\ValidationException;
+use CodeIgniter\Events\Events;
 
-class RegisterController extends BaseController
+
+
+
+class RegisterController extends ShieldRegister
 {
-    protected $helpers = ['form'];
-    //protected $title = 'Company Registration';
-
-    /*public function index()
-    {
-        $title = 'Register';
-        if (! $this->request->is('post')) {
-            return view('Shield/register');
-        }
-
-        $rules = [
-            'comp_reg_no' => 'required|min_length[3]|max_length[20]|is_unique[users.comp_reg_no]',
-            'comp_name' => 'required|min_length[3]|max_length[255]',
-            'name' => 'required|min_length[3]|max_length[255]',
-            'email' => 'required|valid_email|is_unique[identities.secret]',
-            'password' => 'required|min_length[8]',
-            'password_confirm' => 'required|matches[password]',
-        ];
-
-        $errors = [
-
-        ];
-
-        $data = $this->request->getPost(array_keys($rules));
-
-        if (! $this->validateData($data, $rules)) {
-            return view('Shield/register',compact('title'));
-        }
-
-        // If you want to get the validated data.
-        $validData = $this->validator->getValidated();
-
-        return view('Shield/success',compact('title'));
-    }*/
-    public function __construct() {
-        $this->db = \Config\Database::connect();
-    }
-    public function index() {
+    
+    public function registerView() {
         $title = 'Company Registration';
+
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->registerRedirect());
+        }
+
+        // Check if registration is allowed
+        if (! setting('Auth.allowRegistration')) {
+            return redirect()->back()->withInput()
+                ->with('error', lang('Auth.registerDisabled'));
+        }
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        // If an action has been defined, start it up.
+        if ($authenticator->hasAction()) {
+            return redirect()->route('auth-action-show');
+        }
+
         return view('Shield/register',compact('title'));
     }
 
-    public function checkRegister() {
+    public function registerAction(): RedirectResponse {
         //$session = session(); 
 
         $title = 'Company Registration';
-        $model = new UserModel();
+        $model = $this->getUserProvider();
+        $companyModel = new Company();
 
         $userData = [
             'comp_reg_no' => $this->request->getPost('comp_reg_no'),
@@ -64,36 +54,85 @@ class RegisterController extends BaseController
             'password_confirm' => $this->request->getPost('password_confirm'),
         ];
 
-        // Get the existing user data
+        $companyData = [
+            'registration_no' => $this->request->getPost('comp_reg_no'),
+            'company_name' => $this->request->getPost('comp_name'),
+            'email' => $this->request->getPost('email'),
+            'admin' => $this->request->getPost('name'),
+        ];
+
+        // Get the existing user with the same comp_reg_no data
         $existingUser = $model->where('comp_reg_no', $userData['comp_reg_no'])->first();
 
         // Action if the comp_reg_no already exists
         if ($existingUser) {
-            
             $error = "A user with the same Company Registration Number already exists. For assistance, please contact ".$existingUser->name;
             return redirect()->back()->withInput()
             ->with('error', $error)
             ->with('title', $title);
-            
-        }  else {
+        }  
 
-            $rules = [
-                'comp_reg_no' => 'required|min_length[3]|max_length[20]|is_unique[users.comp_reg_no]',
-                'comp_name' => 'required|min_length[3]|max_length[255]',
-                'name' => 'required|min_length[3]|max_length[255]',
-                'email' => 'required|valid_email|is_unique[identities.secret]',
-                'password' => 'required|min_length[8]',
-                'password_confirm' => 'required|matches[password]',
-            ];
+        $rules = [
+            'comp_reg_no' => 'required|min_length[3]|max_length[20]|is_unique[users.comp_reg_no]',
+            'comp_name' => 'required|min_length[3]|max_length[255]',
+            'name' => 'required|min_length[3]|max_length[255]',
+            'email' => 'required|valid_email|is_unique[identities.secret]',
+            'password' => 'required|min_length[8]',
+            'password_confirm' => 'required|matches[password]',
+        ];
 
-            if (! $this->validateData($userData, $rules)) {
-            return redirect()->back()->withInput()
-            ->with('errors', $this->validator->getErrors())
-            ->with('title',$title);
-            }
-
-            return redirect()->to('/login');
+        // If data validation fail
+        if (! $this->validateData($userData, $rules)) {
+        return redirect()->back()->withInput()
+        ->with('errors', $this->validator->getErrors())
+        ->with('title',$title);
         }
+
+        // Save the user
+        $allowedPostFields = array_keys($rules);
+        $userData              = $this->getUserEntity();
+        $userData->fill($this->request->getPost($allowedPostFields));
+
+        // Workaround for email only registration/login
+        if ($userData->username === null) {
+            $userData->username = null;
+        }
+
+        try {
+            $model->save($userData);
+            $companyModel->save($companyData);
+        } catch (ValidationException $e) {
+            return redirect()->back()->withInput()->with('errors', $model->errors());
+        }
+
+        // To get the complete user object with ID, we need to get from the database
+        $userData = $model->findById($model->getInsertID());
+
+        // Add to default group
+        $model->addToDefaultGroup($userData);
+
+        Events::trigger('register', $userData, $companyData);
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        $authenticator->startLogin($userData);
+
+        // If an action has been defined for register, start it up.
+        $hasAction = $authenticator->startUpAction('register', $userData);
+        if ($hasAction) {
+            return redirect()->route('auth-action-show');
+        }
+
+        // Set the user active
+        $userData->activate();
+
+        $authenticator->completeLogin($userData);
+
+        // Success!
+        return redirect()->to(config('Auth')->registerRedirect())
+            ->with('message', lang('Auth.registerSuccess'));
+
 
     }
 }

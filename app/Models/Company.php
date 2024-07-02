@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class Company extends Model
 {
     protected $table            = 'company';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'registration_no';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -15,10 +15,8 @@ class Company extends Model
     protected $allowedFields    = [
         'registration_no',
         'company_name',
-        'full_name',
         'email',
-        'password',
-        'repeat_password'
+        'admin',
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -50,4 +48,6 @@ class Company extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    
 }
