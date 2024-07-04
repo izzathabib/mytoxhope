@@ -33,7 +33,7 @@
         <!-- Check if user login -->
         <?php if(auth()->loggedIn()): ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle active" href="javascript:void(0)" role="button" data-bs-toggle="dropdown"><?= esc(auth()->user()->name); ?></a>
+          <a class="nav-link dropdown-toggle active" href="javascript:void(0)" role="button" data-bs-toggle="dropdown"><?= esc(auth()->user()->username); ?></a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>

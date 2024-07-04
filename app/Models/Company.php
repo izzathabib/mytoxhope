@@ -7,16 +7,17 @@ use CodeIgniter\Model;
 class Company extends Model
 {
     protected $table            = 'company';
-    protected $primaryKey       = 'registration_no';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'registration_no',
-        'company_name',
-        'email',
-        'admin',
+        'user_id',
+        'comp_reg_no',
+        'comp_name',
+        'comp_email',
+        'comp_admin',
     ];
 
     protected bool $allowEmptyInserts = false;

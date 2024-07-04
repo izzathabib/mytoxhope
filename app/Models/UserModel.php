@@ -15,7 +15,6 @@ class UserModel extends ShieldUserModel
         $this->allowedFields = [
             ...$this->allowedFields,
             'comp_reg_no',
-            'name',
         ];
     }
 }

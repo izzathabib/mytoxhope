@@ -38,101 +38,108 @@ class RegisterController extends ShieldRegister
         return view('Shield/register',compact('title'));
     }
 
-    public function registerAction(): RedirectResponse {
-        //$session = session(); 
+    public function registerAction(): RedirectResponse
+    {
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->registerRedirect());
+        }
 
-        $title = 'Company Registration';
-        $model = $this->getUserProvider();
+        # Check if registration is allowed
+        /*if (! setting('Auth.allowRegistration')) {
+            return redirect()->back()->withInput()
+                ->with('error', lang('Auth.registerDisabled'));
+        }*/
+
+        
+
+        $users = $this->getUserProvider();
         $companyModel = new Company();
 
-        $userData = [
-            'comp_reg_no' => $this->request->getPost('comp_reg_no'),
-            'comp_name' => $this->request->getPost('comp_name'),
-            'name' => $this->request->getPost('name'),
-            'email' => $this->request->getPost('email'),
-            'password' => $this->request->getPost('password'),
-            'password_confirm' => $this->request->getPost('password_confirm'),
-        ];
 
-        $companyData = [
-            'registration_no' => $this->request->getPost('comp_reg_no'),
-            'company_name' => $this->request->getPost('comp_name'),
-            'email' => $this->request->getPost('email'),
-            'admin' => $this->request->getPost('name'),
-        ];
+        $comp_reg_no = $this->request->getPost('comp_reg_no');
 
-        // Get the existing user with the same comp_reg_no data
-        $existingUser = $model->where('comp_reg_no', $userData['comp_reg_no'])->first();
+        # Check if registration is allowed
+        # User cannot register if the company registration no already exist in database
+        # Get the existing user with the same comp_reg_no data
+        $existingUser = $companyModel->where('comp_reg_no', $comp_reg_no)->first();
 
         // Action if the comp_reg_no already exists
         if ($existingUser) {
-            $error = "A user with the same Company Registration Number already exists. For assistance, please contact ".$existingUser->name;
+            $error = "A user with the same Company Registration Number already exists. For assistance, please contact ".$existingUser['comp_admin'];
             return redirect()->back()->withInput()
-            ->with('error', $error)
-            ->with('title', $title);
-        }  
+            ->with('error', $error);
+        }
 
-        $rules = [
-            'comp_reg_no' => 'required|min_length[3]|max_length[20]|is_unique[users.comp_reg_no]',
-            'comp_name' => 'required|min_length[3]|max_length[255]',
-            'name' => 'required|min_length[3]|max_length[255]',
-            'email' => 'required|valid_email|is_unique[identities.secret]',
-            'password' => 'required|min_length[8]',
-            'password_confirm' => 'required|matches[password]',
-        ];
+        // Validate here first, since some things,
+        // like the password, can only be validated properly here.
+        $rules = $this->getValidationRules();
 
-        // If data validation fail
-        if (! $this->validateData($userData, $rules)) {
-        return redirect()->back()->withInput()
-        ->with('errors', $this->validator->getErrors())
-        ->with('title',$title);
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Save the user
         $allowedPostFields = array_keys($rules);
-        $userData              = $this->getUserEntity();
-        $userData->fill($this->request->getPost($allowedPostFields));
+        $user              = $this->getUserEntity();
+        $user->fill($this->request->getPost($allowedPostFields));
+
+        
 
         // Workaround for email only registration/login
-        if ($userData->username === null) {
-            $userData->username = null;
+        if ($user->username === null) {
+            $user->username = null;
         }
 
+
+        # Save data to users table
         try {
-            $model->save($userData);
-            $companyModel->save($companyData);
+            $users->save($user);
         } catch (ValidationException $e) {
-            return redirect()->back()->withInput()->with('errors', $model->errors());
+            return redirect()->back()->withInput()->with('errors', $users->errors());
         }
 
         // To get the complete user object with ID, we need to get from the database
-        $userData = $model->findById($model->getInsertID());
+        $user = $users->findById($users->getInsertID());
+
+
+        
 
         // Add to default group
-        $model->addToDefaultGroup($userData);
+        $users->addToDefaultGroup($user);
 
-        Events::trigger('register', $userData, $companyData);
+        Events::trigger('register', $user);
 
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
-        $authenticator->startLogin($userData);
+        $authenticator->startLogin($user);
 
         // If an action has been defined for register, start it up.
-        $hasAction = $authenticator->startUpAction('register', $userData);
+        $hasAction = $authenticator->startUpAction('register', $user);
         if ($hasAction) {
             return redirect()->route('auth-action-show');
         }
 
         // Set the user active
-        $userData->activate();
+        $user->activate();
 
-        $authenticator->completeLogin($userData);
+        $authenticator->completeLogin($user);
+
+        // Part to save data to company table
+        //$companyModel = new Company();
+        $companyData = [
+            'user_id' => auth()->user()->id,
+            'comp_reg_no' => $this->request->getPost('comp_reg_no'),
+            'comp_name' => $this->request->getPost('comp_name'),
+            'comp_email' => $this->request->getPost('email'),
+            'comp_admin' => $this->request->getPost('username'),
+        ];
+
+        // Save data to companies table
+        $companyModel->save($companyData);
 
         // Success!
         return redirect()->to(config('Auth')->registerRedirect())
             ->with('message', lang('Auth.registerSuccess'));
-
-
     }
 }
