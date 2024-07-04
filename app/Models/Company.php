@@ -13,12 +13,11 @@ class Company extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'registration_no',
-        'company_name',
-        'full_name',
-        'email',
-        'password',
-        'repeat_password'
+        'user_id',
+        'comp_reg_no',
+        'comp_name',
+        'comp_email',
+        'comp_admin',
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -50,4 +49,6 @@ class Company extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    
 }

@@ -50,21 +50,21 @@ class Validation extends BaseConfig
                 'max_length[30]',
                 'min_length[3]',
             ],
-            'errors' => [
-                'is_unique' => 'Your company already have an account registered for this system'
-            ]
         ],
         'comp_name' => [
             'label' => 'Company Name',
             'rules' => [
                 'required',
+                'min_length[3]',
             ],
         ],
-        'name' => [
-            'label' => 'Name',
+        'username' => [
+            'label' => 'Auth.username',
             'rules' => [
                 'required',
+                'max_length[30]',
                 'min_length[3]',
+                'is_unique[users.username]',
             ],
         ],
         'email' => [
@@ -75,9 +75,6 @@ class Validation extends BaseConfig
                 'valid_email',
                 'is_unique[identities.secret]',
             ],
-            'errors' => [
-                'is_unique' => 'Please contact your company Person In Charge for further information'
-            ]
         ],
         'password' => [
             'label' => 'Auth.password',
