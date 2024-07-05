@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
     <style>
+      /* home page css */
       .card-container {
         display: flex;
         justify-content: space-around;
@@ -54,6 +55,7 @@
         margin-bottom: 1.5rem;
       }
 
+      /* navbar css */
       .sticky-top {
         position: sticky;
         top: 0;
@@ -113,6 +115,7 @@
         background-color: rgba(255, 255, 255, 0.1);
       }
 
+      /* footer css */
       .footer {
         position: absolute;
         bottom: 0;
@@ -140,7 +143,42 @@
       .custom-link:hover {
         color: #007bff !important;
       }
+      
+      /* add product css */
+      .tag-input {
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        padding: 0.375rem 0.75rem;
+      }
 
+      .tag-input input {
+        border: none;
+        outline: none;
+        width: 100%;
+      }
+
+      .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+
+      .tag {
+        background-color: #e9ecef;
+        border-radius: 0.25rem;
+        padding: 0.25rem 0.5rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .tag-close {
+        margin-left: 0.5rem;
+        cursor: pointer;
+      }
+
+      /* user list css */
       .dataTables_length select {
         padding-right: 30px !important;
         /* Increase right padding */
