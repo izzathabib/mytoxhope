@@ -54,12 +54,63 @@
         margin-bottom: 1.5rem;
       }
 
+      .sticky-top {
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+      }
+
+      .navbar-nav .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .navbar-nav .nav-item {
+        margin-right: 0.5rem;
+      }
+
+      .navbar {
+        background-color: #2c3034 !important;
+      }
+
+      .nav-link i {
+        font-size: 0.8rem;
+      }
+
       .navbar-brand img {
         max-height: 60px;
       }
 
       .nav-link i {
         margin-right: 8px;
+      }
+
+      .nav-item .nav-link {
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+      }
+
+      .nav-item .nav-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-item .nav-link:hover::before,
+      .nav-item .nav-link.active::before {
+        opacity: 1;
+      }
+
+      .nav-item .nav-link:hover,
+      .nav-item .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.1);
       }
 
       .footer {
@@ -113,7 +164,7 @@
 
   <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div class="container-fluid">
         <!-- Logo -->
         <a class="navbar-brand" href="<?= base_url(); ?>">
@@ -134,7 +185,7 @@
             <!-- Dashboard link for logged in users -->
             <?php if (auth()->loggedIn()): ?>
               <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fa-solid fa-tachometer-alt"></i>
+                <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i>
                   Dashboard</a>
               </li>
             <?php endif; ?>
@@ -146,8 +197,8 @@
             <!-- Check if user login -->
             <?php if (auth()->loggedIn()): ?>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-user"></i> <?= esc(auth()->user()->name); ?></a>
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i
+                    class="fas fa-user-circle"></i> <?= esc(auth()->user()->name); ?></a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Profile</a></li>
                   <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
