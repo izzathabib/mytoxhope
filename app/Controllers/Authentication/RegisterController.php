@@ -133,13 +133,30 @@ class RegisterController extends ShieldRegister
             'comp_name' => $this->request->getPost('comp_name'),
             'comp_email' => $this->request->getPost('email'),
             'comp_admin' => $this->request->getPost('username'),
+            'status' => 'unverified',
         ];
 
         // Save data to companies table
         $companyModel->save($companyData);
 
-        // Success!
-        return redirect()->to(config('Auth')->registerRedirect())
-            ->with('message', lang('Auth.registerSuccess'));
+        // Send email to admin PRN
+        $email = \Config\Services::email();
+        $email->setTo('muhdizat.h@gmail.com'); // Replace with your actual email address
+        $email->setSubject('Test Email from CodeIgniter 4');
+        $email->setMessage('This is a test email sent using MailEnable.');
+
+        if ($email->send()) {
+            // **Prevent automatic login:**
+            auth()->logout(); 
+
+            // Success!
+            $session = session();
+            $session->setFlashdata('success', "Registration successful!  We'll email you once your account is verified for login.");
+            return redirect()->to('/login');
+        } else {
+            return redirect()->back()
+            ->with('error', 'Failed to send registration email to admin');
+        }
+
     }
 }

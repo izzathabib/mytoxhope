@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Authentication;
 
+use App\Models\Company;
 use CodeIgniter\Shield\Controllers\LoginController as ShieldLogin;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
@@ -9,6 +10,11 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 
 class LoginController extends ShieldLogin
 {
+
+  public function __construct() {
+        $this->db = \Config\Database::connect();
+  }
+
   public function loginView()
   {
       if (auth()->loggedIn()) {
@@ -29,6 +35,19 @@ class LoginController extends ShieldLogin
 
   public function loginAction(): RedirectResponse
     {
+        $companyModel = new Company();
+        
+        # Check if account have been verified by admin
+        $email = $this->request->getPost('email');
+        # Get the current user status
+        $existingUser = $companyModel->where('comp_email', $email)->first();
+
+
+        if ($existingUser['status']=='unverified') {
+            return redirect()->back()
+            ->with('errors',"Account Verification Pending. For assistance, please contact Pusat Racun Negara.");
+        }
+
         // Validate here first, since some things,
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();

@@ -18,6 +18,7 @@ class Company extends Model
         'comp_name',
         'comp_email',
         'comp_admin',
+        'status',
     ];
 
     protected bool $allowEmptyInserts = false;
