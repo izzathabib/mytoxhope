@@ -32,9 +32,15 @@
             </div>
 
             <!-- Active ingredient -->
+            <!-- Active ingredient -->
             <div class="form-group mb-4">
               <label for="active_ing">Active Ingredient/ Chemical Name</label>
-              <input type="text" id="active_ing" name="active_ing" class="form-control">
+              <div class="tag-input">
+                <input type="text" id="active_ing_input" class="form-control"
+                  placeholder="Type an ingredient and press Enter">
+                <div id="tags-container" class="tags-container"></div>
+              </div>
+              <input type="hidden" id="active_ing" name="active_ing">
             </div>
 
             <!-- Inactive ingredient -->
@@ -62,10 +68,22 @@
               <label for="subtype_household">Subtype of Household / Consumer Product</label>
               <select id="subtype_household" name="subtype_household" class="form-control">
                 <option value="Please select">Please select</option>
-                <option value="List 1">List 1</option>
-                <option value="List 2">List 2</option>
-                <option value="List 3">List 3</option>
+                <option value="agricultural">Agricultural/Garden</option>
+                <option value="environment">Environmental Contaminant</option>
+                <option value="household">Household/Leisure</option>
+                <option value="industrial">Industrial/Commercial</option>
+                <option value="agents">Mixture of Agents</option>
+                <option value="toxin">Natural Toxin</option>
+                <option value="pharmaceutical">Pharmaceutical</option>
+                <option value="pesticide">Pesticide</option>
+                <option value="substance">Substance of Abuse</option>
+                <option value="unknown">Unknown Function</option>
+                <option value="other">Other (Please describe)</option>
               </select>
+            </div>
+            <div id="other_subtype_container" class="form-group mb-4" style="display: none;">
+              <label for="other_subtype">Please describe:</label>
+              <input type="text" id="other_subtype" name="other_subtype" class="form-control">
             </div>
           </div>
         </div>
@@ -81,23 +99,56 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('active_ing_input');
+    const tagsContainer = document.getElementById('tags-container');
+    const hiddenInput = document.getElementById('active_ing');
+    let tags = [];
 
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && this.value) {
+        e.preventDefault();
+        addTag(this.value);
+        this.value = '';
+        updateHiddenInput();
+      }
+    });
+
+    function addTag(text) {
+      const tag = document.createElement('span');
+      tag.classList.add('tag');
+      tag.textContent = text;
+
+      const closeBtn = document.createElement('span');
+      closeBtn.classList.add('tag-close');
+      closeBtn.innerHTML = '&times;';
+      closeBtn.addEventListener('click', function () {
+        tag.remove();
+        tags = tags.filter(t => t !== text);
+        updateHiddenInput();
+      });
+
+      tag.appendChild(closeBtn);
+      tagsContainer.appendChild(tag);
+      tags.push(text);
+    }
+
+    function updateHiddenInput() {
+      hiddenInput.value = JSON.stringify(tags);
+    }
+
+    const subtypeSelect = document.getElementById('subtype_household');
+    const otherSubtypeContainer = document.getElementById('other_subtype_container');
+
+    subtypeSelect.addEventListener('change', function() {
+    if (this.value === 'other') {
+      otherSubtypeContainer.style.display = 'block';
+    } else {
+      otherSubtypeContainer.style.display = 'none';
+    }
+  });
+  });
+</script>
 <?= $this->endSection(); ?>
 
-<style>
-  .card-body {
-    padding: 2rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-group.mb-4 {
-    margin-bottom: 1.5rem;
-  }
-
-  .btn {
-    width: 150px;
-  }
-</style>

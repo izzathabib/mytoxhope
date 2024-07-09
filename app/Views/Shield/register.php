@@ -36,18 +36,20 @@
                         </div>
                         <!---->
 
-                        <!-- Company Name -->
-                        <div class="form-floating mb-2">
-                            <input type="text" class="form-control" name="comp_name" placeholder="Company Name" value="<?= old('comp_name') ?>" required>        
-                            <label for="comp_name">Company Name</label>
-                        </div>
-                        <!---->
                         
-                        <!-- Name -->
-                        <div class="form-floating mb-4">
-                            <input type="text" class="form-control" id="floatingUsernameInput" name="username" inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required>
-                            <label for="floatingUsernameInput">Name</label>
-                        </div>
+
+                    <!-- Company Name -->
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" name="comp_name" placeholder="Company Name" value="<?= old('comp_name') ?>" required>        
+                        <label for="comp_name">Company Name</label>
+                    </div>
+                    <!---->
+                    
+                    <!-- Name -->
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control" id="floatingUsernameInput" name="username" inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required>
+                        <label for="floatingUsernameInput">Name</label>
+                    </div>
 
                         <!-- Email -->
                         <div class="form-floating mb-2">

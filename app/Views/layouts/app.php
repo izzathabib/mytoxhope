@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
     <style>
+      /* home page css */
+
       .card-container {
         display: flex;
         justify-content: space-around;
@@ -54,6 +56,31 @@
         margin-bottom: 1.5rem;
       }
 
+      /* navbar css */
+      .sticky-top {
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+      }
+
+      .navbar-nav .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .navbar-nav .nav-item {
+        margin-right: 0.5rem;
+      }
+
+      .navbar {
+        background-color: #2c3034 !important;
+      }
+
+      .nav-link i {
+        font-size: 0.8rem;
+      }
+
+
       .navbar-brand img {
         max-height: 60px;
       }
@@ -61,6 +88,36 @@
       .nav-link i {
         margin-right: 8px;
       }
+
+      .nav-item .nav-link {
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+      }
+
+      .nav-item .nav-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-item .nav-link:hover::before,
+      .nav-item .nav-link.active::before {
+        opacity: 1;
+      }
+
+      .nav-item .nav-link:hover,
+      .nav-item .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /* footer css */
 
       .footer {
         position: absolute;
@@ -89,6 +146,42 @@
       .custom-link:hover {
         color: #007bff !important;
       }
+      
+      /* add product css */
+      .tag-input {
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        padding: 0.375rem 0.75rem;
+      }
+
+      .tag-input input {
+        border: none;
+        outline: none;
+        width: 100%;
+      }
+
+      .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+
+      .tag {
+        background-color: #e9ecef;
+        border-radius: 0.25rem;
+        padding: 0.25rem 0.5rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .tag-close {
+        margin-left: 0.5rem;
+        cursor: pointer;
+      }
+
+      /* user list css */
 
       .dataTables_length select {
         padding-right: 30px !important;
@@ -112,7 +205,9 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+
       <div class="container-fluid">
         <!-- Logo -->
         <a class="navbar-brand" href="<?= base_url(); ?>">
@@ -133,7 +228,8 @@
             <!-- Dashboard link for logged in users -->
             <?php if (auth()->loggedIn()): ?>
               <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fa-solid fa-tachometer-alt"></i>
+                <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i>
+
                   Dashboard</a>
               </li>
             <?php endif; ?>
@@ -145,6 +241,7 @@
             <!-- Check if user login -->
             <?php if (auth()->loggedIn()): ?>
               <li class="nav-item dropdown">
+
                 <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
                     class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
                 <ul class="dropdown-menu">
@@ -213,6 +310,7 @@
         </div>
       </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
