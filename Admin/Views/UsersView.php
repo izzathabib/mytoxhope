@@ -55,7 +55,9 @@
                             <button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle nav-item dropdown" data-bs-toggle="dropdown" aria-expanded="true">
                             Action
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="javascript:void(0)" data-id="<?php echo $data['id'] ?>">Verify</a>
+                                <?php if ($data['status'] !== 'verified') : ?>
+                                  <a class="dropdown-item" href="javascript:void(0)" data-id="<?php echo $data['id'] ?>">Verify</a>
+                                <?php endif; ?>
                                 <a class="dropdown-item" href="./index.php?page=edit_user&id=<?php echo $data['id'] ?>">Edit</a>
                                 <a class="dropdown-item" href="javascript:void(0)" data-id="<?php echo $data['id'] ?>">Delete</a>
                               </div>
