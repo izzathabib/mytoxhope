@@ -52,10 +52,14 @@
                           <td><?= $data['comp_email']; ?></td>
                           <td><?= $data['status']; ?></td>
                           <td>
-                            <button class="btn btn-primary btn-sm edit-btn" data-id="<?= $data['id']; ?>">Edit</button>
-                            <button class="btn btn-danger btn-sm delete-btn"
-                              data-id="<?php echo base_url(); ?>">Delete</button>
-                            <button class="btn btn-success btn-sm edit-btn" data-id="<?= $data['id']; ?>">Verify</button>
+                            <button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle nav-item dropdown" data-bs-toggle="dropdown" aria-expanded="true">
+                            Action
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript:void(0)" data-id="<?php echo $data['id'] ?>">Verify</a>
+                                <a class="dropdown-item" href="./index.php?page=edit_user&id=<?php echo $data['id'] ?>">Edit</a>
+                                <a class="dropdown-item" href="javascript:void(0)" data-id="<?php echo $data['id'] ?>">Delete</a>
+                              </div>
+                            </button>
                           </td>
                         </tr>
                       <?php endforeach; ?>
