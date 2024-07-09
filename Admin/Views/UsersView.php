@@ -35,24 +35,27 @@
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>E-mail</th>
                       <th>Company Name</th>
+                      <th>Company Registration No</th>
+                      <th>E-mail</th>
                       <th>Status</th>
-                      <th style="width: 90px;">Action</th>
+                      <th style="width: 90px;">Action</thdata
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if (!empty($users)): ?>
-                      <?php foreach ($users as $user): ?>
+                    <?php if (!empty($companyData)): ?>
+                      <?php foreach ($companyData as $data): ?>
                         <tr>
-                          <td><?php echo $user->name; ?></td>
-                          <td><?php echo $user->email; ?></td>
-                          <td><?php echo $user->comp_name; ?></td>
-                          <td><?php echo $user->active; ?></td>
+                          <td><?= $data['comp_admin']; ?></td>
+                          <td><?= $data['comp_name']; ?></td>
+                          <td><?= $data['comp_reg_no']; ?></td>
+                          <td><?= $data['comp_email']; ?></td>
+                          <td>Verified</td>
                           <td>
-                            <button class="btn btn-primary btn-sm edit-btn" data-id="<?php echo $user->id; ?>">Edit</button>
+                            <button class="btn btn-primary btn-sm edit-btn" data-id="<?= $data['id']; ?>">Edit</button>
                             <button class="btn btn-danger btn-sm delete-btn"
                               data-id="<?php echo base_url(); ?>">Delete</button>
+                            <button class="btn btn-success btn-sm edit-btn" data-id="<?= $data['id']; ?>">Verify</button>
                           </td>
                         </tr>
                       <?php endforeach; ?>

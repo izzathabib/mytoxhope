@@ -15,6 +15,9 @@
                     <p class="text-center">Enter your credentials to login</p>
                     <?php if (session('error') !== null): ?>
                         <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+
+                    <?php elseif (session('success') !== null) : ?>
+                        <div class="alert alert-success" role="alert"><?= session('success') ?></div>
                     <?php elseif (session('errors') !== null): ?>
                         <div class="alert alert-danger" role="alert">
                             <?php if (is_array(session('errors'))): ?>

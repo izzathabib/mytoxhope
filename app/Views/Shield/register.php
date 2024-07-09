@@ -1,7 +1,5 @@
 <?= $this->extend('layouts/app.php'); ?>
 
-<?= $this->section('title') ?><?= lang('Auth.register') ?> <?= $this->endSection() ?>
-
 <?= $this->section('content') ?>
 
 <div class="container-fluid position-relative vh-100"
@@ -39,43 +37,37 @@
                         </div>
                         <!---->
 
-                        <!-- Company Name -->
-                        <div class="form-floating mb-2">
-                            <input type="text" class="form-control" name="comp_name" placeholder="Company Name"
-                                value="<?= old('comp_name') ?>" required>
-                            <label for="comp_name">Company Name</label>
-                        </div>
-                        <!---->
+                    <!-- Company Name -->
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" name="comp_name" placeholder="Company Name" value="<?= old('comp_name') ?>" required>        
+                        <label for="comp_name">Company Name</label>
+                    </div>
+                    <!---->
+                    
+                    <!-- Name -->
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control" id="floatingUsernameInput" name="username" inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required>
+                        <label for="floatingUsernameInput">Name</label>
+                    </div>
 
-                        <!-- Name -->
-                        <div class="form-floating mb-4">
-                            <input type="text" class="form-control" name="name" placeholder="Name"
-                                value="<?= old('name') ?>" required>
-                            <label for="name">Name</label>
-                        </div>
+                    <!-- Email -->
+                    <div class="form-floating mb-2">
+                        <input type="email" class="form-control" id="floatingEmailInput" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>
+                        <label for="floatingEmailInput">Company Email</label>
+                    </div>
 
-                        <!-- Email -->
-                        <div class="form-floating mb-2">
-                            <input type="email" class="form-control" id="email" name="email" inputmode="email"
-                                autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>"
-                                required>
-                            <label for="email">Company Email Address</label>
-                        </div>
+                    <!-- Password -->
+                    <div class="form-floating mb-2">
+                        <input type="password" class="form-control" id="floatingPasswordInput" name="password" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>" required>
+                        <label for="floatingPasswordInput"><?= lang('Auth.password') ?></label>
+                    </div>
 
-                        <!-- Password -->
-                        <div class="form-floating mb-2">
-                            <input type="password" class="form-control" id="password" name="password" inputmode="text"
-                                autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>" required>
-                            <label for="password"><?= lang('Auth.password') ?></label>
-                        </div>
+                    <!-- Password (Again) -->
+                    <div class="form-floating mb-5">
+                        <input type="password" class="form-control" id="floatingPasswordConfirmInput" name="password_confirm" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.passwordConfirm') ?>" required>
+                        <label for="floatingPasswordConfirmInput"><?= lang('Auth.passwordConfirm') ?></label>
+                    </div>
 
-                        <!-- Password (Again) -->
-                        <div class="form-floating mb-5">
-                            <input type="password" class="form-control" id="password_confirm" name="password_confirm"
-                                inputmode="text" autocomplete="new-password"
-                                placeholder="<?= lang('Auth.passwordConfirm') ?>" required>
-                            <label for="password_confirm">Repeat Password</label>
-                        </div>
 
                         <div class="d-grid col-12 col-md-8 mx-auto m-3">
                             <button type="submit"

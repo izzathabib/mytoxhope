@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
     <style>
       /* home page css */
+
       .card-container {
         display: flex;
         justify-content: space-around;
@@ -79,6 +80,7 @@
         font-size: 0.8rem;
       }
 
+
       .navbar-brand img {
         max-height: 60px;
       }
@@ -116,6 +118,7 @@
       }
 
       /* footer css */
+
       .footer {
         position: absolute;
         bottom: 0;
@@ -179,6 +182,7 @@
       }
 
       /* user list css */
+
       .dataTables_length select {
         padding-right: 30px !important;
         /* Increase right padding */
@@ -203,6 +207,7 @@
   <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+
       <div class="container-fluid">
         <!-- Logo -->
         <a class="navbar-brand" href="<?= base_url(); ?>">
@@ -224,6 +229,7 @@
             <?php if (auth()->loggedIn()): ?>
               <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i>
+
                   Dashboard</a>
               </li>
             <?php endif; ?>
@@ -235,8 +241,9 @@
             <!-- Check if user login -->
             <?php if (auth()->loggedIn()): ?>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i
-                    class="fas fa-user-circle"></i> <?= esc(auth()->user()->name); ?></a>
+
+                <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
+                    class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Profile</a></li>
                   <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
@@ -303,6 +310,7 @@
         </div>
       </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
