@@ -25,6 +25,7 @@
                             <?php endif ?>
                         </div>
                     <?php endif ?>
+
                     <form action="<?= url_to('register') ?>" method="post">
                         <?= csrf_field() ?>
 
@@ -35,8 +36,6 @@
                             <label for="comp_reg_no">Company Registration No</label>
                         </div>
                         <!---->
-
-                        
 
                     <!-- Company Name -->
                     <div class="form-floating mb-2">
