@@ -50,7 +50,7 @@
                           <td><?= $data['comp_name']; ?></td>
                           <td><?= $data['comp_reg_no']; ?></td>
                           <td><?= $data['comp_email']; ?></td>
-                          <td>Verified</td>
+                          <td><?= $data['status']; ?></td>
                           <td>
                             <button class="btn btn-primary btn-sm edit-btn" data-id="<?= $data['id']; ?>">Edit</button>
                             <button class="btn btn-danger btn-sm delete-btn"
