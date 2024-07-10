@@ -50,14 +50,19 @@
                           <td><?= $data['comp_name']; ?></td>
                           <td><?= $data['comp_reg_no']; ?></td>
                           <td><?= $data['comp_email']; ?></td>
-                          <td><?= $data['status']; ?></td>
+                          <?php if ($data['status'] == 'unverified') : ?>
+                            <td>
+                              <form method="post" action="<?php url_to('verifyUser', $data['id']); ?>">
+                                <input type="submit" id="verify" class="btn btn-primary btn-sm  " value="Verify">
+                              </form>
+                            </td>
+                          <?php elseif ($data['status'] == 'verified'): ?>
+                            <td><?= $data['status']; ?></td>
+                          <?php endif; ?>
                           <td>
                             <button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle nav-item dropdown" data-bs-toggle="dropdown" aria-expanded="true">
                             Action
                               <div class="dropdown-menu">
-                                <?php if ($data['status'] !== 'verified') : ?>
-                                  <a class="dropdown-item" href="javascript:void(0)" data-id="<?php echo $data['id'] ?>">Verify</a>
-                                <?php endif; ?>
                                 <a class="dropdown-item" href="./index.php?page=edit_user&id=<?php echo $data['id'] ?>">Edit</a>
                                 <a class="dropdown-item" href="javascript:void(0)" data-id="<?php echo $data['id'] ?>">Delete</a>
                               </div>

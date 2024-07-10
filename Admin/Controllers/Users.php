@@ -22,4 +22,22 @@ class Users extends BaseController
         $companyData = $companyModel->findAll();
         return view('Admin\Views\UsersView',compact('title','companyData'));
     }
+
+    public function verifyUser($id) {
+        // Declare instances for model
+        $companyModel = new Company();
+
+        $companyData = $companyModel->find($id);
+
+        if ($companyData['status'] === 'unverified') {
+            $companyData['status'] = 'verified'; // Change "verified" to your actual status value
+            $companyModel->save($companyData);
+        
+            // Set flash message (optional)
+            //$this->session->setFlashdata('success', 'Company verified successfully!');
+        } 
+        
+        // Redirect to companies list or relevant page
+        return redirect()->to(base_url('Admin/users'));
+    }
 }

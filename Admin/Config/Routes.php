@@ -9,3 +9,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 
  $routes->get('Admin/users', '\Admin\Controllers\Users::index',['as' => 'viewUser']);
+ $routes->post('verify-user/(:num)', '\Admin\Controllers\Users::verifyUser/$1',['as' => 'verifyUser']);
+
+ 
