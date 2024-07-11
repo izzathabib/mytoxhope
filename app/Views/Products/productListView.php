@@ -55,7 +55,7 @@
                   <td><?= $data->created_at; ?></td>
                   <td><?= $data->updated_at; ?></td>
                   <td>
-                    <a class="btn btn-primary" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
+                    <a class="btn btn-primary btn-sm" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
                   </td>
                 </tr>
                 <?php endforeach; ?>
