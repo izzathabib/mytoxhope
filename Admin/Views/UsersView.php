@@ -39,7 +39,7 @@
                       <th>Company Registration No</th>
                       <th>E-mail</th>
                       <th>Status</th>
-                      <th style="width: 90px;">Action</thdata
+                      <th style="width: 90px;">Action</th>
                     </tr>
                   </thead>
                   <tbody>

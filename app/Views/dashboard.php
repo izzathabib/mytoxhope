@@ -53,7 +53,7 @@
                         </div>
                         <h5 class="card-title">Products</h5>
                         <p class="card-text">Diabolically somberly astride crass one endearingly blatant depending peculiar antelope piquantly popularly adept much</p>
-                        <a href="<?= url_to('addProduct') ?>" class="btn btn-primary">Add Product</a>
+                        <a href="<?= url_to('productList') ?>" class="btn btn-primary">View Product</a>
                     </div>
                 </div>
             </div>
