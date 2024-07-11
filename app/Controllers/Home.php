@@ -20,7 +20,10 @@ class Home extends BaseController
         
         $title = 'Dashboard';
 
-        return view('dashboard', compact('title'));
+        $currentUserId = auth()->user()->id;
+        $companyData = $this->db->query("SELECT * FROM company WHERE user_id = '$currentUserId' ")->getResult();
+
+        return view('dashboard', compact('title','companyData'));
     }
 
     public function about(): string

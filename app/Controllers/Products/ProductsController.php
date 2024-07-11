@@ -24,7 +24,6 @@ class ProductsController extends BaseController
 
         $currentUserId = auth()->user()->id;
 
-        $productModel = new Product();
         $productData = $this->db->query("SELECT * FROM products WHERE user_id = '$currentUserId'")->getResult();
 
         return view('Products/productListView', compact('title','productData'));

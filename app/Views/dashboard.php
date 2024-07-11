@@ -3,17 +3,17 @@
 <?= $this->section('content'); ?>
 
 <!-- Display company name -->
-<div class="container p-4">
+<div class="container p-4 mt-3">
   <div class="container-fluid">
-  <?php if(auth()->loggedIn()) :?>
-  <h1><?= esc(auth()->user()->comp_name) ?></h1>
-  <?php endif; ?>
+  <?php foreach($companyData as $data): ?>
+    <h1><?= $data->comp_name; ?></h1>
+  <?php endforeach; ?>
   </div>
 </div>
 <!--  -->
 
 <!-- Main card -->
-<div class="container mt-5">
+<div class="container">
   <div class="row">
   <!-- This function are disable for normal user -->
     <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
