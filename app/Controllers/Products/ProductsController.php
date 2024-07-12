@@ -77,5 +77,17 @@ class ProductsController extends BaseController
         }
     }
 
+    public function productUpdate($id) {
+        
+        $title = 'Update product detail';
+        $productModel = new Product();
+        $productData = $productModel->find($id);
+        if (is_string($productData['active_ing'])) {
+            $productData['active_ing'] = explode(',', $productData['active_ing']);
+        }
+        return view('Products/productUpdateView',compact('title','productData'));
+
+
+    }
     
 }

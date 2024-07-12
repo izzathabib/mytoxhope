@@ -49,7 +49,7 @@
     <!-- Button -->
     <div class="row mt-3">
       <div class="col-md-12 text-center">
-        <a class="btn btn-primary" href="#">Update</a>
+        <a class="btn btn-primary" href="<?= url_to('productUpdate',$productData['id']) ?>">Update</a>
         <a class="btn btn-secondary" href="#">Discontinued</a>
         <a class="btn btn-danger" href="#">Delete</a>
       </div>
