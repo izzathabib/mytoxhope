@@ -15,22 +15,6 @@
 <!-- Main card -->
 <div class="container">
   <div class="row">
-  <!-- This function are disable for normal user -->
-    <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
-    <div class="col-md-4">
-      <div class="card text-center h-100 w-100 shadow-sm">
-        <div class="card-body">
-          <div class="card-icon bg-light">
-            <i class="fa fa-list"></i>
-          </div>
-          <h5 class="card-title">User List</h5>
-          <p class="card-text">View List Of User</p>
-          <a href="<?= url_to('viewUser') ?>" class="btn btn-primary">View User</a>
-        </div>
-      </div>
-    </div>
-    <!---->
-    <?php endif; ?>
             <!-- Knowledge Base Card -->
             <div class="col-md-4">
                 <div class="card text-center h-100 w-100 shadow-sm">

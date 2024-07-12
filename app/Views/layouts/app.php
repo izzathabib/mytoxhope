@@ -13,9 +13,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <style>
       /* home page css */
-
       .card-container {
         display: flex;
         justify-content: space-around;
@@ -23,7 +24,7 @@
       }
 
       .card {
-        margin: 10px;
+        margin: 10px 0;
         width: 22%;
         min-width: 200px;
       }
@@ -56,6 +57,11 @@
         margin-bottom: 1.5rem;
       }
 
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
       /* navbar css */
       .sticky-top {
         position: sticky;
@@ -80,9 +86,12 @@
         font-size: 0.8rem;
       }
 
-
       .navbar-brand img {
         max-height: 60px;
+      }
+
+      .navbar .container-fluid {
+        justify-content: flex-start;
       }
 
       .nav-link i {
@@ -118,10 +127,8 @@
       }
 
       /* footer css */
-
       .footer {
-        position: absolute;
-        bottom: 0;
+        flex-shrink: 0;
         width: 100%;
         height: 60px;
         line-height: 60px;
@@ -135,7 +142,7 @@
       }
 
       .content {
-        flex: 1;
+        flex: 1 0 auto;
       }
 
       .custom-link {
@@ -146,7 +153,7 @@
       .custom-link:hover {
         color: #007bff !important;
       }
-      
+
       /* add product css */
       .tag-input {
         border: 1px solid #ced4da;
@@ -182,15 +189,12 @@
       }
 
       /* user list css */
-
       .dataTables_length select {
         padding-right: 30px !important;
-        /* Increase right padding */
       }
 
       .dataTables_wrapper .dataTables_length {
         margin-bottom: 15px;
-        /* Add some bottom margin */
       }
 
       @media (max-width: 767px) {
@@ -201,92 +205,235 @@
           float: none;
         }
       }
+
+      /* Sidebar styles */
+      .sidebar {
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+        background: #f8f9fa;
+        transition: transform 0.3s;
+        padding-top: 60px;
+      }
+
+      .sidebar.collapsed {
+        transform: translateX(-250px);
+      }
+
+      .sidebar-header {
+        padding: 20px;
+      }
+
+      .sidebar ul li a {
+        padding: 10px;
+        font-size: 1.1em;
+        display: block;
+        color: #333;
+        text-decoration: none;
+      }
+
+      .sidebar ul li a:hover {
+        color: #007bff;
+        background: #fff;
+      }
+
+      /* Content wrapper styles */
+      .content-wrapper {
+        margin-left: 250px;
+        transition: margin-left 0.3s;
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin-top: -60px;
+        padding-top: 60px;
+      }
+
+      .content-wrapper.expanded {
+        margin-left: 0;
+      }
+
+      .content-wrapper.no-sidebar {
+        margin-left: 0 !important;
+      }
+
+      /* Toggle button styles */
+      #sidebarToggle {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+        padding: 0.25rem 0.5rem;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 767.98px) {
+        .sidebar {
+          transform: translateX(-250px);
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+
+        .content-wrapper {
+          margin-left: 0;
+        }
+      }
+
+      @media (max-width: 991.98px) {
+        .navbar .container-fluid {
+          flex-wrap: wrap;
+        }
+
+        .navbar-brand,
+        .d-flex {
+          flex: 0 0 100%;
+          margin-bottom: 0.5rem;
+        }
+
+        .navbar-toggler {
+          margin-left: auto;
+        }
+      }
     </style>
   </head>
 
   <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-
-      <div class="container-fluid">
-        <!-- Logo -->
-        <a class="navbar-brand" href="<?= base_url(); ?>">
-          <img src="images/logo_pusat-racun.png" alt="Logo 1" width="150">
-          <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
-        </a>
-        <!-- Navbar toggler for mobile view -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Nav items -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="<?= base_url(); ?>"><i class="fa-solid fa-house"></i> Home</a>
-            </li>
-            <!-- Dashboard link for logged in users -->
-            <?php if (auth()->loggedIn()): ?>
+    <div class="sticky-top">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <!-- Logo -->
+          <a class="navbar-brand" href="<?= base_url(); ?>">
+            <img src="images/logo_pusat-racun.png" alt="Logo 1" width="150">
+            <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
+          </a>
+          <button id="sidebarToggle" class="btn btn-dark ms-2">
+            <i class="fas fa-bars"></i>
+          </button>
+          <!-- Navbar toggler for mobile view -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Nav items -->
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i>
-
-                  Dashboard</a>
+                <a class="nav-link" href="<?= base_url(); ?>"><i class="fa-solid fa-house"></i> Home</a>
               </li>
-            <?php endif; ?>
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
-                <i class="fa-solid fa-circle-exclamation"></i> About MyToxData
-              </a>
-            </li>
-            <!-- Check if user login -->
-            <?php if (auth()->loggedIn()): ?>
-              <li class="nav-item dropdown">
-
-                <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
-                </ul>
-              </li>
-            <?php else: ?>
+              <!-- Dashboard link for logged in users -->
+              <?php if (auth()->loggedIn()): ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i>
+                    Dashboard</a>
+                </li>
+              <?php endif; ?>
               <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
+                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                  <i class="fa-solid fa-circle-exclamation"></i> About MyToxData
+                </a>
               </li>
-            <?php endif; ?>
-            <!-- End check user login part -->
-          </ul>
+              <!-- Check if user login -->
+              <?php if (auth()->loggedIn()): ?>
+                <li class="nav-item dropdown">
+
+                  <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
+                      class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
+                  </ul>
+                </li>
+              <?php else: ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
+                </li>
+              <?php endif; ?>
+              <!-- End check user login part -->
+            </ul>
+          </div>
+          <!-- End nav items -->
         </div>
-        <!-- End nav items -->
-      </div>
-    </nav>
+      </nav>
+    </div>
     <!-- End navigation bar -->
 
-    <!-- Content Section -->
     <div class="wrapper">
-      <div class="content">
-        <?= $this->renderSection('content'); ?>
-      </div>
-      <!-- Footer section -->
-      <footer class="bg-body-tertiary text-center">
-        <!-- Grid container -->
-        <div class="container p-4"></div>
-        <!-- Grid container -->
-
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-          &copy; 2024
-          <a class="text-body custom-link" href="<?= base_url(); ?>" style="text-decoration: none;">MyToxHope </a>
-          is powered by
-          <a class="text-body custom-link" href="https://ppkt.usm.my/" style="text-decoration: none;">PPKT</a>
-          for
-          <a class="text-body custom-link" href="https://prn.usm.my/" style="text-decoration: none;">National Poison
-            Centre USM</a>
+      <?php if (auth()->loggedIn()): ?>
+        <div class="sidebar sidebar-dark-primary" id="sidebar">
+          <div class="sidebar-header">
+            <h3>Menu</h3>
+          </div>
+          <ul class="list-unstyled components">
+            <li>
+              <a href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i> Dashboard</a>
+            </li>
+            <li>
+              <a href="#productSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fas fa-box"></i> Add Product
+              </a>
+              <ul class="collapse list-unstyled" id="productSubmenu">
+                <li>
+                  <a href="<?= url_to('addProduct') ?>">
+                    <i class="fas fa-plus"></i> Add Product
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)">
+                    <i class="fas fa-edit"></i> Update Product
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
+              <li>
+                <a href="<?= url_to('viewUser') ?>"><i class="fa fa-list"></i> View Users</a>
+              </li>
+            <?php endif; ?>
+            <li>
+              <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+            <li>
+              <a href="<?= url_to('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </li>
+          </ul>
         </div>
-        <!-- Copyright -->
-      </footer>
+      <?php endif; ?>
+
+      <!-- Content Section -->
+      <div class="content-wrapper <?= !auth()->loggedIn() ? 'no-sidebar' : '' ?>">
+        <div class="content container-fluid mt-0">
+          <?= $this->renderSection('content'); ?>
+        </div>
+        <!-- Footer section -->
+        <footer class="bg-body-tertiary text-center">
+          <!-- Grid container -->
+          <div class="container p-4"></div>
+          <!-- Grid container -->
+
+          <!-- Copyright -->
+          <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            &copy; 2024
+            <a class="text-body custom-link" href="<?= base_url(); ?>" style="text-decoration: none;">MyToxHope </a>
+            is powered by
+            <a class="text-body custom-link" href="https://ppkt.usm.my/" style="text-decoration: none;">PPKT</a>
+            for
+            <a class="text-body custom-link" href="https://prn.usm.my/" style="text-decoration: none;">National Poison
+              Centre USM</a>
+          </div>
+          <!-- Copyright -->
+        </footer>
+      </div>
+      <!-- End content section -->
     </div>
-    <!-- End content section -->
+
+
 
     <!-- Modal Structure -->
     <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
@@ -314,27 +461,83 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap5.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        // Initialize Bootstrap components that need JS interaction
-        var dropdownToggleList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-        var dropdownList = dropdownToggleList.map(function (dropdownToggle) {
-          return new bootstrap.Dropdown(dropdownToggle);
+      // Initialize Bootstrap components that need JS interaction
+    var dropdownToggleList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+    var dropdownList = dropdownToggleList.map(function (dropdownToggle) {
+        return new bootstrap.Dropdown(dropdownToggle);
+    });
+
+    // Check if user is logged in
+    const isLoggedIn = <?= auth()->loggedIn() ? 'true' : 'false' ?>;
+
+    if (isLoggedIn) {
+        const sidebar = document.getElementById('sidebar');
+        const contentWrapper = document.querySelector('.content-wrapper');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('collapsed');
+            contentWrapper.classList.toggle('expanded');
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        }
+
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', toggleSidebar);
+        }
+
+        // Load sidebar state from localStorage
+        const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+        if (sidebarCollapsed) {
+            sidebar.classList.add('collapsed');
+            contentWrapper.classList.add('expanded');
+        } else {
+            sidebar.classList.remove('collapsed');
+            contentWrapper.classList.remove('expanded');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function (event) {
+            const isClickInside = sidebar.contains(event.target) || sidebarToggle.contains(event.target);
+            if (!isClickInside && window.innerWidth < 768 && !sidebar.classList.contains('collapsed')) {
+                toggleSidebar();
+            }
         });
 
-        // Reset video on modal close
-        $('#aboutModal').on('hidden.bs.modal', function () {
-          $('#aboutVideo').attr('src', '');
+        // Adjust sidebar on window resize
+        window.addEventListener('resize', function () {
+            if (window.innerWidth < 768) {
+                sidebar.classList.add('collapsed');
+                contentWrapper.classList.add('expanded');
+            } else {
+                if (!sidebarCollapsed) {
+                    sidebar.classList.remove('collapsed');
+                    contentWrapper.classList.remove('expanded');
+                }
+            }
         });
 
-        $('#aboutModal').on('show.bs.modal', function () {
-          $('#aboutVideo').attr('src', 'https://www.youtube.com/embed/9ZNK-bKv5tI?si=t3FSmLKbOQfK4UhL');
-        });
-      });
+        // Initial state on page load for mobile
+        if (window.innerWidth < 768) {
+            sidebar.classList.add('collapsed');
+            contentWrapper.classList.add('expanded');
+        }
+    }
+
+    // Reset video on modal close
+    $('#aboutModal').on('hidden.bs.modal', function () {
+        $('#aboutVideo').attr('src', '');
+    });
+
+    $('#aboutModal').on('show.bs.modal', function () {
+        $('#aboutVideo').attr('src', 'https://www.youtube.com/embed/9ZNK-bKv5tI?si=t3FSmLKbOQfK4UhL');
+    });
     </script>
 
   </body>
