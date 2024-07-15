@@ -52,8 +52,8 @@
                   <td><?= $data->inactive_ing; ?></td>
                   <td><?= $data->active_ing; ?></td>
                   <td>KIV</td>
-                  <td><?= $data->created_at; ?></td>
-                  <td><?= $data->updated_at; ?></td>
+                  <td><?= date('d-m-Y', strtotime($data->created_at)); ?></td>
+                  <td><?= date('d-m-Y', strtotime($data->updated_at)); ?></td>
                   <td>
                     <a class="btn btn-primary btn-sm btn-flat" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
                   </td>

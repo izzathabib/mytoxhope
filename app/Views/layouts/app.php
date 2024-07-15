@@ -62,6 +62,10 @@
         padding: 0;
       }
 
+      html {
+        height: 100%;
+      }
+
       /* navbar css */
       .sticky-top {
         position: sticky;
@@ -86,8 +90,12 @@
         font-size: 0.8rem;
       }
 
+      .navbar-brand {
+        margin-left: 4rem;
+      }
+
       .navbar-brand img {
-        max-height: 60px;
+        max-height: 65px;
       }
 
       .navbar .container-fluid {
@@ -133,6 +141,10 @@
         height: 60px;
         line-height: 60px;
         background-color: #f5f5f5;
+      }
+
+      .site-footer {
+        background: white;
       }
 
       .wrapper {
@@ -214,7 +226,7 @@
         left: 0;
         height: 100vh;
         z-index: 1000;
-        background: #f8f9fa;
+        background: #2c3034;
         transition: transform 0.3s;
         padding-top: 60px;
       }
@@ -231,7 +243,7 @@
         padding: 10px;
         font-size: 1.1em;
         display: block;
-        color: #333;
+        color: #f7f7f7;
         text-decoration: none;
       }
 
@@ -267,6 +279,8 @@
         left: 10px;
         z-index: 1000;
         padding: 0.25rem 0.5rem;
+        margin-left: 5px;
+        margin-top: 16px;
       }
 
       /* Responsive adjustments */
@@ -284,6 +298,21 @@
         }
       }
 
+      @media (min-width: 992px) {
+        #sidebarToggle {
+          position: fixed;
+          top: 10px;
+          left: 10px;
+          z-index: 1030;
+          margin-right: 1rem;
+        }
+
+        .navbar-brand {
+          margin-left: 4rem;
+          /* Adjust this value to move logo right on larger screens */
+        }
+      }
+
       @media (max-width: 991.98px) {
         .navbar .container-fluid {
           flex-wrap: wrap;
@@ -292,7 +321,7 @@
         .navbar-brand,
         .d-flex {
           flex: 0 0 100%;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0;
         }
 
         .navbar-toggler {
@@ -305,16 +334,17 @@
   <body>
 
     <div class="sticky-top">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-          <!-- Logo -->
-          <a class="navbar-brand" href="<?= base_url(); ?>">
-            <img src="images/logo_pusat-racun.png" alt="Logo 1" width="150">
-            <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
-          </a>
-          <button id="sidebarToggle" class="btn btn-dark ms-2">
+          <button id="sidebarToggle" class="btn btn-dark">
             <i class="fas fa-bars"></i>
           </button>
+          <!-- Logo -->
+          <a class="navbar-brand ms-5" href="<?= base_url(); ?>">
+            <img src="images/logo_pusat-racun.png" alt="Logo 1" width="180">
+            <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
+          </a>
+
           <!-- Navbar toggler for mobile view -->
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -367,7 +397,7 @@
     <div class="wrapper">
       <?php if (auth()->loggedIn()): ?>
         <div class="sidebar sidebar-dark-primary" id="sidebar">
-          <div class="sidebar-header">
+          <div class="sidebar-header" style="color: #f7f7f7">
             <h3>Menu</h3>
           </div>
           <ul class="list-unstyled components">
@@ -376,17 +406,17 @@
             </li>
             <li>
               <a href="#productSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                <i class="fas fa-box"></i> Add Product
+                <i class="fas fa-box"></i> Product
               </a>
               <ul class="collapse list-unstyled" id="productSubmenu">
                 <li>
-                  <a href="<?= url_to('addProduct') ?>">
-                    <i class="fas fa-plus"></i> Add Product
+                  <a href="<?= url_to('productList') ?>">
+                    <i class="fa-solid fa-table-list"></i> View Product
                   </a>
                 </li>
                 <li>
-                  <a href="javascript:void(0)">
-                    <i class="fas fa-edit"></i> Update Product
+                  <a href="<?= url_to('addProduct') ?>">
+                    <i class="fas fa-plus"></i> Add Product
                   </a>
                 </li>
               </ul>
@@ -411,26 +441,25 @@
         <div class="content container-fluid mt-0">
           <?= $this->renderSection('content'); ?>
         </div>
-        <!-- Footer section -->
-        <footer class="bg-body-tertiary text-center">
-          <!-- Grid container -->
-          <div class="container p-4"></div>
-          <!-- Grid container -->
 
-          <!-- Copyright -->
-          <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            &copy; 2024
-            <a class="text-body custom-link" href="<?= base_url(); ?>" style="text-decoration: none;">MyToxHope </a>
-            is powered by
-            <a class="text-body custom-link" href="https://ppkt.usm.my/" style="text-decoration: none;">PPKT</a>
-            for
-            <a class="text-body custom-link" href="https://prn.usm.my/" style="text-decoration: none;">National Poison
-              Centre USM</a>
-          </div>
-          <!-- Copyright -->
-        </footer>
       </div>
       <!-- End content section -->
+
+      <!-- Footer section -->
+      <footer class="site-footer fixed-bottom bg-tertiary text-center">
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+          &copy; 2024
+          <a class="text-body custom-link" href="<?= base_url(); ?>" style="text-decoration: none;">MyToxHope </a>
+          is powered by
+          <a class="text-body custom-link" href="https://ppkt.usm.my/" style="text-decoration: none;">PPKT</a>
+          for
+          <a class="text-body custom-link" href="https://prn.usm.my/" style="text-decoration: none;">National Poison
+            Centre USM</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
     </div>
 
 
@@ -469,75 +498,75 @@
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap5.min.js"></script>
     <script>
       // Initialize Bootstrap components that need JS interaction
-    var dropdownToggleList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-    var dropdownList = dropdownToggleList.map(function (dropdownToggle) {
+      var dropdownToggleList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+      var dropdownList = dropdownToggleList.map(function (dropdownToggle) {
         return new bootstrap.Dropdown(dropdownToggle);
-    });
+      });
 
-    // Check if user is logged in
-    const isLoggedIn = <?= auth()->loggedIn() ? 'true' : 'false' ?>;
+      // Check if user is logged in
+      const isLoggedIn = <?= auth()->loggedIn() ? 'true' : 'false' ?>;
 
-    if (isLoggedIn) {
+      if (isLoggedIn) {
         const sidebar = document.getElementById('sidebar');
         const contentWrapper = document.querySelector('.content-wrapper');
         const sidebarToggle = document.getElementById('sidebarToggle');
 
         function toggleSidebar() {
-            sidebar.classList.toggle('collapsed');
-            contentWrapper.classList.toggle('expanded');
-            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+          sidebar.classList.toggle('collapsed');
+          contentWrapper.classList.toggle('expanded');
+          localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
         }
 
         if (sidebarToggle) {
-            sidebarToggle.addEventListener('click', toggleSidebar);
+          sidebarToggle.addEventListener('click', toggleSidebar);
         }
 
         // Load sidebar state from localStorage
         const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
         if (sidebarCollapsed) {
-            sidebar.classList.add('collapsed');
-            contentWrapper.classList.add('expanded');
+          sidebar.classList.add('collapsed');
+          contentWrapper.classList.add('expanded');
         } else {
-            sidebar.classList.remove('collapsed');
-            contentWrapper.classList.remove('expanded');
+          sidebar.classList.remove('collapsed');
+          contentWrapper.classList.remove('expanded');
         }
 
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', function (event) {
-            const isClickInside = sidebar.contains(event.target) || sidebarToggle.contains(event.target);
-            if (!isClickInside && window.innerWidth < 768 && !sidebar.classList.contains('collapsed')) {
-                toggleSidebar();
-            }
+          const isClickInside = sidebar.contains(event.target) || sidebarToggle.contains(event.target);
+          if (!isClickInside && window.innerWidth < 768 && !sidebar.classList.contains('collapsed')) {
+            toggleSidebar();
+          }
         });
 
         // Adjust sidebar on window resize
         window.addEventListener('resize', function () {
-            if (window.innerWidth < 768) {
-                sidebar.classList.add('collapsed');
-                contentWrapper.classList.add('expanded');
-            } else {
-                if (!sidebarCollapsed) {
-                    sidebar.classList.remove('collapsed');
-                    contentWrapper.classList.remove('expanded');
-                }
+          if (window.innerWidth < 768) {
+            sidebar.classList.add('collapsed');
+            contentWrapper.classList.add('expanded');
+          } else {
+            if (!sidebarCollapsed) {
+              sidebar.classList.remove('collapsed');
+              contentWrapper.classList.remove('expanded');
             }
+          }
         });
 
         // Initial state on page load for mobile
         if (window.innerWidth < 768) {
-            sidebar.classList.add('collapsed');
-            contentWrapper.classList.add('expanded');
+          sidebar.classList.add('collapsed');
+          contentWrapper.classList.add('expanded');
         }
-    }
+      }
 
-    // Reset video on modal close
-    $('#aboutModal').on('hidden.bs.modal', function () {
+      // Reset video on modal close
+      $('#aboutModal').on('hidden.bs.modal', function () {
         $('#aboutVideo').attr('src', '');
-    });
+      });
 
-    $('#aboutModal').on('show.bs.modal', function () {
+      $('#aboutModal').on('show.bs.modal', function () {
         $('#aboutVideo').attr('src', 'https://www.youtube.com/embed/9ZNK-bKv5tI?si=t3FSmLKbOQfK4UhL');
-    });
+      });
     </script>
 
   </body>

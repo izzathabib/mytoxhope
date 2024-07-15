@@ -2,8 +2,7 @@
 <?= $this->extend('layouts/app.php'); ?>
 <?= $this->section('content'); ?>
 
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
@@ -79,10 +78,11 @@
                   <tfoot>
                     <tr>
                       <th>Name</th>
-                      <th>E-mail</th>
                       <th>Company Name</th>
+                      <th>Company Registration No</th>
+                      <th>E-mail</th>
                       <th>Status</th>
-                      <th style="width: 120px;">Action</th>
+                      <th style="width: 90px;">Action</th>
                     </tr>
                   </tfoot>
                 </table>
@@ -99,7 +99,7 @@
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
-</div>
+
 <!-- /.content-wrapper -->
 
 <!-- Initialize DataTables -->
