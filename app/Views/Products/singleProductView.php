@@ -7,7 +7,7 @@
 <div class="card w-100 shadow-sm">
   <div class="card-body">
 
-    <!-- Product detail -->
+    <!-- Main Product detail -->
     <div class="row">
       <!-- Product Image -->
       <div class="col-md-6">
@@ -41,7 +41,7 @@
           <p><?= $productData['msds']; ?></p>
 
           <h6>Last Update</h6>
-          <p>On Progres</p>
+          <p><?= date('d-m-Y', strtotime($productData['updated_at'])); ?></p>
       </div>
       </div>
     </div>

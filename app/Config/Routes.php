@@ -20,6 +20,7 @@ $routes->get('list-product', 'Products\ProductsController::productList', ['as' =
 $routes->post('save-prod-detail', 'Products\ProductsController::saveProdDetail', ['as' => 'saveProdDetail']);
 $routes->get('display-prod-detail/(:num)', 'Products\ProductsController::displayProdDetail/$1', ['as' => 'displayProdDetail']);
 $routes->get('product-update/(:num)', 'Products\ProductsController::productUpdate/$1', ['as' => 'productUpdate']);
+$routes->post('save-update-detail/(:num)', 'Products\ProductsController::saveUpdateDetail/$1', ['as' => 'saveUpdateDetail']);
 
 
 
