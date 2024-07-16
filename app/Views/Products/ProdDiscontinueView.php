@@ -7,7 +7,14 @@
 <div class="card w-100 shadow-sm">
   <div class="card-body">
 
-    <!-- Product detail -->
+    <!-- Discontinue text -->
+    <div class="row mb-5 text-danger">
+      <div class="col-md-12 text-center">
+        <h2><?= $productData['prod_status'] ?></h2>
+      </div>
+    </div>
+
+    <!-- Main Product detail -->
     <div class="row">
       <!-- Product Image -->
       <div class="col-md-6">
@@ -41,19 +48,12 @@
           <p><?= $productData['msds']; ?></p>
 
           <h6>Last Update</h6>
-          <p>On Progres</p>
+          <p><?= date('d-m-Y', strtotime($productData['updated_at'])); ?></p>
       </div>
       </div>
     </div>
 
-    <!-- Button -->
-    <div class="row mt-3">
-      <div class="col-md-12 text-center">
-        <a class="btn btn-primary" href="<?= url_to('productUpdate',$productData['id']) ?>">Update</a>
-        <a class="btn btn-secondary" href="#">Discontinued</a>
-        <a class="btn btn-danger" href="#">Delete</a>
-      </div>
-    </div>
+    
   </div>
 </div>
   

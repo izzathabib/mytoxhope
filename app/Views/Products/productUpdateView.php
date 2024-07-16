@@ -5,7 +5,7 @@
   <h4 class="text-left"><b>Update Product Details</b></h4>
   <div class="card w-100 shadow-sm">
     <div class="card-body">
-      <form method="POST" action="<?= url_to('saveProdDetail'); ?>" enctype="multipart/form-data">
+      <form method="POST" action="<?= url_to('saveUpdateDetail', $productData['id']); ?>" enctype="multipart/form-data">
         <div class="row">
           <div class="col-md-6">
             <!-- Product Name -->

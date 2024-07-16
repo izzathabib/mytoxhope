@@ -3,33 +3,43 @@
 <?= $this->section('content'); ?>
 
 
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h2>Users List</h2>
-        </div>
-      </div>
-    </div><!-- /.container-fluid -->
-  </section>
+<!-- Display page title -->
+<div class="container-fluid content-header p-4 mt-2">
+  <div class="container-fluid">
+    <h2 class="content-header">User List</h2>
+  </div>
+</div>
 
-  <!-- Main content -->
-  <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="card w-100">
-            <div class="card-header">
-              <h3 class="card-title">Users Information</h3>
+<!-- Main section -->
+<div class="container-fluid">
+    <div class="row">
+
+      <div class="col-lg-12">
+        <div class="card w-100 shadow-sm ">
+
+
+          <!-- Card header -->
+          <div class="card-header">
+          <div class="row">
+
+            <div class="col">
+              <h4>User Information</h4>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
 
+            <!-- Create user button -->
+            <div class="col-xl-1">
+                <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addProduct'); ?>">Add User</a>
+            </div>
 
-              <!-- Table data -->
-              <div class="table-responsive">
-                <table id="userslist" class="table table-bordered table-striped dt-responsive nowrap"
+          </div>
+          
+          </div>
+          
+          <!-- Card body -->
+          <div class="card-body">
+            <!-- Table data -->
+            <div class="table-responsive">
+            <table id="userslist" class="table table-hover table-bordered"
                   style="width:100%">
                   <thead>
                     <tr>
@@ -85,22 +95,18 @@
                       <th style="width: 90px;">Action</th>
                     </tr>
                   </tfoot>
-                </table>
-              </div>
+            </table>
             </div>
-            <!-- /.card-body -->
+            
           </div>
-          <!-- /.card -->
+          
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /row -->
+      
     </div>
-    <!-- /.container-fluid -->
-  </section>
-  <!-- /.content -->
 
-<!-- /.content-wrapper -->
+</div>
+
 
 <!-- Initialize DataTables -->
 <script>
@@ -122,3 +128,4 @@
 </script>
 
 <?= $this->endsection(); ?>
+
