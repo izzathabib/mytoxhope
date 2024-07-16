@@ -17,10 +17,25 @@ class Users extends BaseController
 
     public function index()
     {
-        $title = 'Users List';
-        $companyModel = new Company();
-        $companyData = $companyModel->findAll();
-        return view('Admin\Views\UsersView',compact('title','companyData'));
+        $title = 'User List';
+        $userModel = new UserModel();
+
+        // Get current user role
+        if (auth()->user()->inGroup('superadmin')) {
+            $userData = $this->db->query("SELECT * FROM users")->getResult();
+            return view('Admin\Views\UsersView',compact('title','userData'));
+        }
+
+        // Get current user data from userModel
+        $adminData = $userModel->find(auth()->user()->id);
+
+        // Get user  comp_reg_no
+        $adminCompRegNo = $adminData->comp_reg_no;
+
+        // Get all user from UserModel with the same comp_reg_no
+        $userData = $this->db->query("SELECT * FROM users WHERE comp_reg_no = '$adminCompRegNo' ")->getResult();
+
+        return view('Admin\Views\UsersView',compact('title','userData'));
     }
 
     public function verifyUser($id) {

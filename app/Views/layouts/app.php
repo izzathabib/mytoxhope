@@ -421,7 +421,7 @@
             </li>
             <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
               <li>
-                <a href="<?= url_to('viewUser') ?>"><i class="fa fa-list"></i> View Users</a>
+                <a href="<?= url_to('viewUser',) ?>"><i class="fa fa-list"></i> View Users</a>
               </li>
             <?php endif; ?>
             <li>

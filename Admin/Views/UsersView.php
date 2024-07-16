@@ -27,10 +27,12 @@
             </div>
 
             <!-- Create user button -->
+            <!-- Only for [superadmin,admin] -->
+            <?php  if (auth()->user()->inGroup('superadmin')) : ?>
             <div class="col-xl-1">
-                <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addProduct'); ?>">Add User</a>
+                <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?php //url_to('addNewUser'); ?>">Add User</a>
             </div>
-
+            <?php endif; ?>
           </div>
           
           </div>
@@ -44,39 +46,47 @@
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Company Name</th>
-                      <th>Company Registration No</th>
                       <th>E-mail</th>
-                      <th>Status</th>
-                      <th style="width: 90px;">Action</th>
+                      <?php if (auth()->user()->inGroup('superadmin')): ?>
+                        <th>Company Name</th>
+                        <th>Company Registration No</th>
+                        <th>Status</th>
+                      <?php endif; ?>
+                      <?php if (auth()->user()->inGroup('superadmin','admin')): ?>
+                        <th style="width: 90px;">Action</th>
+                      <?php endif; ?>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if (!empty($companyData)): ?>
-                      <?php foreach ($companyData as $data): ?>
+                    <?php if (!empty($userData)): ?>
+                      <?php foreach ($userData as $data): ?>
                         <tr>
-                          <td><?= $data['comp_admin']; ?></td>
-                          <td><?= $data['comp_name']; ?></td>
-                          <td><?= $data['comp_reg_no']; ?></td>
-                          <td><?= $data['comp_email']; ?></td>
-                          <?php if ($data['status'] == 'unverified') : ?>
-                            <td>
-                              <form method="post" action="<?php url_to('verifyUser', $data['id']); ?>">
-                                <input type="submit" id="verify" class="btn btn-primary btn-sm  " value="Verify">
-                              </form>
-                            </td>
-                          <?php elseif ($data['status'] == 'verified'): ?>
-                            <td><?= $data['status']; ?></td>
+                          <td><?= $data->username; ?></td>
+                          <td><?php echo 'KIV'; ?></td>
+                          <!-- If current user is Admin PRN & Company Admin -->
+                          <?php if (auth()->user()->inGroup('superadmin')): ?>
+                            <td><?= $data->comp_name; ?></td>
+                            <td><?= $data->comp_reg_no; ?></td>
+                            <?php if ($data->status == 'unverified') : ?>
+                              <td>
+                                <a href="#" class="btn btn-primary btn-sm ">Verify</a>
+                              </td>
+                            <?php elseif ($data->status == 'verified'): ?>
+                              <td><?= 'Verified'; ?></td>
+                            <?php endif; ?>
                           <?php endif; ?>
-                          <td>
+                          <!-- Display action button for Admin PRN and Admin company -->
+                          <?php if (auth()->user()->inGroup('superadmin','admin')): ?>
+                            <td>
                             <button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle nav-item dropdown" data-bs-toggle="dropdown" aria-expanded="true">
                             Action
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="./index.php?page=edit_user&id=<?php echo $data['id'] ?>">Edit</a>
-                                <a class="dropdown-item" href="javascript:void(0)" data-id="<?php echo $data['id'] ?>">Delete</a>
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Delete</a>
                               </div>
                             </button>
-                          </td>
+                            </td>
+                          <?php endif; ?>
                         </tr>
                       <?php endforeach; ?>
                     <?php else: ?>
@@ -88,11 +98,16 @@
                   <tfoot>
                     <tr>
                       <th>Name</th>
-                      <th>Company Name</th>
-                      <th>Company Registration No</th>
                       <th>E-mail</th>
-                      <th>Status</th>
-                      <th style="width: 90px;">Action</th>
+                      <?php if (auth()->user()->inGroup('superadmin')): ?>
+                        <th>Company Name</th>
+                        <th>Company Registration No</th>
+                        <th>Status</th>
+                        
+                      <?php endif; ?>
+                      <?php if (auth()->user()->inGroup('superadmin','admin')): ?>
+                        <th style="width: 90px;">Action</th>
+                      <?php endif; ?>
                     </tr>
                   </tfoot>
             </table>
