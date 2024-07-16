@@ -397,9 +397,7 @@
     <div class="wrapper">
       <?php if (auth()->loggedIn()): ?>
         <div class="sidebar sidebar-dark-primary" id="sidebar">
-          <div class="sidebar-header" style="color: #f7f7f7">
-            <h3>Menu</h3>
-          </div>
+          <br>
           <ul class="list-unstyled components">
             <li>
               <a href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i> Dashboard</a>
