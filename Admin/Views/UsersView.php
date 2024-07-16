@@ -19,15 +19,16 @@
           <!-- Card header -->
           <div class="card-header">
           <div class="row">
+
             <div class="col">
               <h4>User Information</h4>
             </div>
+
             <!-- Create user button -->
-            <div class="col-md-1">
-              <div class="card-tools">
-              <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addProduct'); ?>"><i class="fa fa-plus"></i>  Add User</a>
-              </div>
+            <div class="col-xl-1">
+                <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addProduct'); ?>">Add User</a>
             </div>
+
           </div>
           
           </div>
