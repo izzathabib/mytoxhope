@@ -50,6 +50,7 @@
                   <td><?= $data->product_name; ?></td>
                   <td><?= $data->inactive_ing; ?></td>
                   <td><?= $data->active_ing; ?></td>
+
                   <td><?= $data->prod_status; ?></td>
                   <td><?= date('d-m-Y', strtotime($data->created_at)); ?></td>
                   <td><?= date('d-m-Y', strtotime($data->updated_at)); ?></td>

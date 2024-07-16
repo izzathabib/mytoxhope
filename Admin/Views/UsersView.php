@@ -2,6 +2,7 @@
 <?= $this->extend('layouts/app.php'); ?>
 <?= $this->section('content'); ?>
 
+
 <!-- Display page title -->
 <div class="container-fluid content-header p-4 mt-2">
   <div class="container-fluid">
@@ -15,6 +16,7 @@
 
       <div class="col-lg-12">
         <div class="card w-100 shadow-sm ">
+
 
           <!-- Card header -->
           <div class="card-header">
@@ -86,10 +88,11 @@
                   <tfoot>
                     <tr>
                       <th>Name</th>
-                      <th>E-mail</th>
                       <th>Company Name</th>
+                      <th>Company Registration No</th>
+                      <th>E-mail</th>
                       <th>Status</th>
-                      <th style="width: 120px;">Action</th>
+                      <th style="width: 90px;">Action</th>
                     </tr>
                   </tfoot>
             </table>
@@ -101,7 +104,9 @@
       </div>
       
     </div>
+
 </div>
+
 
 <!-- Initialize DataTables -->
 <script>

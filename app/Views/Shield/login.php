@@ -4,19 +4,16 @@
 
 <?= $this->section('content') ?>
 
-<div class="container-fluid position-relative vh-100"
-    style="background-image: url('images/login-bg.png'); background-size: cover; background-position: center;">
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);">
+<div class="container-fluid position-relative vh-100">
         <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="card w-40 shadow-sm"
-                style="max-width: 400px; background-color: rgba(255, 255, 255, 0.8); z-index: 1;">
+            <div class="card w-40 shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title text-center mb-3"><?= lang('Auth.login') ?></h3>
                     <p class="text-center">Enter your credentials to login</p>
                     <?php if (session('error') !== null): ?>
                         <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
 
-                    <?php elseif (session('success') !== null) : ?>
+                    <?php elseif (session('success') !== null): ?>
                         <div class="alert alert-success" role="alert"><?= session('success') ?></div>
                     <?php elseif (session('errors') !== null): ?>
                         <div class="alert alert-danger" role="alert">
@@ -64,25 +61,27 @@
                             </div>
                         <?php endif; ?>
 
-                        <div class="d-grid col-12 col-md-8 mx-auto m-3">
+                        <!-- Login button -->
+                        <div class="d-grid col-12 mx-auto mt-4 mb-3">
                             <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.login') ?></button>
                         </div>
 
+                        <!-- Forgot password -->
                         <?php if (setting('Auth.allowMagicLinkLogins')): ?>
                             <p class="text-center"><?= lang('Auth.forgotPassword') ?> <a
-                                    href="<?= url_to('magic-link') ?>"><?= lang('Auth.useMagicLink') ?></a></p>
+                                    href="<?= url_to('magic-link') ?>" style="text-decoration: none;"><?= lang('Auth.useMagicLink') ?></a></p>
                         <?php endif ?>
 
+                        <!-- Register account -->
                         <?php if (setting('Auth.allowRegistration')): ?>
                             <p class="text-center"><?= lang('Auth.needAccount') ?> <a
-                                    href="<?= url_to('register') ?>"><?= lang('Auth.register') ?></a></p>
+                                    href="<?= url_to('register') ?>" style="text-decoration: none;"><?= lang('Auth.register') ?></a></p>
                         <?php endif ?>
 
                     </form>
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
 <?= $this->endSection() ?>
