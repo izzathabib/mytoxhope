@@ -22,6 +22,7 @@ class Product extends Model
         'brand_name',
         'msds',
         'subtype_household',
+        'prod_status',
     ];
 
     protected bool $allowEmptyInserts = false;

@@ -64,6 +64,7 @@ class ProductsController extends BaseController
             "brand_name" => $this->request->getPost('brand_name'),
             "msds" => $msds->getClientName(),
             "subtype_household" => $this->request->getPost('subtype_household'),
+            "prod_status" => 'Active',
         ];
 
         // Save $model data to database
@@ -124,7 +125,8 @@ class ProductsController extends BaseController
             $msdsName = $oldMsds;
         }
 
-        // Check if there 
+        // Check for active ingredient input there 
+
 
         // Fetch data for each of the field
         $productData = [
@@ -148,6 +150,20 @@ class ProductsController extends BaseController
         if ($productModel) {
             return redirect()->to(base_url('display-prod-detail/'.$id));
         }
+    }
+
+    public function displayProdDiscontinue($id) {
+
+        $title = 'Product Discontinued';
+        $productModel = new Product();
+
+        $productData = $productModel->find($id);
+
+        $productData['prod_status'] = 'Discontinued';
+        $productModel->update($id, $productData); 
+
+        return view('Products/ProdDiscontinueView',compact('title','productData'));
+
     }
     
 }

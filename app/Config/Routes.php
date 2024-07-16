@@ -21,6 +21,8 @@ $routes->post('save-prod-detail', 'Products\ProductsController::saveProdDetail',
 $routes->get('display-prod-detail/(:num)', 'Products\ProductsController::displayProdDetail/$1', ['as' => 'displayProdDetail']);
 $routes->get('product-update/(:num)', 'Products\ProductsController::productUpdate/$1', ['as' => 'productUpdate']);
 $routes->post('save-update-detail/(:num)', 'Products\ProductsController::saveUpdateDetail/$1', ['as' => 'saveUpdateDetail']);
+$routes->get('display-prod-discontinue/(:num)', 'Products\ProductsController::displayProdDiscontinue/$1', ['as' => 'productDiscontinue']);
+
 
 
 
