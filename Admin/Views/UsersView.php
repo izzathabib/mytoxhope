@@ -30,7 +30,7 @@
             <!-- Only for [superadmin,admin] -->
             <?php  if (auth()->user()->inGroup('superadmin')) : ?>
             <div class="col-xl-1">
-                <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?php //url_to('addNewUser'); ?>">Add User</a>
+                <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addNewUser'); ?>">Add User</a>
             </div>
             <?php endif; ?>
           </div>

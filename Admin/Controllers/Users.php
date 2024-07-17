@@ -58,4 +58,10 @@ class Users extends BaseController
             return redirect()->to(base_url('Admin/users'));
         }
     }
+
+    public function addNewUser() {
+        $title = 'Add User';
+
+        return view('Admin\Views\AddNewUserView', compact('title'));
+    }
 }
