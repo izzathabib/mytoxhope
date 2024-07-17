@@ -2,14 +2,14 @@
 <?= $this->section('content'); ?>
 
 <!-- Display page title -->
-<div class="container content-header p-4 mt-2">
+<div class="container-fluid content-header p-4 mt-2">
   <div class="container-fluid">
     <h2 class="content-header">Product List</h2>
   </div>
 </div>
 
 <!-- Main section -->
-<div class="container">
+<div class="container-fluid">
     <div class="row">
 
       <div class="col-md-12">

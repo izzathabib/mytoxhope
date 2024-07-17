@@ -21,6 +21,11 @@ class ProductsController extends BaseController
     public function productList() {
         $title = 'Product List';
 
+        // Get current user role
+        if (auth()->user()->inGroup('superadmin')) {
+            $productData = $this->db->query("SELECT * FROM products")->getResult();
+            return view('Products/productListView',compact('title','productData'));
+        }
 
         $currentUserId = auth()->user()->id;
 
