@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use CodeIgniter\Shield\Models\UserModel as ShieldUserModel;
+use CodeIgniter\Shield\Entities\User;
 
 class UserModel extends ShieldUserModel
 {
@@ -18,4 +19,6 @@ class UserModel extends ShieldUserModel
             'comp_name',
         ];
     }
+
+    
 }

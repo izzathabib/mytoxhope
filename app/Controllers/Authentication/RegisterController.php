@@ -7,9 +7,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Events\Events;
-
-
-
+use CodeIgniter\Shield\Entities\User;
 
 class RegisterController extends ShieldRegister
 {
@@ -38,6 +36,8 @@ class RegisterController extends ShieldRegister
         return view('Shield/register',compact('title'));
     }
 
+    
+
     public function registerAction(): RedirectResponse
     {
         if (auth()->loggedIn()) {
@@ -57,7 +57,7 @@ class RegisterController extends ShieldRegister
         $comp_reg_no = $this->request->getPost('comp_reg_no');
 
         # Check if registration is allowed
-        # User cannot register if the company registration no already exist in database
+        # User cannot register if their company already registered by PIC
         # Get the existing user with the same comp_reg_no data
         $existingUser = $companyModel->where('comp_reg_no', $comp_reg_no)->first();
 
@@ -79,22 +79,13 @@ class RegisterController extends ShieldRegister
         // Save the user
         $allowedPostFields = array_keys($rules);
         $user              = $this->getUserEntity();
-        $user = [
-            'comp_reg_no' => $this->request->getPost('comp_reg_no'),
-            'comp_name' => $this->request->getPost('comp_name'),
-            'username' => $this->request->getPost('username'),
-            'comp_email' => $this->request->getPost('email'),
-            'password' => $this->request->getPost('password'),
-            'password_confirm' => $this->request->getPost('password_confirm'),
-            'status' => 'unverified',
-        ];
-        //->fill($this->request->getPost($allowedPostFields));
-
+        $user->fill($this->request->getPost($allowedPostFields));
+        $user->status = 'unverified';
         
 
         // Workaround for email only registration/login
-        if ($user['username'] === null) {
-            $user['username'] = null;
+        if ($user->username === null) {
+            $user->username = null;
         }
 
 
@@ -126,9 +117,11 @@ class RegisterController extends ShieldRegister
         if ($hasAction) {
             return redirect()->route('auth-action-show');
         }
-
+        
         // Set the user active
         $user->activate();
+
+        
 
         $authenticator->completeLogin($user);
 
