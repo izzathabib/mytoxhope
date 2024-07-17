@@ -69,7 +69,11 @@
                             <td><?= $data->comp_reg_no; ?></td>
                             <?php if ($data->status == 'unverified') : ?>
                               <td>
-                                <a href="#" class="btn btn-primary btn-sm ">Verify</a>
+                                <!-- Form section to update status value in users table -->
+                                <form method="POST" action="<?= url_to('verifyUser', $data->id); ?>">
+                                  <button type="submit" value="Submit" class="btn btn-primary btn-sm">Verify</button>
+                                </form>
+                                
                               </td>
                             <?php elseif ($data->status == 'verified'): ?>
                               <td><?= 'Verified'; ?></td>

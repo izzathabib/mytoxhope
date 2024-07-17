@@ -39,20 +39,23 @@ class Users extends BaseController
     }
 
     public function verifyUser($id) {
-        // Declare instances for model
+
+        $userModel = new UserModel();
+        $userData = $userModel->find($id);
+
+        $userData->status = 'verified';
+
+        // Update data in users table
+        $userModel->update($id, $userData);
+
+        // Update data in company table as well
         $companyModel = new Company();
+        $companyData = $companyModel->where('user_id', $id)->first();
+        $companyData['status'] = 'verified';
+        $companyModel->update($companyData['id'], $companyData);
 
-        $companyData = $companyModel->find($id);
-
-        if ($companyData['status'] === 'unverified') {
-            $companyData['status'] = 'verified'; // Change "verified" to your actual status value
-            $companyModel->save($companyData);
-        
-            // Set flash message (optional)
-            //$this->session->setFlashdata('success', 'Company verified successfully!');
-        } 
-        
-        // Redirect to companies list or relevant page
-        return redirect()->to(base_url('Admin/users'));
+        if ($userModel) {
+            return redirect()->to(base_url('Admin/users'));
+        }
     }
 }
