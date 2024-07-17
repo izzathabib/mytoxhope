@@ -50,8 +50,6 @@ class RegisterController extends ShieldRegister
                 ->with('error', lang('Auth.registerDisabled'));
         }*/
 
-        
-
         $users = $this->getUserProvider();
         $companyModel = new Company();
 
@@ -81,13 +79,22 @@ class RegisterController extends ShieldRegister
         // Save the user
         $allowedPostFields = array_keys($rules);
         $user              = $this->getUserEntity();
-        $user->fill($this->request->getPost($allowedPostFields));
+        $user = [
+            'comp_reg_no' => $this->request->getPost('comp_reg_no'),
+            'comp_name' => $this->request->getPost('comp_name'),
+            'username' => $this->request->getPost('username'),
+            'comp_email' => $this->request->getPost('email'),
+            'password' => $this->request->getPost('password'),
+            'password_confirm' => $this->request->getPost('password_confirm'),
+            'status' => 'unverified',
+        ];
+        //->fill($this->request->getPost($allowedPostFields));
 
         
 
         // Workaround for email only registration/login
-        if ($user->username === null) {
-            $user->username = null;
+        if ($user['username'] === null) {
+            $user['username'] = null;
         }
 
 
