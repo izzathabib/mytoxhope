@@ -2,14 +2,17 @@
 
 <?= $this->section('title') ?><?= lang('Auth.login') ?> <?= $this->endSection() ?>
 
+<?= $this->section('bodyClass') ?>login-page<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
-<div class="container-fluid position-relative vh-100">
-        <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="card w-40 shadow-sm">
+        <div class="login-container d-flex align-items-center justify-content-center min-vh-100">
+            <div class="card w-100 shadow-sm login-card" style="max-width: 400px;">
                 <div class="card-body">
                     <h3 class="card-title text-center mb-3"><?= lang('Auth.login') ?></h3>
                     <p class="text-center">Enter your credentials to login</p>
+
+                    <!-- Alert message section -->
                     <?php if (session('error') !== null): ?>
                         <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
 
@@ -31,6 +34,7 @@
                     <?php if (session('message') !== null): ?>
                         <div class="alert alert-success" role="alert"><?= session('message') ?></div>
                     <?php endif ?>
+                    <!-- .Alert message -->
 
                     <form action="<?= url_to('login') ?>" method="post">
                         <?= csrf_field() ?>
@@ -82,6 +86,33 @@
                 </div>
             </div>
         </div>
-</div>
+<?= $this->endSection() ?>
 
+<?= $this->section('styles') ?>
+<style>
+    .login-page {
+        overflow: hidden;
+        background-color: #f8f9fa;
+    }
+    .login-container {
+        padding: 20px;
+    }
+    .login-card {
+        transform: translateY(-15%);
+    }
+
+    @media (max-height: 600px), (max-width: 450px) {
+        .login-page {
+            overflow-y: auto;
+        }
+        .login-container {
+            padding: 20px 20px 40px;
+            align-items: flex-start;
+        }
+        .login-card {
+            transform: none;
+            margin-top: 20px;
+        }
+    }
+</style>
 <?= $this->endSection() ?>

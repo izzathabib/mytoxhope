@@ -1,9 +1,10 @@
 <?= $this->extend('layouts/app.php'); ?>
+<?= $this->section('bodyClass') ?>addprod-page<?= $this->endSection() ?>
 <?= $this->section('content'); ?>
 
-<div class="container-fluid p-5">
-  <h4 class="text-left"><b>Register New Product</b></h4>
-  <div class="card w-100 shadow-sm">
+<div class="addprod-container p-4">
+  <h4 class="text-left" style="margin-left: 40px;"><b>Register New Product</b></h4>
+  <div class="card shadow-sm addprod-container">
     <div class="card-body">
       <form method="POST" action="<?= url_to('saveProdDetail'); ?>" enctype="multipart/form-data">
         <div class="row">
@@ -151,4 +152,43 @@
   });
 </script>
 <?= $this->endSection(); ?>
+
+<?= $this->section('styles') ?>
+<style>
+    .addprod-page {
+
+        background-color: #f8f9fa;
+    }
+    .addprod-container {
+        padding: 20px;
+        width: 95%;
+        margin: auto;
+    }
+    .addprod-card {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+    }
+    .card-body {
+        padding: 2rem;
+    }
+
+    @media (max-width: 576px) {
+      .addprod-page {
+        overflow-y: auto;
+      }  
+      .addprod-container {
+        align-items: flex-start;
+      }
+      .addprod-card {
+            max-width: 100%;
+            transform: none;
+            margin-top: 20px;
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+    }
+</style>
+<?= $this->endSection() ?>
 

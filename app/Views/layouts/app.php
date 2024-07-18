@@ -57,12 +57,9 @@
         margin-bottom: 1.5rem;
       }
 
-      body {
+      html, body {
         margin: 0;
         padding: 0;
-      }
-
-      html {
         height: 100%;
       }
 
@@ -145,6 +142,15 @@
 
       .site-footer {
         background: white;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        transition: margin-left 0.3s;
+      }
+
+      .site-footer.expanded {
+        margin-left: 0;
       }
 
       .wrapper {
@@ -154,7 +160,9 @@
       }
 
       .content {
-        flex: 1 0 auto;
+        flex: 1;
+        overflow-y: auto;
+        padding-bottom: 60px;
       }
 
       .custom-link {
@@ -256,12 +264,14 @@
       .content-wrapper {
         margin-left: 250px;
         transition: margin-left 0.3s;
-        flex: 1 0 auto;
+        flex: 1;
         display: flex;
         flex-direction: column;
         padding: 0;
         margin-top: -60px;
         padding-top: 60px;
+        padding-bottom: 60px;
+        overflow-y: auto;
       }
 
       .content-wrapper.expanded {
@@ -293,8 +303,8 @@
           transform: translateX(0);
         }
 
-        .content-wrapper {
-          margin-left: 0;
+        .content-wrapper, .site-footer {
+          margin-left: 0 !important;
         }
       }
 
@@ -329,18 +339,21 @@
         }
       }
     </style>
+    <?= $this->renderSection('styles') ?>
   </head>
 
-  <body>
-
+  <body class="<?= $this->renderSection('bodyClass') ?>">
+  <div class="wrapper">
     <div class="sticky-top">
       <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
+          <?php if(auth()->loggedIn()): ?>
           <button id="sidebarToggle" class="btn btn-dark">
             <i class="fas fa-bars"></i>
           </button>
+          <?php endif; ?>
           <!-- Logo -->
-          <a class="navbar-brand ms-5" href="<?= base_url(); ?>">
+          <a class="navbar-brand <?= !auth()->loggedIn() ? 'ms-3' : 'ms-5' ?>" href="<?= base_url(); ?>">
             <img src="images/logo_pusat-racun.png" alt="Logo 1" width="180">
             <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
           </a>
@@ -394,7 +407,7 @@
     </div>
     <!-- End navigation bar -->
 
-    <div class="wrapper">
+
       <?php if (auth()->loggedIn()): ?>
         <div class="sidebar sidebar-dark-primary" id="sidebar">
           <br>
@@ -444,7 +457,7 @@
       <!-- End content section -->
 
       <!-- Footer section -->
-      <footer class="site-footer fixed-bottom bg-tertiary text-center">
+      <footer class="site-footer bg-tertiary text-center">
 
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
@@ -512,6 +525,7 @@
         function toggleSidebar() {
           sidebar.classList.toggle('collapsed');
           contentWrapper.classList.toggle('expanded');
+          document.querySelector('.site-footer').classList.toggle('expanded');
           localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
         }
 
@@ -524,9 +538,11 @@
         if (sidebarCollapsed) {
           sidebar.classList.add('collapsed');
           contentWrapper.classList.add('expanded');
+          document.querySelector('.site-footer').classList.add('expanded');
         } else {
           sidebar.classList.remove('collapsed');
           contentWrapper.classList.remove('expanded');
+          document.querySelector('.site-footer').classList.remove('expanded');
         }
 
         // Close sidebar when clicking outside on mobile
@@ -542,10 +558,12 @@
           if (window.innerWidth < 768) {
             sidebar.classList.add('collapsed');
             contentWrapper.classList.add('expanded');
+            document.querySelector('.site-footer').classList.add('expanded');
           } else {
             if (!sidebarCollapsed) {
               sidebar.classList.remove('collapsed');
               contentWrapper.classList.remove('expanded');
+              document.querySelector('.site-footer').classList.remove('expanded');
             }
           }
         });
