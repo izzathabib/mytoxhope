@@ -139,7 +139,7 @@ class RegisterController extends ShieldRegister
         // Save data to companies table
         $companyModel->save($companyData);
 
-        // Send email to admin PRN
+        // Send email to the user
         $email = \Config\Services::email();
         $email->setTo('muhdizat.h@gmail.com'); // Replace with your actual email address
         $email->setSubject('Test Email from CodeIgniter 4');
