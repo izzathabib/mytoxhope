@@ -141,7 +141,6 @@
         updateHiddenInput();
       });
 
-
       tag.appendChild(closeBtn);
       tagsContainer.appendChild(tag);
       tags.push(text);

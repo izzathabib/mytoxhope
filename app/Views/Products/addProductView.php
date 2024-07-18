@@ -135,7 +135,7 @@
     }
 
     function updateHiddenInput() {
-      hiddenInput.value = JSON.stringify(tags);
+      hiddenInput.value = hiddenInput.value = tags.join(', ');
     }
 
     const subtypeSelect = document.getElementById('subtype_household');
