@@ -113,10 +113,15 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+
+    const productData = <?= json_encode($productData) ?>; // Convert to JSON for safety
+    const activeIngredients = productData.active_ing || [];
+    const initialTags = activeIngredients.join(', ');; 
+    let tags = initialTags.split(', ');
+
     const input = document.getElementById('active_ing_input');
     const tagsContainer = document.getElementById('tags-container');
     const hiddenInput = document.getElementById('active_ing');
-    let tags = [];
 
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && this.value) {
