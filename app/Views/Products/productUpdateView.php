@@ -141,13 +141,14 @@
         updateHiddenInput();
       });
 
+
       tag.appendChild(closeBtn);
       tagsContainer.appendChild(tag);
       tags.push(text);
     }
 
     function updateHiddenInput() {
-      hiddenInput.value = JSON.stringify(tags);
+      hiddenInput.value = tags.join(', ');
     }
 
     const subtypeSelect = document.getElementById('subtype_household');
