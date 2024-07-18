@@ -93,7 +93,7 @@
         <div class="row mt-3">
           <div class="col-md-12 text-center">
             <button type="submit" value="Submit" class="btn btn-primary">Add Product</button>
-            <a href="<?= site_url('dashboard'); ?>" class="btn btn-secondary">Cancel</a>
+            <a href="<?= site_url('list-product'); ?>" class="btn btn-secondary">Cancel</a>
           </div>
         </div>
       </form>
@@ -142,53 +142,58 @@
     const subtypeSelect = document.getElementById('subtype_household');
     const otherSubtypeContainer = document.getElementById('other_subtype_container');
 
-    subtypeSelect.addEventListener('change', function() {
-    if (this.value === 'other') {
-      otherSubtypeContainer.style.display = 'block';
-    } else {
-      otherSubtypeContainer.style.display = 'none';
-    }
-  });
+    subtypeSelect.addEventListener('change', function () {
+      if (this.value === 'other') {
+        otherSubtypeContainer.style.display = 'block';
+      } else {
+        otherSubtypeContainer.style.display = 'none';
+      }
+    });
   });
 </script>
 <?= $this->endSection(); ?>
 
 <?= $this->section('styles') ?>
 <style>
+  .addprod-page {
+
+    background-color: #f8f9fa;
+  }
+
+  .addprod-container {
+    padding: 20px;
+    width: 95%;
+    margin: auto;
+  }
+
+  .addprod-card {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+  }
+
+  .card-body {
+    padding: 2rem;
+  }
+
+  @media (max-width: 576px) {
     .addprod-page {
-
-        background-color: #f8f9fa;
+      overflow-y: auto;
     }
+
     .addprod-container {
-        padding: 20px;
-        width: 95%;
-        margin: auto;
-    }
-    .addprod-card {
-        width: 100%;
-        max-width: 500px;
-        margin: auto;
-    }
-    .card-body {
-        padding: 2rem;
+      align-items: flex-start;
     }
 
-    @media (max-width: 576px) {
-      .addprod-page {
-        overflow-y: auto;
-      }  
-      .addprod-container {
-        align-items: flex-start;
-      }
-      .addprod-card {
-            max-width: 100%;
-            transform: none;
-            margin-top: 20px;
-        }
-        .card-body {
-            padding: 1.5rem;
-        }
+    .addprod-card {
+      max-width: 100%;
+      transform: none;
+      margin-top: 20px;
     }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+  }
 </style>
 <?= $this->endSection() ?>
-

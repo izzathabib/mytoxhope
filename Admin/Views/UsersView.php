@@ -23,14 +23,14 @@
           <div class="row">
 
             <div class="col">
-              <h4>User Information</h4>
+              <h4><i class="fa fa-info-circle"></i> User Information</h4>
             </div>
 
             <!-- Create user button -->
             <!-- Only for [superadmin,admin] -->
             <?php  if (auth()->user()->inGroup('superadmin','admin')) : ?>
             <div class="col-xl-1">
-                <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addNewUser'); ?>">Add User</a>
+                <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addNewUser'); ?>"><i class="fas fa-plus"></i> <b>Add User</b></a>
             </div>
             <?php endif; ?>
           </div>
