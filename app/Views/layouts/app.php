@@ -57,7 +57,8 @@
         margin-bottom: 1.5rem;
       }
 
-      html, body {
+      html,
+      body {
         margin: 0;
         padding: 0;
         height: 100%;
@@ -303,7 +304,8 @@
           transform: translateX(0);
         }
 
-        .content-wrapper, .site-footer {
+        .content-wrapper,
+        .site-footer {
           margin-left: 0 !important;
         }
       }
@@ -343,69 +345,69 @@
   </head>
 
   <body class="<?= $this->renderSection('bodyClass') ?>">
-  <div class="wrapper">
-    <div class="sticky-top">
-      <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-          <?php if(auth()->loggedIn()): ?>
-          <button id="sidebarToggle" class="btn btn-dark">
-            <i class="fas fa-bars"></i>
-          </button>
-          <?php endif; ?>
-          <!-- Logo -->
-          <a class="navbar-brand <?= !auth()->loggedIn() ? 'ms-3' : 'ms-5' ?>" href="<?= base_url(); ?>">
-            <img src="images/logo_pusat-racun.png" alt="Logo 1" width="180">
-            <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
-          </a>
+    <div class="wrapper">
+      <div class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <div class="container-fluid">
+            <?php if (auth()->loggedIn()): ?>
+              <button id="sidebarToggle" class="btn btn-dark">
+                <i class="fas fa-bars"></i>
+              </button>
+            <?php endif; ?>
+            <!-- Logo -->
+            <a class="navbar-brand <?= !auth()->loggedIn() ? 'ms-3' : 'ms-5' ?>" href="<?= base_url(); ?>">
+              <img src="images/logo_pusat-racun.png" alt="Logo 1" width="180">
+              <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
+            </a>
 
-          <!-- Navbar toggler for mobile view -->
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <!-- Nav items -->
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="<?= base_url(); ?>"><i class="fa-solid fa-house"></i> Home</a>
-              </li>
-              <!-- Dashboard link for logged in users -->
-              <?php if (auth()->loggedIn()): ?>
+            <!-- Navbar toggler for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Nav items -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i>
-                    Dashboard</a>
+                  <a class="nav-link" href="<?= base_url(); ?>"><i class="fa-solid fa-house"></i> Home</a>
                 </li>
-              <?php endif; ?>
-              <li class="nav-item">
-                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
-                  <i class="fa-solid fa-circle-exclamation"></i> About MyToxData
-                </a>
-              </li>
-              <!-- Check if user login -->
-              <?php if (auth()->loggedIn()): ?>
-                <li class="nav-item dropdown">
+                <!-- Dashboard link for logged in users -->
+                <?php if (auth()->loggedIn()): ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i>
+                      Dashboard</a>
+                  </li>
+                <?php endif; ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                    <i class="fa-solid fa-circle-exclamation"></i> About MyToxData
+                  </a>
+                </li>
+                <!-- Check if user login -->
+                <?php if (auth()->loggedIn()): ?>
+                  <li class="nav-item dropdown">
 
-                  <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
-                      class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
-                  </ul>
-                </li>
-              <?php else: ?>
-                <li class="nav-item">
-                  <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
-                </li>
-              <?php endif; ?>
-              <!-- End check user login part -->
-            </ul>
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
+                        class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Profile</a></li>
+                      <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
+                    </ul>
+                  </li>
+                <?php else: ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
+                  </li>
+                <?php endif; ?>
+                <!-- End check user login part -->
+              </ul>
+            </div>
+            <!-- End nav items -->
           </div>
-          <!-- End nav items -->
-        </div>
-      </nav>
-    </div>
-    <!-- End navigation bar -->
+        </nav>
+      </div>
+      <!-- End navigation bar -->
 
 
       <?php if (auth()->loggedIn()): ?>
@@ -434,12 +436,19 @@
             </li>
             <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
               <li>
-                <a href="<?= url_to('viewUser',) ?>"><i class="fa fa-list"></i> View Users</a>
+                <a href="#productSubmenu2" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                  <i class="fa fa-user"></i> Users Management
+                </a>
+                <ul class="collapse list-unstyled" id="productSubmenu2">
+                  <li>
+                    <a href="<?= url_to('viewUser') ?>"><i class="fa fa-list"></i> View Users</a>
+                  </li>
+                  <li>
+                    <a href="<?= url_to('addNewUser') ?>"><i class="fa fa-plus-circle"></i> Add New User</a>
+                  </li>
+                </ul>
               </li>
             <?php endif; ?>
-            <li>
-              <a href="#"><i class="fas fa-cog"></i> Settings</a>
-            </li>
             <li>
               <a href="<?= url_to('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
