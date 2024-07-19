@@ -89,7 +89,7 @@ class ProductsController extends BaseController
         $productModel = new Product();
         $productData = $productModel->find($id);
         if (is_string($productData['active_ing'])) {
-            $productData['active_ing'] = explode(',', $productData['active_ing']);
+            $productData['active_ing_array'] = explode(',', $productData['active_ing']);
         }
 
         return view('Products/productUpdateView',compact('title','productData'));

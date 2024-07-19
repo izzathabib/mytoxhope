@@ -45,8 +45,8 @@
                 <input type="text" id="active_ing_input" class="form-control"
                   placeholder="Type an ingredient and press Enter">
                 <div id="tags-container" class="tags-container">
-                  <?php if ($productData['active_ing']): ?>
-                    <?php foreach ($productData['active_ing'] as $data): ?>
+                  <?php if ($productData['active_ing_array']): ?>
+                    <?php foreach ($productData['active_ing_array'] as $data): ?>
                       <span class="tag">
                         <?= $data ?>
                         <span class="tag-close">&times;</span>
@@ -55,7 +55,7 @@
                   <?php endif; ?>
                 </div>
               </div>
-              <input type="hidden" id="active_ing" name="active_ing">
+              <input type="hidden" id="active_ing" name="active_ing" value="">
             </div>
 
             <!-- Inactive ingredient -->
@@ -123,13 +123,14 @@
   document.addEventListener('DOMContentLoaded', function () {
 
     const productData = <?= json_encode($productData) ?>; // Convert to JSON for safety
-    const activeIngredients = productData.active_ing || [];
-    const initialTags = activeIngredients.join(', ');;
+    const activeIngredients = productData.active_ing_array || [];
+    const initialTags = activeIngredients.join(', ');
     let tags = initialTags.split(', ');
 
     const input = document.getElementById('active_ing_input');
     const tagsContainer = document.getElementById('tags-container');
     const hiddenInput = document.getElementById('active_ing');
+    hiddenInput.value = tags;
 
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && this.value) {
