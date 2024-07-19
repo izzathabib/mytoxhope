@@ -9,13 +9,12 @@ use CodeIgniter\Shield\Entities\User;
 class Company extends Model
 {
     protected $table            = 'company';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'comp_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'user_id',
         'comp_reg_no',
         'comp_name',
         'comp_email',
