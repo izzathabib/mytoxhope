@@ -44,12 +44,7 @@ class RegisterController extends ShieldRegister
             return redirect()->to(config('Auth')->registerRedirect());
         }
 
-        # Check if registration is allowed
-        /*if (! setting('Auth.allowRegistration')) {
-            return redirect()->back()->withInput()
-                ->with('error', lang('Auth.registerDisabled'));
-        }*/
-
+        // Declare model being used
         $users = $this->getUserProvider();
         $companyModel = new Company();
 
@@ -76,11 +71,27 @@ class RegisterController extends ShieldRegister
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Save the user
+        // Save user in company table
+        $allowedPostFields = array_keys($rules);
+        $companyData       = $this->getUserEntity();
+        $companyData->fill($this->request->getPost($allowedPostFields));
+        $companyData->status = 'unverified';
+        $companyData->comp_email = $this->request->getPost('email');
+        $companyData->comp_admin = $this->request->getPost('username');
+
+        try {
+            $companyModel->save($companyData);
+        } catch (ValidationException $e) {
+            return redirect()->back()->withInput()->with('errors', $companyModel->errors());
+        }
+        $compId = $companyModel->getInsertID();
+
+        // Save the user in UserModel
         $allowedPostFields = array_keys($rules);
         $user              = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
         $user->status = 'unverified';
+        $user->comp_id = $compId;
         
 
         // Workaround for email only registration/login
@@ -125,19 +136,10 @@ class RegisterController extends ShieldRegister
 
         $authenticator->completeLogin($user);
 
-        // Part to save data to company table
-        //$companyModel = new Company();
-        $companyData = [
-            'user_id' => auth()->user()->id,
-            'comp_reg_no' => $this->request->getPost('comp_reg_no'),
-            'comp_name' => $this->request->getPost('comp_name'),
-            'comp_email' => $this->request->getPost('email'),
-            'comp_admin' => $this->request->getPost('username'),
-            'status' => 'unverified',
-        ];
+        
 
         // Save data to companies table
-        $companyModel->save($companyData);
+        
 
         // Send email to the user
         $email = \Config\Services::email();
