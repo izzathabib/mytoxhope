@@ -21,7 +21,12 @@ class Home extends BaseController
         $title = 'Dashboard';
 
         $currentUserId = auth()->user()->id;
-        $companyData = $this->db->query("SELECT * FROM company WHERE user_id = '$currentUserId' ")->getResult();
+        $companyData = $this->db->query(
+            "SELECT users.comp_id, company.comp_name 
+            FROM users
+            INNER JOIN company ON users.comp_id=company.id
+            WHERE users.id = $currentUserId;"
+        )->getResult();
 
         return view('dashboard', compact('title','companyData'));
     }
