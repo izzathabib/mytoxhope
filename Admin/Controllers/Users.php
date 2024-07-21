@@ -25,9 +25,14 @@ class Users extends BaseController
         $title = 'User List';
         $userModel = new UserModel();
 
-        // Get current user role
+        // Display all user if current user is superadmin
         if (auth()->user()->inGroup('superadmin')) {
-            $userData = $this->db->query("SELECT * FROM users")->getResult();
+            $userData = $this->db->query(
+                "SELECT users.*, company.*, identities.*
+                FROM users
+                INNER JOIN company ON users.comp_id=company.comp_id
+                INNER JOIN identities ON users.id=identities.user_id;"
+            )->getResult();
             return view('Admin\Views\UsersView',compact('title','userData'));
         }
 
