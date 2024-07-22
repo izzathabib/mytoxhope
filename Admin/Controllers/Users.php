@@ -82,9 +82,17 @@ class Users extends BaseController
 
     public function addNewUser() {
         $title = 'Add User';
-
         $companyModel = new Company();
-        $companyData = $companyModel->findAll();
+        $userModel = new UserModel();
+
+        // Superadmin will fetch all company
+        if (auth()->user()->inGroup('superadmin')) {
+            $companyData = $companyModel->findAll();
+        } else {
+            $currentUserId = $userModel->find(auth()->user()->id);
+            $currentUserComp = $currentUserId->comp_id;
+        }
+        $companyData = $companyModel->find($currentUserComp);
 
         return view('Admin\Views\AddNewUserView', compact('title', 'companyData'));
     }

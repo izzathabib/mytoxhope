@@ -29,8 +29,7 @@
             <?php else: ?>
               <div class="form-floating mb-3 w-100">
               <input type="text" class="form-control" name="comp_reg_no" placeholder="Company Register No"
-                value="<?= old('comp_reg_no') ?>" required>
-              <label for="comp_reg_no">Company Registration No</label>
+                value="<?= $companyData['comp_reg_no'] ?>" required disabled>
             </div>
             <?php endif; ?>
             <!-- -->
