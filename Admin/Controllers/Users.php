@@ -27,27 +27,27 @@ class Users extends BaseController
 
         // Display all user if current user is superadmin
         if (auth()->user()->inGroup('superadmin')) {
-            $userData = $this->db->query(
-                "SELECT users.*, company.*, identities.secret
-                FROM users
-                INNER JOIN company ON users.comp_id=company.comp_id
-                INNER JOIN identities ON users.id=identities.user_id;"
-            )->getResult();
+            $userData = $userModel
+            ->select('users.*, company.*, identities.secret') 
+            ->join('company', 'users.comp_id = company.comp_id')
+            ->join('identities', 'users.id = identities.user_id') 
+            ->get()
+            ->getResult();
             return view('Admin\Views\UsersView',compact('title','userData'));
         }
 
-        // Get current user company to fetch all user with the same current users company
+        // Get current user id
         $currentUserId = $userModel->find(auth()->user()->id);
-        // Get user company ID
+        // Get current user company ID
         $currentUserCompId = $currentUserId->comp_id;
 
-        // Get all user from UserModel with the same company
-        $userData = $this->db->query(
-            "SELECT users.*, company.*
-            FROM users
-            INNER JOIN company ON users.comp_id=company.comp_id
-            WHERE users.comp_id = $currentUserCompId;"
-        )->getResult();
+        $userData = $userModel
+            ->select('users.*, company.*, identities.secret') 
+            ->join('company', 'users.comp_id = company.comp_id')
+            ->join('identities', 'users.id = identities.user_id')
+            ->where('users.comp_id', $currentUserCompId) 
+            ->get()
+            ->getResult();
 
         return view('Admin\Views\UsersView',compact('title','userData'));
     }
