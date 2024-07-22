@@ -91,8 +91,8 @@ class Users extends BaseController
         } else {
             $currentUserId = $userModel->find(auth()->user()->id);
             $currentUserComp = $currentUserId->comp_id;
+            $companyData = $companyModel->find($currentUserComp);
         }
-        $companyData = $companyModel->find($currentUserComp);
 
         return view('Admin\Views\AddNewUserView', compact('title', 'companyData'));
     }
