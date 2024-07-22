@@ -83,7 +83,10 @@ class Users extends BaseController
     public function addNewUser() {
         $title = 'Add User';
 
-        return view('Admin\Views\AddNewUserView', compact('title'));
+        $companyModel = new Company();
+        $companyData = $companyModel->findAll();
+
+        return view('Admin\Views\AddNewUserView', compact('title', 'companyData'));
     }
 
     public function saveUser() {

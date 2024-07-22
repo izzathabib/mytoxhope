@@ -16,12 +16,24 @@
             <?= csrf_field() ?>
 
             <!-- Company Registration No -->
-            <div class="form-floating mb-3 w-100">
+            <!-- Dropdown input for superadmin -->
+            <?php if (auth()->user()->inGroup('superadmin')): ?>
+              <div class="form-group mb-4">
+              <select id="type_poison" name="type_poison" class="form-control">
+                <option value="Please select">Company Registration No</option>
+                <?php foreach($companyData as $data): ?>
+                  <option value="<?= $data['comp_reg_no'] ?>"><?= $data['comp_reg_no'] ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <?php else: ?>
+              <div class="form-floating mb-3 w-100">
               <input type="text" class="form-control" name="comp_reg_no" placeholder="Company Register No"
                 value="<?= old('comp_reg_no') ?>" required>
               <label for="comp_reg_no">Company Registration No</label>
             </div>
-            <!---->
+            <?php endif; ?>
+            <!-- -->
 
             <!-- Company Name -->
             <div class="form-floating mb-3 w-100">
