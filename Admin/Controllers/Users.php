@@ -28,7 +28,7 @@ class Users extends BaseController
         // Display all user if current user is superadmin
         if (auth()->user()->inGroup('superadmin')) {
             $userData = $this->db->query(
-                "SELECT users.*, company.*, identities.*
+                "SELECT users.*, company.*, identities.secret
                 FROM users
                 INNER JOIN company ON users.comp_id=company.comp_id
                 INNER JOIN identities ON users.id=identities.user_id;"
@@ -36,37 +36,48 @@ class Users extends BaseController
             return view('Admin\Views\UsersView',compact('title','userData'));
         }
 
-        // Get current user data from userModel
-        $adminData = $userModel->find(auth()->user()->id);
+        // Get current user company to fetch all user with the same current users company
+        $currentUserId = $userModel->find(auth()->user()->id);
+        // Get user company ID
+        $currentUserCompId = $currentUserId->comp_id;
 
-        // Get user  comp_reg_no
-        $adminCompRegNo = $adminData->comp_reg_no;
-
-        // Get all user from UserModel with the same comp_reg_no
-        $userData = $this->db->query("SELECT * FROM users WHERE comp_reg_no = '$adminCompRegNo' ")->getResult();
+        // Get all user from UserModel with the same company
+        $userData = $this->db->query(
+            "SELECT users.*, company.*
+            FROM users
+            INNER JOIN company ON users.comp_id=company.comp_id
+            WHERE users.comp_id = $currentUserCompId;"
+        )->getResult();
 
         return view('Admin\Views\UsersView',compact('title','userData'));
     }
 
     public function verifyUser($id) {
 
-        $userModel = new UserModel();
-        $userData = $userModel->find($id);
+        $userData = $this->db->query(
+            "SELECT users.*, company.*
+            FROM users
+            INNER JOIN company ON users.comp_id=company.comp_id
+            WHERE users.id = $id;"
+        )->getResult();
 
-        $userData->status = 'verified';
-
-        // Update data in users table
-        $userModel->update($id, $userData);
-
-        // Update data in company table as well
-        $companyModel = new Company();
-        $companyData = $companyModel->where('user_id', $id)->first();
-        $companyData['status'] = 'verified';
-        $companyModel->update($companyData['id'], $companyData);
-
-        if ($userModel) {
-            return redirect()->to(base_url('Admin/users'));
+        if (empty($userData)) {
+            // Handle case where no user found with the ID
+            return redirect()->to(base_url('Admin/users')); // Or display error message
         }
+
+        $compId = isset($userData[0]->comp_id) ? $userData[0]->comp_id : null;
+
+        if ($compId) {
+            $companyData = [
+                'status' => 'verified', // Replace with actual field and value
+            ];
+            $this->db->table('company')
+                ->where('comp_id', $compId)
+                ->update($companyData);
+        }
+        
+        return redirect()->to(base_url('Admin/users'));
     }
 
     public function addNewUser() {

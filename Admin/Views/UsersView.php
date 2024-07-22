@@ -62,7 +62,7 @@
                       <?php foreach ($userData as $data): ?>
                         <tr>
                           <td><?= $data->username; ?></td>
-                          <td><?= $data->secret; ?></td>
+                          <td><?= 'KIV' ?></td>
                           <!-- If current user is Admin PRN & Company Admin -->
                           <?php if (auth()->user()->inGroup('superadmin')): ?>
                             <td><?= $data->comp_name; ?></td>
