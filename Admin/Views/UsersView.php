@@ -28,11 +28,9 @@
 
             <!-- Create user button -->
             <!-- Only for [superadmin,admin] -->
-            <?php  if (auth()->user()->inGroup('superadmin','admin')) : ?>
             <div class="col-xl-1">
                 <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addNewUser'); ?>"><i class="fas fa-plus"></i> <b>Add User</b></a>
             </div>
-            <?php endif; ?>
           </div>
           
           </div>
