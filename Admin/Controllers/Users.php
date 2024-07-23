@@ -99,21 +99,30 @@ class Users extends BaseController
 
     public function saveUser() {
 
+        // Declare object for Model
         $users = $this->getUserProvider();
+        $companyModel = new Company();
 
-        // Validate here first, since some things,
-        // like the password, can only be validated properly here.
+        // Validation rule
         $rules = $this->getValidationRules();
 
+        // If validation fail return back to the addUser page 
         /*if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }*/
+
+        // Get user company registration number from user input
+        $compRegNum = $this->request->getPost('comp_reg_no');
+        // Get company ID
+        $compId = $companyModel->where('comp_reg_no', $compRegNum)->first();
 
         // Save the user
         $allowedPostFields = array_keys($rules);
         $user              = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
-        $user->status = 'verified';
+        $user->comp_id = $compId['comp_id'];
+        // Fetch user role from user input
+        $role = [$this->request->getPost('role')];
 
         # Save data to users table
         try {
@@ -126,7 +135,7 @@ class Users extends BaseController
         $user = $users->findById($users->getInsertID());
 
         // Add to user group
-        $user->addGroup('user');
+        $user->syncGroups(...$role);
 
         Events::trigger('register', $user);
 

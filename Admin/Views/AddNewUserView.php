@@ -25,32 +25,36 @@
                   <option value="<?= $data['comp_reg_no'] ?>"><?= $data['comp_reg_no'] ?></option>
                 <?php endforeach; ?>
               </select>
-            </div>
+              </div>
             <!-- Disabled input for company admin -->
             <?php else: ?>
               <div class="form-floating mb-3 w-100">
-              <input type="text" class="form-control" name="comp_reg_no"
+              <input type="text" class="form-control" name="comp_reg_no" id="comp_reg_no" 
                 value="<?= $companyData['comp_reg_no'] ?>" required disabled>
-            </div>
+              <input type="hidden" class="form-control" name="comp_reg_no" id="comp_reg_no" 
+              value="<?= $companyData['comp_reg_no'] ?>" required> 
+              </div>
             <?php endif; ?>
             <!-- -->
 
             <!-- Company Name -->
             <!-- Dropdown input for superadmin -->
             <?php if (auth()->user()->inGroup('superadmin')): ?>
-              <div class="form-group mb-4">
+              <div class="form-floating mb-3 w-100">
               <select id="comp_name" name="comp_name" class="form-control">
                 <option value="Please select">Company Name</option>
                 <?php foreach($companyData as $data): ?>
                   <option value="<?= $data['comp_name'] ?>"><?= $data['comp_name'] ?></option>
                 <?php endforeach; ?>
               </select>
-            </div>
+              </div>
             <!-- Disabled input for company admin -->
             <?php else: ?>
               <div class="form-floating mb-3 w-100">
               <input type="text" class="form-control" name="comp_name" 
                 value="<?= $companyData['comp_name'] ?>" required disabled>
+              <input type="hidden" class="form-control" name="comp_name" 
+              value="<?= $companyData['comp_name'] ?>" required>
             </div>
             <?php endif; ?>
             <!---->
@@ -68,6 +72,18 @@
               <input type="email" class="form-control" id="floatingEmailInput" name="email" inputmode="email"
                 autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>
               <label for="floatingEmailInput">Email</label>
+            </div>
+
+            <!-- Role -->
+            <div class="form-floating mb-3 w-100">
+            <select id="role" name="role" class="form-control">
+              <option value="Please select">User Role</option>
+              <?php if (auth()->user()->inGroup('superadmin')): ?>
+                <option value="superadmin">Admin PRN</option>
+              <?php endif; ?>
+              <option value="admin">Admin Company</option>
+              <option value="user">Staff Company</option>
+            </select>
             </div>
 
             <!-- Password -->
