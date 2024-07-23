@@ -27,7 +27,6 @@
             </div>
 
             <!-- Create user button -->
-            <!-- Only for [superadmin,admin] -->
             <div class="col-xl-1">
                 <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addNewUser'); ?>"><i class="fas fa-plus"></i> <b>Add User</b></a>
             </div>
@@ -67,7 +66,15 @@
                             <td><?= $data->comp_name; ?></td>
                             <td><?= $data->comp_reg_no; ?></td>
                           <?php endif; ?>
-                          <td><?= $data->group; ?></td>
+                          <td>
+                            <?php if ($data->group == 'superadmin') : ?>
+                              ADMIN PUSAT RACUN 
+                            <?php elseif($data->group == 'admin'): ?>
+                              Admin
+                            <?php else: ?>
+                              Staff
+                            <?php endif; ?>
+                          </td>
                           <?php if (auth()->user()->inGroup('superadmin')): ?>
                             <?php if ($data->status == 'unverified') : ?>
                               <td>
