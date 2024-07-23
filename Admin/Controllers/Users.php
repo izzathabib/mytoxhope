@@ -28,9 +28,10 @@ class Users extends BaseController
         // Display all user if current user is superadmin
         if (auth()->user()->inGroup('superadmin')) {
             $userData = $userModel
-            ->select('users.*, company.*, identities.secret') 
+            ->select('users.*, company.*, identities.secret, groups_users.group') 
             ->join('company', 'users.comp_id = company.comp_id')
-            ->join('identities', 'users.id = identities.user_id') 
+            ->join('identities', 'users.id = identities.user_id')
+            ->join('groups_users', 'users.id = groups_users.user_id') 
             ->get()
             ->getResult();
             return view('Admin\Views\UsersView',compact('title','userData'));
@@ -42,9 +43,10 @@ class Users extends BaseController
         $currentUserCompId = $currentUserId->comp_id;
 
         $userData = $userModel
-            ->select('users.*, company.*, identities.secret') 
+            ->select('users.*, company.*, identities.secret, groups_users.group') 
             ->join('company', 'users.comp_id = company.comp_id')
             ->join('identities', 'users.id = identities.user_id')
+            ->join('groups_users', 'users.id = groups_users.user_id') 
             ->where('users.comp_id', $currentUserCompId) 
             ->get()
             ->getResult();

@@ -45,17 +45,18 @@
                   style="width:100%">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>E-mail</th>
-                      <?php if (auth()->user()->inGroup('superadmin')): ?>
-                        <th>Company Name</th>
-                        <th>Company Registration No</th>
-                        <th>Status</th>
-                      <?php endif; ?>
-                      <?php if (auth()->user()->inGroup('superadmin','admin')): ?>
+                        <th>Name</th>
+                        <th>E-mail</th>
+                        <?php if (auth()->user()->inGroup('superadmin')): ?>
+                          <th>Company Name</th>
+                          <th>Company Registration No</th>
+                        <?php endif; ?>
+                          <th>Role</th>
+                        <?php if (auth()->user()->inGroup('superadmin')): ?>
+                          <th>Status</th>
+                        <?php endif; ?>
                         <th style="width: 90px;">Action</th>
-                      <?php endif; ?>
-                    </tr>
+                      </tr>
                   </thead>
                   <tbody>
                     <?php if (!empty($userData)): ?>
@@ -67,30 +68,29 @@
                           <?php if (auth()->user()->inGroup('superadmin')): ?>
                             <td><?= $data->comp_name; ?></td>
                             <td><?= $data->comp_reg_no; ?></td>
+                          <?php endif; ?>
+                          <td><?= $data->group; ?></td>
+                          <?php if (auth()->user()->inGroup('superadmin')): ?>
                             <?php if ($data->status == 'unverified') : ?>
                               <td>
                                 <!-- Form section to update status value in users table -->
                                 <form method="POST" action="<?= url_to('verifyUser', $data->id); ?>">
                                   <button type="submit" value="Submit" class="btn btn-primary btn-sm">Verify</button>
                                 </form>
-                                
                               </td>
                             <?php elseif ($data->status == 'verified'): ?>
                               <td><?= 'Verified'; ?></td>
                             <?php endif; ?>
                           <?php endif; ?>
-                          <!-- Display action button for Admin PRN and Admin company -->
-                          <?php if (auth()->user()->inGroup('superadmin','admin')): ?>
-                            <td>
-                            <button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle nav-item dropdown" data-bs-toggle="dropdown" aria-expanded="true">
-                            Action
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Edit</a>
-                                <a class="dropdown-item" href="#">Delete</a>
-                              </div>
-                            </button>
-                            </td>
-                          <?php endif; ?>
+                          <td>
+                          <button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle nav-item dropdown" data-bs-toggle="dropdown" aria-expanded="true">
+                          Action
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="#">Edit</a>
+                              <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                          </button>
+                          </td>
                         </tr>
                       <?php endforeach; ?>
                     <?php else: ?>
@@ -106,12 +106,12 @@
                       <?php if (auth()->user()->inGroup('superadmin')): ?>
                         <th>Company Name</th>
                         <th>Company Registration No</th>
+                      <?php endif; ?>
+                        <th>Role</th>
+                      <?php if (auth()->user()->inGroup('superadmin')): ?>
                         <th>Status</th>
-                        
                       <?php endif; ?>
-                      <?php if (auth()->user()->inGroup('superadmin','admin')): ?>
-                        <th style="width: 90px;">Action</th>
-                      <?php endif; ?>
+                      <th style="width: 90px;">Action</th>
                     </tr>
                   </tfoot>
             </table>
