@@ -48,7 +48,6 @@ class RegisterController extends ShieldRegister
         $users = $this->getUserProvider();
         $companyModel = new Company();
 
-
         $comp_reg_no = $this->request->getPost('comp_reg_no');
 
         # Check if registration is allowed
@@ -58,7 +57,7 @@ class RegisterController extends ShieldRegister
 
         // Action if the comp_reg_no already exists
         if ($existingUser) {
-            $error = "A user with the same Company Registration Number already exists. For assistance, please contact ".$existingUser['comp_admin'];
+            $error = "A user with the same Company Registration Number already exists. For assistance, please contact ".$existingUser['comp_admin']."  (".$existingUser['comp_email'].")";
             return redirect()->back()->withInput()
             ->with('error', $error);
         }
@@ -92,13 +91,11 @@ class RegisterController extends ShieldRegister
         $user->fill($this->request->getPost($allowedPostFields));
         $user->status = 'unverified';
         $user->comp_id = $compId;
-        
 
         // Workaround for email only registration/login
         if ($user->username === null) {
             $user->username = null;
         }
-
 
         # Save data to users table
         try {
@@ -109,9 +106,6 @@ class RegisterController extends ShieldRegister
 
         // To get the complete user object with ID, we need to get from the database
         $user = $users->findById($users->getInsertID());
-
-
-        
 
         // Add to default group
         $users->addToDefaultGroup($user);
@@ -132,14 +126,7 @@ class RegisterController extends ShieldRegister
         // Set the user active
         $user->activate();
 
-        
-
         $authenticator->completeLogin($user);
-
-        
-
-        // Save data to companies table
-        
 
         // Send email to the user
         $email = \Config\Services::email();

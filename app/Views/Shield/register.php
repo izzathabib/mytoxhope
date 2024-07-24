@@ -59,7 +59,7 @@
                             <input type="email" class="form-control" id="floatingEmailInput" name="email"
                                 inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
                                 value="<?= old('email') ?>" required>
-                            <label for="floatingEmailInput">Company Email</label>
+                            <label for="floatingEmailInput">Email</label>
                         </div>
 
                         <!-- Password -->

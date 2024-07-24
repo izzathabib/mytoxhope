@@ -46,7 +46,7 @@ class Validation extends BaseConfig
             'label' => 'Company Registration No',
             'rules' => [
                 'required',
-                'is_unique[users.comp_reg_no]',
+                'is_unique[company.comp_reg_no]',
                 'max_length[30]',
                 'min_length[3]',
             ],
