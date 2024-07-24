@@ -31,6 +31,9 @@
               <thead>
                 <tr>
                   <th>#</th>
+                  <?php if(auth()->user()->inGroup('superadmin')): ?>
+                    <th>Company</th>
+                  <?php endif; ?>
                   <th>Brand</th>
                   <th>Product Name</th>
                   <th>Inactive Ingredients</th>
@@ -46,16 +49,22 @@
                 <?php foreach ($productData as $data): ?>
                 <tr>
                   <td>1</td>
+                  <?php if(auth()->user()->inGroup('superadmin')): ?>
+                    <td><?= $data->comp_name; ?></td>
+                  <?php endif; ?>
                   <td><?= $data->brand_name; ?></td>
                   <td><?= $data->product_name; ?></td>
                   <td><?= $data->inactive_ing; ?></td>
                   <td><?= $data->active_ing; ?></td>
-
                   <td><?= $data->prod_status; ?></td>
                   <td><?= date('d-m-Y', strtotime($data->created_at)); ?></td>
                   <td><?= date('d-m-Y', strtotime($data->updated_at)); ?></td>
                   <td>
-                    <a class="btn btn-primary btn-sm btn-flat" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
+                    <?php if($data->prod_status=='Active'): ?>
+                      <a class="btn btn-primary btn-sm btn-flat" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
+                    <?php else: ?>
+                      <a class="btn btn-primary btn-sm btn-flat" href="<?= url_to('productDiscontinue', $data->id); ?>">View</a>
+                    <?php endif; ?>
                   </td>
                 </tr>
                 <?php endforeach; ?>

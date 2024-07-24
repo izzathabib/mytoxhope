@@ -54,6 +54,7 @@
         <a class="btn btn-danger" href="#">Delete</a>
       </div>
     </div>
+    
   </div>
 </div>
   

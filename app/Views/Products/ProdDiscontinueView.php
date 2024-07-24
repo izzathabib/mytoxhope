@@ -53,6 +53,12 @@
       </div>
     </div>
 
+    <!-- Button -->
+    <div class="row mt-3">
+      <div class="col-md-12 text-center">
+        <a class="btn btn-danger" href="#">Delete</a>
+      </div>
+    </div>
     
   </div>
 </div>

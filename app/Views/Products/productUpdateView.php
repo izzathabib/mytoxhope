@@ -87,17 +87,17 @@
               <label for="subtype_household">Subtype of Household / Consumer Product</label>
               <select id="subtype_household" name="subtype_household" class="form-control">
                 <option value="Please select" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Please select' ? 'selected' : '' ?>>Please select</option>
-                <option value="agricultural" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'agricultural' ? 'selected' : '' ?>>Agricultural/Garden</option>
-                <option value="environment" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'environment' ? 'selected' : '' ?>>Environmental Contaminant
+                <option value="Agricultural/Garden" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Agricultural/Garden' ? 'selected' : '' ?>>Agricultural/Garden</option>
+                <option value="Environmental Contaminant" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Environmental Contaminant' ? 'selected' : '' ?>>Environmental Contaminant
                 </option>
-                <option value="household" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'household' ? 'selected' : '' ?>>Household/Leisure</option>
-                <option value="industrial" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'industrial' ? 'selected' : '' ?>>Industrial/Commercial</option>
-                <option value="agents" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'agents' ? 'selected' : '' ?>>Mixture of Agents</option>
-                <option value="toxin" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'toxin' ? 'selected' : '' ?>>Natural Toxin</option>
-                <option value="pharmaceutical" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'pharmaceutical' ? 'selected' : '' ?>>Pharmaceutical</option>
-                <option value="pesticide" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'pesticide' ? 'selected' : '' ?>>Pesticide</option>
-                <option value="substance" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'substance' ? 'selected' : '' ?>>Substance of Abuse</option>
-                <option value="unknown" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'unknown' ? 'selected' : '' ?>>Unknown Function</option>
+                <option value="Household/Leisure" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Household/Leisure' ? 'selected' : '' ?>>Household/Leisure</option>
+                <option value="Industrial/Commercial" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Industrial/Commercial' ? 'selected' : '' ?>>Industrial/Commercial</option>
+                <option value="Mixture of Agents" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Mixture of Agents' ? 'selected' : '' ?>>Mixture of Agents</option>
+                <option value="Natural Toxin" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Natural Toxin' ? 'selected' : '' ?>>Natural Toxin</option>
+                <option value="Pharmaceutical" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Pharmaceutical' ? 'selected' : '' ?>>Pharmaceutical</option>
+                <option value="Pesticide" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Pesticide' ? 'selected' : '' ?>>Pesticide</option>
+                <option value="Substance of Abuse" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Substance of Abuse' ? 'selected' : '' ?>>Substance of Abuse</option>
+                <option value="Unknown Function" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'Unknown Function' ? 'selected' : '' ?>>Unknown Function</option>
                 <option value="other" <?php echo isset($productData['subtype_household']) && $productData['subtype_household'] == 'other' ? 'selected' : '' ?>>Other (Please describe)</option>
               </select>
             </div>

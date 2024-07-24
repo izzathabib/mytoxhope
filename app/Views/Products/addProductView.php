@@ -9,6 +9,23 @@
       <form method="POST" action="<?= url_to('saveProdDetail'); ?>" enctype="multipart/form-data">
         <div class="row">
           <div class="col-md-6">
+
+            <!-- Select company option for superadmin -->
+            <?php if (auth()->user()->inGroup('superadmin')): ?>
+              <div class="form-group mb-4">
+              <label for="comp_name">Select Company</label>
+              <select id="comp_name" name="comp_name" class="form-control">
+                <option value="Please select">Please select</option>
+                <?php foreach($companyData as $data): ?>
+                  <option value="<?= $data['comp_id'] ?>"><?= $data['comp_name'] ?></option>
+                <?php endforeach; ?>
+              </select>
+              </div>
+            <?php else: ?>
+              <input type="hidden" class="form-control" name="comp_name" 
+              value="<?= $companyData['comp_id'] ?>" required>
+            <?php endif; ?>
+
             <!-- Product Name -->
             <div class="form-group mb-4">
               <label for="product_name">Product Name</label>
@@ -69,16 +86,16 @@
               <label for="subtype_household">Subtype of Household / Consumer Product</label>
               <select id="subtype_household" name="subtype_household" class="form-control">
                 <option value="Please select">Please select</option>
-                <option value="agricultural">Agricultural/Garden</option>
-                <option value="environment">Environmental Contaminant</option>
-                <option value="household">Household/Leisure</option>
-                <option value="industrial">Industrial/Commercial</option>
-                <option value="agents">Mixture of Agents</option>
-                <option value="toxin">Natural Toxin</option>
-                <option value="pharmaceutical">Pharmaceutical</option>
-                <option value="pesticide">Pesticide</option>
-                <option value="substance">Substance of Abuse</option>
-                <option value="unknown">Unknown Function</option>
+                <option value="Agricultural/Garden">Agricultural/Garden</option>
+                <option value="Environmental Contaminant">Environmental Contaminant</option>
+                <option value="Household/Leisure">Household/Leisure</option>
+                <option value="Industrial/Commercial">Industrial/Commercial</option>
+                <option value="Mixture of Agents">Mixture of Agents</option>
+                <option value="Natural Toxin">Natural Toxin</option>
+                <option value="Pharmaceutical">Pharmaceutical</option>
+                <option value="Pesticide">Pesticide</option>
+                <option value="Substance of Abuse">Substance of Abuse</option>
+                <option value="Unknown Function">Unknown Function</option>
                 <option value="other">Other (Please describe)</option>
               </select>
             </div>

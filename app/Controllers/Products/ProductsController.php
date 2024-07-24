@@ -5,6 +5,8 @@ namespace App\Controllers\Products;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Products\Product;
+use App\Models\UserModel;
+use App\Models\Company;
 
 class ProductsController extends BaseController
 {
@@ -14,22 +16,43 @@ class ProductsController extends BaseController
 
     public function addProduct() {
         $title = 'Add product';
+        $companyModel = new Company();
+
+        if (auth()->user()->inGroup('superadmin')) {
+            $companyData = $companyModel->where('status','verified')->findAll();
+        } else {
+            $companyData = $companyModel->where('comp_id',auth()->user()->comp_id)->first();
+        }
         
-        return view('Products/addProductView',compact('title'));
+        return view('Products/addProductView',compact('title', 'companyData'));
     }
 
     public function productList() {
         $title = 'Product List';
+        $productModel = new Product();
+        $userModel = new UserModel();
 
-        // Get current user role
+        // Superadmin will see product from all company
         if (auth()->user()->inGroup('superadmin')) {
-            $productData = $this->db->query("SELECT * FROM products")->getResult();
+            $productData = $productModel
+            ->select('products.*, company.comp_name') 
+            ->join('company', 'products.comp_id = company.comp_id')
+            ->get()
+            ->getResult();
             return view('Products/productListView',compact('title','productData'));
         }
 
-        $currentUserId = auth()->user()->id;
+        // Get current user id
+        $currentUserId = $userModel->find(auth()->user()->id);
+        // Get current user company ID
+        $currentUserCompId = $currentUserId->comp_id;
 
-        $productData = $this->db->query("SELECT * FROM products WHERE user_id = '$currentUserId'")->getResult();
+        $productData = $productModel
+            ->select('products.*, company.comp_name') 
+            ->join('company', 'products.comp_id = company.comp_id')
+            ->where('products.comp_id', $currentUserCompId) 
+            ->get()
+            ->getResult();
 
         return view('Products/productListView', compact('title','productData'));
     }
@@ -57,10 +80,9 @@ class ProductsController extends BaseController
         $msds = $this->request->getFile('msds');
         $msds->move('public/assets/documents');
 
-
         // Fetch data for each of the field
         $productData = [
-            "user_id" => auth()->user()->id,
+            "comp_id" => $this->request->getPost('comp_name'),
             "product_name" => $this->request->getPost('product_name'),
             "product_image" => $product_image->getClientName(),
             "type_poison" => $this->request->getPost('type_poison'),
@@ -130,12 +152,8 @@ class ProductsController extends BaseController
             $msdsName = $oldMsds;
         }
 
-        // Check for active ingredient input there 
-
-
         // Fetch data for each of the field
         $productData = [
-            "user_id" => auth()->user()->id,
             "product_name" => $this->request->getPost('product_name'),
             "product_image" => $imageName,
             "type_poison" => $this->request->getPost('type_poison'),
@@ -149,7 +167,6 @@ class ProductsController extends BaseController
 
         // Save $model data to database
         $productModel->update($id, $productData);
-
 
         // Check if the data have been save
         if ($productModel) {
