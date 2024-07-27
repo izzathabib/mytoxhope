@@ -6,7 +6,8 @@
   <h4 class="text-left" style="margin-left: 40px;"><b>Register New Product</b></h4>
   <div class="card shadow-sm addprod-container">
     <div class="card-body">
-      <form method="POST" action="<?= url_to('saveProdDetail'); ?>" enctype="multipart/form-data">
+      
+      <form method="POST" action="<?= url_to('saveProdDetail'); ?>" enctype="multipart/form-data" class="needs-validation">
         <div class="row">
           <div class="col-md-6">
 
@@ -14,57 +15,89 @@
             <?php if (auth()->user()->inGroup('superadmin')): ?>
               <div class="form-group mb-4">
               <label for="comp_name">Select Company</label>
-              <select id="comp_name" name="comp_name" class="form-control">
+              <select value="<?= old('comp_name') ?>" id="comp_name" name="comp_name" class="form-select" required >
                 <option value="Please select">Please select</option>
                 <?php foreach($companyData as $data): ?>
-                  <option value="<?= $data['comp_id'] ?>"><?= $data['comp_name'] ?></option>
+                  <option value="<?= $data['comp_name'] ?>"><?= $data['comp_name'] ?></option>
                 <?php endforeach; ?>
               </select>
+              <!-- Error message -->
+              <?php if(isset(session('errors')['comp_name'])): ?>
+                <div class="invalid-feedback"><?= session('errors')['comp_name'] ?></div>
+              <?php endif ?>
+              <!-- Error message -->
               </div>
             <?php else: ?>
-              <input type="hidden" class="form-control" name="comp_name" 
+              <input type="hidden" class="form-control" name="comp_id" 
               value="<?= $companyData['comp_id'] ?>" required>
             <?php endif; ?>
 
             <!-- Product Name -->
             <div class="form-group mb-4">
               <label for="product_name">Product Name</label>
-              <input type="text" id="product_name" name="product_name" class="form-control">
+              <input value="<?= old('product_name') ?>" type="text" id="product_name" name="product_name" class="form-control" required>
+              <!-- Error message -->
+              <?php if(isset(session('errors')['product_name'])): ?>
+                <div class="invalid-feedback"><?= session('errors')['product_name'] ?></div>
+              <?php endif ?>
+              <!-- Error message -->
             </div>
 
             <!-- Product Image -->
             <div class="form-group mb-4">
               <label for="product_image">Product Image</label>
-              <input type="file" id="product_image" name="product_image" class="form-control">
+              <input value="<?= old('product_image') ?>" type="file" id="product_image" name="product_image" class="form-control" required >
+              <!-- Error message -->
+              <?php if (session('image') !== null): ?>
+                <div class="invalid-feedback"><?= session('image') ?></div>
+              <?php elseif (isset(session('errors')['product_image'])): ?>
+                <div class="invalid-feedback"><?= session('errors')['product_image'] ?></div>
+              <?php endif ?>
+              <!-- Error message -->
             </div>
+            
 
             <!-- Type of Poison -->
             <div class="form-group mb-4">
               <label for="type_poison">Type of Poison</label>
-              <select id="type_poison" name="type_poison" class="form-control">
+              <select value="<?= old('type_poison') ?>" id="type_poison" name="type_poison" class="form-select" required >
                 <option value="Please select">Please select</option>
                 <option value="List 1">List 1</option>
                 <option value="List 2">List 2</option>
                 <option value="List 3">List 3</option>
               </select>
+              <!-- Error message -->
+              <?php if(isset(session('errors')['type_poison'])): ?>
+                <div class="invalid-feedback"><?= session('errors')['type_poison'] ?></div>
+              <?php endif ?>
+              <!-- Error message -->
             </div>
 
             <!-- Active ingredient -->
-            <!-- Active ingredient -->
-            <div class="form-group mb-4">
+            <div class="form-group mb-4 ">
               <label for="active_ing">Active Ingredient/ Chemical Name</label>
-              <div class="tag-input">
+              <div class="tag-input ">
                 <input type="text" id="active_ing_input" class="form-control"
                   placeholder="Type an ingredient and press Enter">
+                <!-- Error message -->
+                <?php if(isset(session('errors')['active_ing'])): ?>
+                  <div class="invalid-feedback"><?= session('errors')['active_ing'] ?></div>
+                <?php endif ?>
+                <!-- Error message -->
                 <div id="tags-container" class="tags-container"></div>
               </div>
-              <input type="hidden" id="active_ing" name="active_ing">
+              <input value="<?= old('active_ing') ?>" type="hidden" id="active_ing" name="active_ing" required >
             </div>
 
             <!-- Inactive ingredient -->
             <div class="form-group mb-4">
               <label for="inactive_ing">Inactive Ingredients</label>
-              <textarea id="inactive_ing" name="inactive_ing" class="form-control"></textarea>
+              <textarea value="<?= old('inactive_ing') ?>" id="inactive_ing" name="inactive_ing" class="form-control" required></textarea>
+              <!-- Error message -->
+              <?php if(isset(session('errors')['inactive_ing'])): ?>
+                <div class="invalid-feedback"><?= session('errors')['inactive_ing'] ?></div>
+              <?php endif ?>
+              <!-- Error message -->
             </div>
           </div>
 
@@ -72,19 +105,31 @@
             <!-- Brand Name -->
             <div class="form-group mb-4">
               <label for="brand_name">Brand Name</label>
-              <input type="text" id="brand_name" name="brand_name" class="form-control">
+              <input value="<?= old('brand_name') ?>" type="text" id="brand_name" name="brand_name" class="form-control" required>
+              <!-- Error message -->
+              <?php if(isset(session('errors')['brand_name'])): ?>
+                <div class="invalid-feedback"><?= session('errors')['brand_name'] ?></div>
+              <?php endif ?>
+              <!-- Error message -->
             </div>
 
             <!-- Product MSDS -->
             <div class="form-group mb-4">
               <label for="msds">Product MSDS</label>
-              <input type="file" id="msds" name="msds" class="form-control">
+              <input value="<?= old('msds') ?>" type="file" id="msds" name="msds" class="form-control" required>
+              <!-- Error message -->
+              <?php if (session('msds') !== null): ?>
+                <div class="invalid-feedback"><?= session('msds') ?></div>
+              <?php elseif (isset(session('errors')['msds'])): ?>
+                <div class="invalid-feedback"><?= session('errors')['msds'] ?></div>
+              <?php endif ?>
+              <!-- Error message -->
             </div>
 
             <!-- Subtype of Household / Consumer Product -->
             <div class="form-group mb-4">
               <label for="subtype_household">Subtype of Household / Consumer Product</label>
-              <select id="subtype_household" name="subtype_household" class="form-control">
+              <select value="<?= old('subtype_household') ?>" id="subtype_household" name="subtype_household" class="form-select" required >
                 <option value="Please select">Please select</option>
                 <option value="Agricultural/Garden">Agricultural/Garden</option>
                 <option value="Environmental Contaminant">Environmental Contaminant</option>
@@ -98,6 +143,11 @@
                 <option value="Unknown Function">Unknown Function</option>
                 <option value="other">Other (Please describe)</option>
               </select>
+              <!-- Error message -->
+              <?php if(isset(session('errors')['subtype_household'])): ?>
+                <div class="invalid-feedback"><?= session('errors')['subtype_household'] ?></div>
+              <?php endif ?>
+              <!-- Error message -->
             </div>
             <div id="other_subtype_container" class="form-group mb-4" style="display: none;">
               <label for="other_subtype">Please describe:</label>

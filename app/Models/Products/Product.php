@@ -39,7 +39,18 @@ class Product extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules      = [
+        'comp_id' => 'required',
+        'product_name' => 'required',
+        'product_image' => 'required',
+        'type_poison' => 'required',
+        'active_ing' => 'required',
+        'inactive_ing' => 'required',
+        'brand_name' => 'required',
+        'msds' => 'required',
+        'subtype_household' => 'required',
+        'prod_status' => 'required',
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;

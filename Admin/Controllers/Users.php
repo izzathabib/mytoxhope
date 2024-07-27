@@ -68,6 +68,7 @@ class Users extends BaseController
             return redirect()->to(base_url('Admin/users')); // Or display error message
         }
 
+        # Update company status based on comp_id from users table
         $compId = isset($userData[0]->comp_id) ? $userData[0]->comp_id : null;
 
         if ($compId) {

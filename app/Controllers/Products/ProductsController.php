@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Products\Product;
 use App\Models\UserModel;
 use App\Models\Company;
+use RuntimeException;
 
 class ProductsController extends BaseController
 {
@@ -69,20 +70,78 @@ class ProductsController extends BaseController
     }
 
     public function saveProdDetail() {
-        // Declare instances for model
-        $productModel = new Product();
 
+        # Validate file input first
         // Get image from user uploaded file
         $product_image = $this->request->getFile('product_image');
+        // Validate file
+        if (!$product_image->isValid()) {
+            $error_code = $product_image->getError();
+            if ($error_code === UPLOAD_ERR_NO_FILE) {
+                return redirect()->back()->withInput()
+                ->with('image', 'No file selected');
+            }
+            throw new RuntimeException($product_image->getErrorString().''.$error_code);
+        }
+        // Restrict file type to only receive image
+        if ( !in_array($product_image->getMimeType(), ['image/png', 'image/jpeg'])) {
+            return redirect()->back()->withInput()
+                ->with('image', 'Invalid file format');
+        }
+        // Store image
         $product_image->move('public/assets/images/product');
+
 
         // Get msds from user uploaded file
         $msds = $this->request->getFile('msds');
+        // Validate file
+        if (!$msds->isValid()) {
+            $error_code = $msds->getError();
+            if ($error_code === UPLOAD_ERR_NO_FILE) {
+                return redirect()->back()->withInput()
+                ->with('msds', 'No file selected');
+            }
+            throw new RuntimeException($msds->getErrorString().''.$error_code);
+        }
+        // Restrict file type to only receive image
+        if ( !in_array($msds->getMimeType(), ['image/png', 'image/jpeg', 'application/pdf'])) {
+            return redirect()->back()->withInput()
+                ->with('msds', 'Invalid file format');
+        }
+        // Store document
         $msds->move('public/assets/documents');
+
+        # Validate another input
+        /*$rules = [
+            'comp_name' => 'required',
+            'product_name' => 'required',
+            'type_poison' => 'required',
+            'active_ing' => 'required',
+            'inactive_ing' => 'required',
+            'brand_name' => 'required',
+            'subtype_household' => 'required',
+        ];
+        
+        if (! $this->validateData($this->request->getPost(array_keys($rules)), $rules)) {
+            $errors = $this->validator->getErrors();
+            return redirect()->back()->withInput()->with('errors', $errors);
+        }*/
+
+        // Declare company model
+        $companyModel = new Company();
+
+        if (auth()->user()->inGroup('superadmin')) {
+            // Fetch company ID based on company name
+            $compName = $this->request->getPost('comp_name');
+            $compData = $companyModel->where('comp_name', $compName)->first();
+            $compId = $compData['comp_id'];
+        } else {
+            $compId = $this->request->getPost('comp_id');
+        }
 
         // Fetch data for each of the field
         $productData = [
-            "comp_id" => $this->request->getPost('comp_name'),
+            "comp_id" => $compId,
             "product_name" => $this->request->getPost('product_name'),
             "product_image" => $product_image->getClientName(),
             "type_poison" => $this->request->getPost('type_poison'),
@@ -94,9 +153,13 @@ class ProductsController extends BaseController
             "prod_status" => 'Active',
         ];
 
+        // Declare instances for model
+        $productModel = new Product();
+
         // Save $model data to database
         $productModel->save($productData);
 
+        // Get new product insert ID
         $id = $productModel->insertID();
 
         // Check if the data have been save
