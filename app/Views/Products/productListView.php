@@ -68,7 +68,7 @@
                             <a class="btn btn-danger  btn-sm text-center" href="<?= url_to('approveDelete', $data->id); ?>">Approve</a>
                           </div>
                           <div class="col-6">
-                            <a class="btn btn-secondary  btn-sm text-center" href="">Reject</a>
+                            <a class="btn btn-secondary  btn-sm text-center" href="<?= url_to('rejectDelete', $data->id); ?>">Reject</a>
                           </div>
                         </div>
                       </td>

@@ -25,6 +25,7 @@ $routes->get('product-discontinue/(:num)', 'Products\ProductsController::product
 $routes->post('product-delete/(:num)', 'Products\ProductsController::productDelete/$1', ['as' => 'productDelete']);
 $routes->get('display-prod-disconDelete/(:num)', 'Products\ProductsController::displayDisconDeleteProd/$1', ['as' => 'displayDisconDeleteProd']);
 $routes->get('approve-delete/(:num)', 'Products\ProductsController::approveDelete/$1', ['as' => 'approveDelete']);
+$routes->get('reject-delete/(:num)', 'Products\ProductsController::rejectDelete/$1', ['as' => 'rejectDelete']);
 
 
 

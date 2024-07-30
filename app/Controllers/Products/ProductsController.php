@@ -390,4 +390,20 @@ class ProductsController extends BaseController
         ];*/
     }
     
+    public function rejectDelete($id) {
+        $productModel = new Product();
+        $delReqModel = new DeleteRequest();
+
+        $productData = $productModel->find($id);
+        $productData['prod_status'] = 'Active';
+        $productModel->update($id,$productData);
+        
+
+        $deleteRequestData = $delReqModel->where('prod_id', $productData['id'])->first();
+        $delReqModel->delete($deleteRequestData['id']);
+
+        return redirect()->to(base_url('list-product'));
+
+    }
+
 }
