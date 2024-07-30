@@ -257,6 +257,7 @@ class ProductsController extends BaseController
                 ->get()
                 ->getResult();
 
+
         return view('Products/ProdDiscontinueView',compact('title','productData'));
 
     }
@@ -310,16 +311,26 @@ class ProductsController extends BaseController
 
     public function displayDisconDeleteProd($id) {
         $productModel = new Product();
-
         
         $title = 'Product Detail';
-        //dd($productData);
-        $productData = $productModel
+        $product = $productModel->find($id);
+        $productStatus = $product['prod_status'];
+
+        // Using different query to fetch data for prod_status ('Discontinued' and 'To Be Deleted')
+        if ($productStatus=='Discontinued') {
+            $productData = $productModel
+            ->select('products.*') 
+            ->where('products.id',$id)
+            ->get()
+            ->getResult();
+        } else {
+            $productData = $productModel
                 ->select('products.*, delete_requests.reason_deletion') 
                 ->join('delete_requests', 'products.id = delete_requests.prod_id')
                 ->where('products.id',$id)
                 ->get()
                 ->getResult();
+        }
 
         return view('Products/ProdDiscontinueView',compact('title','productData'));
     }
