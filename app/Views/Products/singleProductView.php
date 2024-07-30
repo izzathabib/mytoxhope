@@ -56,7 +56,7 @@
       </div>
 
       <div id="deleteConfirmation" style="display: none;" class="mt-3">
-        <form id="deleteForm" action="" method="POST">
+        <form id="deleteForm" action="<?= url_to('productDelete',$productData['id']); ?>" method="POST">
           <div class="mb-3">
             <label for="deleteReason" class="form-label"><b>Please provide a reason for product deletion:</b></label>
             <textarea class="form-control" id="deleteReason" name="deleteReason" placeholder="Enter reason here..." rows="3" required></textarea>

@@ -21,7 +21,12 @@ $routes->post('save-prod-detail', 'Products\ProductsController::saveProdDetail',
 $routes->get('display-prod-detail/(:num)', 'Products\ProductsController::displayProdDetail/$1', ['as' => 'displayProdDetail']);
 $routes->get('product-update/(:num)', 'Products\ProductsController::productUpdate/$1', ['as' => 'productUpdate']);
 $routes->post('save-update-detail/(:num)', 'Products\ProductsController::saveUpdateDetail/$1', ['as' => 'saveUpdateDetail']);
-$routes->get('display-prod-discontinue/(:num)', 'Products\ProductsController::displayProdDiscontinue/$1', ['as' => 'productDiscontinue']);
+$routes->get('product-discontinue/(:num)', 'Products\ProductsController::productDiscontinue/$1', ['as' => 'productDiscontinue']);
+$routes->post('product-delete/(:num)', 'Products\ProductsController::productDelete/$1', ['as' => 'productDelete']);
+$routes->get('display-prod-disconDelete/(:num)', 'Products\ProductsController::displayDisconDeleteProd/$1', ['as' => 'displayDisconDeleteProd']);
+$routes->get('approve-delete/(:num)', 'Products\ProductsController::approveDelete/$1', ['as' => 'approveDelete']);
+
+
 
 
 

@@ -3,6 +3,8 @@
 namespace App\Controllers\Products;
 
 use App\Controllers\BaseController;
+use App\Models\Products\DeleteProduct;
+use App\Models\Products\DeleteRequest;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Products\Product;
 use App\Models\UserModel;
@@ -237,7 +239,7 @@ class ProductsController extends BaseController
         }
     }
 
-    public function displayProdDiscontinue($id) {
+    public function productDiscontinue($id) {
 
         $title = 'Product Discontinued';
         $productModel = new Product();
@@ -249,6 +251,115 @@ class ProductsController extends BaseController
 
         return view('Products/ProdDiscontinueView',compact('title','productData'));
 
+    }
+
+    public function productDelete($id) {
+
+        $title = 'To Be Deleted';
+
+        // Model used
+        $productModel = new Product();
+        $delProdModel = new DeleteProduct();
+        $delReqModel = new DeleteRequest();
+        
+        // Get the product detail from products table
+        $productData = $productModel->find($id);
+
+        # If prodcut is currently active, deletion of the product need to be approved by Admin PRN
+        if ($productData['prod_status']=='Active') {
+            if (auth()->user()->inGroup('admin','user')) {
+
+                $productData['prod_status'] = 'To Be Deleted';
+                $productModel->update($id,$productData);
+                // Fetch data that eed to be stored in delete_requests table
+                $deleteProduct = [
+                    'prod_id' => $id,
+                    'reason_deletion' => $this->request->getPost('deleteReason'),
+                ];
+                $delReqModel->save($deleteProduct);
+                return view('Products/ProdDiscontinueView',compact('title','productData','deleteProduct'));
+
+            } else { 
+
+                // Insert all product data to delete_products table
+                $delProdModel->insert($productData);
+                // Delete product from products table
+                $productModel->delete($id);
+
+                return redirect()->to(base_url('list-product'));
+            }
+            
+        } else { // If product status is currently 'Discontinued' it will straight away delete
+            // Insert all product data to delete_products table
+            $delProdModel->insert($productData);
+            // Delete product from products table
+            $productModel->delete($id);
+
+            return redirect()->to(base_url('list-product'));
+        }
+
+    }
+
+    public function displayDisconDeleteProd($id) {
+        $productModel = new Product();
+
+        
+        $title = 'Product Detail';
+        //dd($productData);
+        $productData = $productModel
+                ->select('products.*, delete_requests.reason_deletion') 
+                ->join('delete_requests', 'products.id = delete_requests.prod_id')
+                ->where('products.id',$id)
+                ->get()
+                ->getResult();
+
+        return view('Products/ProdDiscontinueView',compact('title','productData'));
+    }
+
+    public function approveDelete($id) {
+        // Model used
+        $productModel = new Product();
+        $delProdModel = new DeleteProduct();
+        $delReqModel = new DeleteRequest();
+        
+        // Get the product detail from associate table
+        $productData = $productModel
+        ->select('products.*, delete_requests.reason_deletion') 
+        ->join('delete_requests', 'products.id = delete_requests.prod_id')
+        ->where('products.id',$id)
+        ->get()
+        ->getResult();
+
+        // Fetch delete product data to insert
+        foreach ($productData as $data) {
+            $deleteProduct = [
+                'comp_id' => $data->comp_id,
+                'product_name' => $data->product_name,
+                'product_image' => $data->product_image,
+                'type_poison' => $data->type_poison,
+                'active_ing' => $data->active_ing,
+                'inactive_ing' => $data->inactive_ing,
+                'brand_name' => $data->brand_name,
+                'msds' => $data->msds,
+                'subtype_household' => $data->subtype_household,
+                'reason_deletion' => $data->reason_deletion,
+            ];
+        }
+        
+        $delProdModel->save($deleteProduct);
+
+        // Delete product from products and delete_requests table
+        $productModel->delete($id);
+
+        return redirect()->to(base_url('list-product'));
+
+        /*$productData = $productModel->find($id);
+        $delReqData = $delReqModel->where('prod_id',$id)->first();
+        $delReason = $delReqData['reason_deletion'];
+
+        $deleteProduct = [
+            'comp_id' => 
+        ];*/
     }
     
 }

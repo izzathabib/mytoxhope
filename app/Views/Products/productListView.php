@@ -46,9 +46,10 @@
               </thead>
               <tbody>
               <?php if (!empty($productData)): ?>
+                <?php $i = 1; ?>
                 <?php foreach ($productData as $data): ?>
                 <tr>
-                  <td>1</td>
+                  <td><?= $i++; ?></td>
                   <?php if(auth()->user()->inGroup('superadmin')): ?>
                     <td><?= $data->comp_name; ?></td>
                   <?php endif; ?>
@@ -56,14 +57,34 @@
                   <td><?= $data->product_name; ?></td>
                   <td><?= $data->inactive_ing; ?></td>
                   <td><?= $data->active_ing; ?></td>
-                  <td><?= $data->prod_status; ?></td>
+                  <?php if($data->prod_status=='To Be Deleted'): ?>
+                    <?php if(auth()->user()->inGroup('superadmin')) : ?>
+                      <td>
+                        <div class="row alert alert-danger small text-center p-1 m-1">
+                          <div class="col-12">Delete Request</div>
+                        </div>
+                        <div class="row p-1 m-1  text-center">
+                          <div class="col-6">
+                            <a class="btn btn-danger  btn-sm text-center" href="<?= url_to('approveDelete', $data->id); ?>">Approve</a>
+                          </div>
+                          <div class="col-6">
+                            <a class="btn btn-secondary  btn-sm text-center" href="">Reject</a>
+                          </div>
+                        </div>
+                      </td>
+                    <?php else: ?>
+                      <td><?= $data->prod_status; ?></td>
+                    <?php endif; ?>
+                  <?php else: ?>
+                    <td><?= $data->prod_status; ?></td>
+                  <?php endif; ?>
                   <td><?= date('d-m-Y', strtotime($data->created_at)); ?></td>
                   <td><?= date('d-m-Y', strtotime($data->updated_at)); ?></td>
                   <td>
                     <?php if($data->prod_status=='Active'): ?>
-                      <a class="btn btn-primary btn-sm btn-flat" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
+                      <a class="btn btn-primary btn-sm" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
                     <?php else: ?>
-                      <a class="btn btn-primary btn-sm btn-flat" href="<?= url_to('productDiscontinue', $data->id); ?>">View</a>
+                      <a class="btn btn-primary btn-sm" href="<?= url_to('displayDisconDeleteProd', $data->id); ?>">View</a>
                     <?php endif; ?>
                   </td>
                 </tr>
