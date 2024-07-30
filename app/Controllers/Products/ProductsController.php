@@ -244,10 +244,18 @@ class ProductsController extends BaseController
         $title = 'Product Discontinued';
         $productModel = new Product();
 
-        $productData = $productModel->find($id);
+        $product = $productModel->find($id);
 
-        $productData['prod_status'] = 'Discontinued';
-        $productModel->update($id, $productData); 
+        $product['prod_status'] = 'Discontinued';
+        $productModel->update($id, $product);
+        
+        /* Need to fetch again using the same method as in displayDisconDeleteProd() function 
+        to ensure all the data can be display on ProdDiscontinueView */
+        $productData = $productModel
+                ->select('products.*') 
+                ->where('products.id',$id)
+                ->get()
+                ->getResult();
 
         return view('Products/ProdDiscontinueView',compact('title','productData'));
 
