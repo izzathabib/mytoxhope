@@ -286,7 +286,16 @@ class ProductsController extends BaseController
                     'reason_deletion' => $this->request->getPost('deleteReason'),
                 ];
                 $delReqModel->save($deleteProduct);
-                return view('Products/ProdDiscontinueView',compact('title','productData','deleteProduct'));
+
+                //Fetch product data using products table
+                $productData = $productModel
+                ->select('products.*, delete_requests.reason_deletion') 
+                ->join('delete_requests', 'products.id = delete_requests.prod_id')
+                ->where('products.id',$id)
+                ->get()
+                ->getResult();
+
+                return view('Products/ProdDiscontinueView',compact('title','productData'));
 
             } else { 
 
@@ -325,11 +334,11 @@ class ProductsController extends BaseController
             ->getResult();
         } else {
             $productData = $productModel
-                ->select('products.*, delete_requests.reason_deletion') 
-                ->join('delete_requests', 'products.id = delete_requests.prod_id')
-                ->where('products.id',$id)
-                ->get()
-                ->getResult();
+            ->select('products.*, delete_requests.reason_deletion') 
+            ->join('delete_requests', 'products.id = delete_requests.prod_id')
+            ->where('products.id',$id)
+            ->get()
+            ->getResult();
         }
 
         return view('Products/ProdDiscontinueView',compact('title','productData'));
