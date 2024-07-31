@@ -18,8 +18,8 @@
             <!-- Company Registration No -->
             <!-- Dropdown input for superadmin -->
             <?php if (auth()->user()->inGroup('superadmin')): ?>
-              <div class="form-group mb-4">
-              <select id="type_poison" name="comp_reg_no" class="form-control">
+              <div class="form-floating mb-3 w-100">
+              <select id="type_poison" name="comp_reg_no" class="form-select" required >
                 <option value="Please select">Company Registration No</option>
                 <?php foreach($companyData as $data): ?>
                   <option value="<?= $data['comp_reg_no'] ?>"><?= $data['comp_reg_no'] ?></option>
@@ -41,7 +41,7 @@
             <!-- Dropdown input for superadmin -->
             <?php if (auth()->user()->inGroup('superadmin')): ?>
               <div class="form-floating mb-3 w-100">
-              <select id="comp_name" name="comp_name" class="form-control">
+              <select id="comp_name" name="comp_name" class="form-select" required>
                 <option value="Please select">Company Name</option>
                 <?php foreach($companyData as $data): ?>
                   <option value="<?= $data['comp_name'] ?>"><?= $data['comp_name'] ?></option>
@@ -76,7 +76,7 @@
 
             <!-- Role -->
             <div class="form-floating mb-3 w-100">
-            <select id="role" name="role" class="form-control">
+            <select id="role" name="role" class="form-select" required>
               <option value="Please select">User Role</option>
               <?php if (auth()->user()->inGroup('superadmin')): ?>
                 <option value="superadmin">Admin PRN</option>

@@ -88,13 +88,11 @@
                             <?php endif; ?>
                           <?php endif; ?>
                           <td>
-                          <button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle nav-item dropdown" data-bs-toggle="dropdown" aria-expanded="true">
-                          Action
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#">Edit</a>
-                              <a class="dropdown-item" href="#">Delete</a>
-                            </div>
-                          </button>
+                            <div class="dropdown-toggle btn btn-outline-primary btn-sm" role="button" data-bs-toggle="dropdown">Action</div>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="<?= url_to('editUser', $data->id); ?>">Edit</a></li>
+                              <li><a class="dropdown-item" href="#">Delete</a></li>
+                            </ul>
                           </td>
                         </tr>
                       <?php endforeach; ?>

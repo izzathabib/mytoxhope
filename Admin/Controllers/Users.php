@@ -110,9 +110,9 @@ class Users extends BaseController
         $rules = $this->getValidationRules();
 
         // If validation fail return back to the addUser page 
-        /*if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }*/
+        }
 
         // Get user company registration number from user input
         $compRegNum = $this->request->getPost('comp_reg_no');
@@ -207,5 +207,62 @@ class Users extends BaseController
     protected function getUserEntity(): User
     {
         return new User();
+    }
+
+    public function editUser($id) {
+        $title = 'Edit User';
+
+        $userModel = new UserModel();
+
+        $userData = $userModel
+        ->select('users.*, company.*, identities.secret, groups_users.group') 
+        ->join('company', 'users.comp_id = company.comp_id')
+        ->join('identities', 'users.id = identities.user_id')
+        ->join('groups_users', 'users.id = groups_users.user_id') 
+        ->where('users.id', $id) 
+        ->get()
+        ->getResult();
+        //dd($userData);
+
+        return view('Admin\Views\editUserView', compact('title','userData'));
+    }
+
+    public function saveEditUser($id) {
+        // Declare object for Model
+        $userModel = $this->getUserProvider();
+
+        // Validation rule
+        $rules = $this->getValidationRules();
+
+        // If validation fail return back to the addUser page 
+        /*if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }*/
+
+        $userData = [
+            'username' => $this->request->getPost('username'),
+            'email' => $this->request->getPost('email')
+        ];
+        
+        // Find the user to be edited
+        $user = $userModel->find($id);
+        if (!$user) {
+            // Handle user not found
+            return redirect()->back()->with('error', 'User not found');
+        }
+        
+        // Update user data
+        $user->fill($userData);
+        
+        $role = [$this->request->getPost('role')];
+        $user->syncGroups(...$role);
+        
+        // Save the updated user
+        try {
+            $userModel->save($user);
+            return redirect()->to('Admin/users');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withInput();
+        }
     }
 }

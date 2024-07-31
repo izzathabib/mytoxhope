@@ -28,8 +28,7 @@
             <!-- Type of Poison -->
             <div class="form-group mb-4">
               <label for="type_poison">Type of Poison</label>
-              <select id="type_poison" name="type_poison" class="form-control"
-                value="<?= $productData['product_name'] ?>">
+              <select id="type_poison" name="type_poison" class="form-control">
                 <option value="Please select" <?php echo isset($productData['type_poison']) && $productData['type_poison'] == 'Please select' ? 'selected' : '' ?>>Please select</option>
                 <option value="List 1" <?php echo isset($productData['type_poison']) && $productData['type_poison'] == 'List 1' ? 'selected' : '' ?>>List 1</option>
                 <option value="List 2" <?php echo isset($productData['type_poison']) && $productData['type_poison'] == 'List 2' ? 'selected' : '' ?>>List 2</option>
