@@ -62,15 +62,10 @@
         margin: 0;
         padding: 0;
         height: 100%;
+        padding-top: 0;
       }
 
       /* navbar css */
-      .sticky-top {
-        position: sticky;
-        top: 0;
-        z-index: 1020;
-      }
-
       .navbar-nav .nav-link {
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
@@ -82,6 +77,19 @@
 
       .navbar {
         background-color: #2c3034 !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+        transition: margin-left 0.3s, width 0.3s;
+        width: calc(100% - 250px);
+        margin-left: 250px;
+      }
+
+      .navbar.expanded {
+        width: 100%;
+        margin-left: 0;
       }
 
       .nav-link i {
@@ -240,6 +248,10 @@
         padding-top: 20px;
       }
 
+      .content-wrapper:not(.no-sidebar) {
+        margin-left: 250px;
+      }
+
       .sidebar.collapsed {
         transform: translateX(-250px);
       }
@@ -269,9 +281,9 @@
         display: flex;
         flex-direction: column;
         padding: 0;
-        margin-top: -60px;
-        padding-top: 60px;
-        padding-bottom: 60px;
+        margin-top: 70px;
+        padding-top: 40px;
+        padding-bottom: 40px;
         overflow-y: auto;
       }
 
@@ -281,6 +293,19 @@
 
       .content-wrapper.no-sidebar {
         margin-left: 0 !important;
+      }
+
+      /* Style for logged out state */
+      body:not(.logged-in) .content-wrapper {
+        margin-left: 0;
+        margin-top: 70px;
+        /* Adjust this value to match your navbar height */
+      }
+
+      /* Adjust navbar for logged out state */
+      body:not(.logged-in) .navbar {
+        width: 100%;
+        margin-left: 0;
       }
 
       /* Toggle button styles */
@@ -330,7 +355,7 @@
 
         .navbar-brand {
           margin-left: 4rem;
-          /* Adjust this value to move logo right on larger screens */
+          /* Value to move logo right on larger screens */
         }
       }
 
@@ -353,7 +378,7 @@
     <?= $this->renderSection('styles') ?>
   </head>
 
-  <body class="<?= $this->renderSection('bodyClass') ?>">
+  <body class="<?= $this->renderSection('bodyClass') ?> <?= auth()->loggedIn() ? 'logged-in' : '' ?>">
     <div class="wrapper">
       <?php if (auth()->loggedIn()): ?>
         <div class="sidebar sidebar-dark-primary" id="sidebar">
@@ -405,67 +430,65 @@
 
       <!-- Content Section -->
       <div class="content-wrapper <?= !auth()->loggedIn() ? 'no-sidebar' : '' ?>">
-        <div class="sticky-top">
-          <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-              <?php if (auth()->loggedIn()): ?>
-                <button id="sidebarToggle" class="btn btn-dark">
-                  <i class="fas fa-bars"></i>
-                </button>
-              <?php endif; ?>
-              <!-- Logo -->
-              <a class="navbar-brand <?= !auth()->loggedIn() ? 'ms-3' : 'ms-5' ?>" href="<?= base_url(); ?>">
-                <img src="images/logo_pusat-racun.png" alt="Logo 1" width="180">
-                <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
-              </a>
-
-              <!-- Navbar toggler for mobile view -->
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <div class="container-fluid">
+            <?php if (auth()->loggedIn()): ?>
+              <button id="sidebarToggle" class="btn btn-dark">
+                <i class="fas fa-bars"></i>
               </button>
-              <!-- Nav items -->
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                    <a class="nav-link" href="<?= base_url(); ?>"><i class="fa-solid fa-house"></i> Home</a>
-                  </li>
-                  <!-- Dashboard link for logged in users -->
-                  <?php if (auth()->loggedIn()): ?>
-                    <li class="nav-item">
-                      <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i>
-                        Dashboard</a>
-                    </li>
-                  <?php endif; ?>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
-                      <i class="fa-solid fa-circle-exclamation"></i> About MyToxHope
-                    </a>
-                  </li>
-                  <!-- Check if user login -->
-                  <?php if (auth()->loggedIn()): ?>
-                    <li class="nav-item dropdown">
+            <?php endif; ?>
+            <!-- Logo -->
+            <a class="navbar-brand <?= !auth()->loggedIn() ? 'ms-3' : 'ms-5' ?>" href="<?= base_url(); ?>">
+              <img src="images/logo_pusat-racun.png" alt="Logo 1" width="180">
+              <img src="images/mytoxhope-white.png" alt="Logo 2" width="100">
+            </a>
 
-                      <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
-                          class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
-                      </ul>
-                    </li>
-                  <?php else: ?>
-                    <li class="nav-item">
-                      <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
-                    </li>
-                  <?php endif; ?>
-                  <!-- End check user login part -->
-                </ul>
-              </div>
-              <!-- End nav items -->
+            <!-- Navbar toggler for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Nav items -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="<?= base_url(); ?>"><i class="fa-solid fa-house"></i> Home</a>
+                </li>
+                <!-- Dashboard link for logged in users -->
+                <?php if (auth()->loggedIn()): ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i>
+                      Dashboard</a>
+                  </li>
+                <?php endif; ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                    <i class="fa-solid fa-circle-exclamation"></i> About MyToxHope
+                  </a>
+                </li>
+                <!-- Check if user login -->
+                <?php if (auth()->loggedIn()): ?>
+                  <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
+                        class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Profile</a></li>
+                      <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
+                    </ul>
+                  </li>
+                <?php else: ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
+                  </li>
+                <?php endif; ?>
+                <!-- End check user login part -->
+              </ul>
             </div>
-          </nav>
-        </div>
+            <!-- End nav items -->
+          </div>
+        </nav>
         <!-- End navigation bar -->
         <div class="content container-fluid mt-0">
           <?= $this->renderSection('content'); ?>
@@ -494,7 +517,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="aboutModalLabel">About MyToxData</h5>
+            <h5 class="modal-title" id="aboutModalLabel">About MyToxHope</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -535,11 +558,13 @@
         const sidebar = document.getElementById('sidebar');
         const contentWrapper = document.querySelector('.content-wrapper');
         const sidebarToggle = document.getElementById('sidebarToggle');
+        const navbar = document.querySelector('.navbar');
 
         function toggleSidebar() {
           sidebar.classList.toggle('collapsed');
           contentWrapper.classList.toggle('expanded');
           document.querySelector('.site-footer').classList.toggle('expanded');
+          navbar.classList.toggle('expanded');
           localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
         }
 
@@ -567,20 +592,44 @@
           }
         });
 
-        // Adjust sidebar on window resize
-        window.addEventListener('resize', function () {
-          if (window.innerWidth < 768) {
+        // Update initial state and resize handler
+        function updateLayout() {
+          if (window.innerWidth < 768 || sidebar.classList.contains('collapsed')) {
             sidebar.classList.add('collapsed');
             contentWrapper.classList.add('expanded');
             document.querySelector('.site-footer').classList.add('expanded');
+            navbar.classList.add('expanded'); // Add expanded class to navbar
           } else {
-            if (!sidebarCollapsed) {
-              sidebar.classList.remove('collapsed');
-              contentWrapper.classList.remove('expanded');
-              document.querySelector('.site-footer').classList.remove('expanded');
+            sidebar.classList.remove('collapsed');
+            contentWrapper.classList.remove('expanded');
+            document.querySelector('.site-footer').classList.remove('expanded');
+            navbar.classList.remove('expanded'); // Remove expanded class from navbar
+          }
+        }
+
+        // Call updateLayout on page load and resize
+        updateLayout();
+        window.addEventListener('resize', updateLayout);
+
+        // Function to update layout based on login state
+        function updateLayoutForLoginState() {
+          const body = document.body;
+          const contentWrapper = document.querySelector('.content-wrapper');
+          const navbar = document.querySelector('.navbar');
+
+          if (!body.classList.contains('logged-in')) {
+            contentWrapper.classList.add('no-sidebar');
+            navbar.classList.add('expanded');
+          } else {
+            contentWrapper.classList.remove('no-sidebar');
+            if (!sidebar.classList.contains('collapsed')) {
+              navbar.classList.remove('expanded');
             }
           }
-        });
+        }
+
+        // Call this function on page load
+        updateLayoutForLoginState();
 
         // Initial state on page load for mobile
         if (window.innerWidth < 768) {
@@ -594,6 +643,7 @@
         $('#aboutVideo').attr('src', '');
       });
 
+      // Embedded video in the modal 
       $('#aboutModal').on('show.bs.modal', function () {
         $('#aboutVideo').attr('src', 'https://www.youtube.com/embed/9ZNK-bKv5tI?si=t3FSmLKbOQfK4UhL');
       });
