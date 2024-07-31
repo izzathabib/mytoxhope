@@ -31,7 +31,8 @@ class Users extends BaseController
             ->select('users.*, company.*, identities.secret, groups_users.group') 
             ->join('company', 'users.comp_id = company.comp_id')
             ->join('identities', 'users.id = identities.user_id')
-            ->join('groups_users', 'users.id = groups_users.user_id') 
+            ->join('groups_users', 'users.id = groups_users.user_id')
+            ->where('users.deleted_at', null) 
             ->get()
             ->getResult();
             return view('Admin\Views\UsersView',compact('title','userData'));
@@ -47,7 +48,8 @@ class Users extends BaseController
             ->join('company', 'users.comp_id = company.comp_id')
             ->join('identities', 'users.id = identities.user_id')
             ->join('groups_users', 'users.id = groups_users.user_id') 
-            ->where('users.comp_id', $currentUserCompId) 
+            ->where('users.comp_id', $currentUserCompId)
+            ->where('users.deleted_at', null) 
             ->get()
             ->getResult();
 
@@ -269,5 +271,12 @@ class Users extends BaseController
         } catch (ValidationException $e) {
             return redirect()->back()->withInput();
         }
+    }
+
+    public function deleteUser($id) {
+        $userModel = new UserModel();
+        $userModel->delete($id);
+        //dd($id);
+        return redirect()->to('Admin/users');
     }
 }

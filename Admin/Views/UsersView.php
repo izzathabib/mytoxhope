@@ -91,8 +91,35 @@
                             <div class="dropdown-toggle btn btn-outline-primary btn-sm" role="button" data-bs-toggle="dropdown">Action</div>
                             <ul class="dropdown-menu">
                               <li><a class="dropdown-item" href="<?= url_to('editUser', $data->id); ?>">Edit</a></li>
-                              <li><a class="dropdown-item" href="#">Delete</a></li>
+                              <li><a class="dropdown-item" href="<?= url_to('deleteUser', $data->id); ?>" data-bs-toggle="modal" data-bs-target="#myModal">Delete</a></li>
+                              
                             </ul>
+                            <!-- The Modal -->
+                              <div class="modal fade" id="myModal">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">Confirmation!</h4>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                      Are you sure to delete this user?
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                    <form method="POST" action="<?= url_to('deleteUser', $data->id); ?>">
+                                      <button type="submit" value="Submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                    <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
                           </td>
                         </tr>
                       <?php endforeach; ?>
