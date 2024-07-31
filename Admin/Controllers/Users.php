@@ -110,9 +110,9 @@ class Users extends BaseController
         $rules = $this->getValidationRules();
 
         // If validation fail return back to the addUser page 
-        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+        /*if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
+        }*/
 
         // Get user company registration number from user input
         $compRegNum = $this->request->getPost('comp_reg_no');
@@ -232,11 +232,16 @@ class Users extends BaseController
         $userModel = $this->getUserProvider();
 
         // Validation rule
-        $rules = $this->getValidationRules();
+        /*$rules = [
+            'username' => 'required|max_length[30]|min_length[3]|is_unique[users.username]',
+            'email' => 'required|max_length[254]|valid_email|is_unique[identities.secret]'
+                
+        ];
 
         // If validation fail return back to the addUser page 
-        /*if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        if (! $this->validateData($this->request->getPost(array_keys($rules)), $rules)) {
+            $errors = $this->validator->getErrors();
+            return redirect()->back()->withInput()->with('errors', $errors);
         }*/
 
         $userData = [
