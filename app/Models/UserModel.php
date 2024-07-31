@@ -19,7 +19,7 @@ class UserModel extends ShieldUserModel
         ];
     }
 
-    
+    protected $useSoftDeletes = false;
 
     
 }
