@@ -378,6 +378,7 @@
                 </li>
               </ul>
             </li>
+            <!-- User Management -->
             <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
               <li>
                 <a href="#productSubmenu2" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
@@ -392,10 +393,15 @@
                   </li>
                 </ul>
               </li>
+            <?php endif; ?>
+            <!-- / -->
+            <!-- Company Management -->
+            <?php if (auth()->user()->inGroup('superadmin')): ?>
               <li>
-                <a href=""><i class="fa fa-building"></i> Company Management</a>
+                <a href="<?= url_to('viewCompany') ?>"><i class="fa fa-building"></i> Company Management</a>
               </li>
             <?php endif; ?>
+            <!-- / -->
             <li>
               <a href="<?= url_to('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
