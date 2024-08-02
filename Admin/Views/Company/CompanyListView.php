@@ -72,13 +72,9 @@
                             <!-- Edit button -->
                             <div class="text-center">
                               <button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data['comp_id']; ?>" class="btn btn-outline-primary text-center" data-bs-toggle="tooltip" title="Edit company">
-                              <i class="fa-solid fa-pencil"></i>
+                              <i class="fa-solid fa-edit"></i>
                               </button>
                             </div>
-                            <!-- / -->
-                              <!--
-                              <li><a class="dropdown-item" href="<?php //url_to('deleteUser', $data['comp_id']); ?>" data-bs-toggle="modal" data-bs-target="#myModal">Delete</a></li>
-                              -->
                             
                           </td>
                         </tr>

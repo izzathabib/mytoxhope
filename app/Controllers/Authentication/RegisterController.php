@@ -53,43 +53,56 @@ class RegisterController extends ShieldRegister
         # Check if registration is allowed
         # User cannot register if their company already registered by PIC
         # Get the existing user with the same comp_reg_no data
-        $existingUser = $companyModel->where('comp_reg_no', $comp_reg_no)->first();
+        
+        // Retrieve username and secret from table users and identities based on the company table
+        $existingUser = $companyModel
+        ->select('company.*, users.*, identities.secret') 
+        ->join('users', 'company.comp_admin = users.id')
+        ->join('identities', 'company.comp_admin = identities.user_id')
+        ->where('company.comp_reg_no', $comp_reg_no) 
+        ->get()
+        ->getResult(); 
 
         // Action if the comp_reg_no already exists
         if ($existingUser) {
-            $error = "A user with the same Company Registration Number already exists. For assistance, please contact ".$existingUser['comp_admin']."  (".$existingUser['comp_email'].")";
-            return redirect()->back()->withInput()
-            ->with('error', $error);
+            foreach ($existingUser as $data) {
+                $error = "A user with the same Company Registration Number already exists. For assistance, please contact ".$data->username."  (".$data->secret.")";
+                return redirect()->back()->withInput()
+                ->with('error', $error);
+            }
         }
 
         // Validate here first, since some things,
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
-
+        
         if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-
+        
         // Save user in company table
-        $allowedPostFields = array_keys($rules);
-        $companyData       = $this->getUserEntity();
-        $companyData->fill($this->request->getPost($allowedPostFields));
-        $companyData->status = 'unverified';
-        $companyData->comp_email = $this->request->getPost('email');
-        $companyData->comp_admin = $this->request->getPost('username');
+        //$allowedPostFields = array_keys($rules);
+        //$companyData       = $this->getUserEntity();
+        //$companyData->fill($this->request->getPost($allowedPostFields));
+
+        $companyData = [
+            'comp_reg_no' => $this->request->getPost('comp_reg_no'),
+            'comp_name' => $this->request->getPost('comp_name'),
+            'status' => 'unverified',
+        ];
 
         try {
             $companyModel->save($companyData);
         } catch (ValidationException $e) {
             return redirect()->back()->withInput()->with('errors', $companyModel->errors());
         }
+        // Get registered company id
         $compId = $companyModel->getInsertID();
 
         // Save the user in UserModel
         $allowedPostFields = array_keys($rules);
         $user              = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
-        $user->status = 'unverified';
         $user->comp_id = $compId;
 
         // Workaround for email only registration/login
@@ -106,6 +119,15 @@ class RegisterController extends ShieldRegister
 
         // To get the complete user object with ID, we need to get from the database
         $user = $users->findById($users->getInsertID());
+        // The registered user will be the company admin
+        $compAdmin = $user->id;
+
+        // Update comp_admin column on company table
+        $companyData = [
+            'comp_admin' => $compAdmin,
+        ];
+        $companyModel->update($compId,$companyData);
+        //dd($companyData);
 
         // Add to default group
         $users->addToDefaultGroup($user);
@@ -128,7 +150,7 @@ class RegisterController extends ShieldRegister
 
         $authenticator->completeLogin($user);
 
-        // Send email to the user
+        // Send email to adminPRN so they new registration happen for them to verify the user
         $email = \Config\Services::email();
         $email->setTo('muhdizat.h@gmail.com'); // Replace with your actual email address
         $email->setSubject('Test Email from CodeIgniter 4');
