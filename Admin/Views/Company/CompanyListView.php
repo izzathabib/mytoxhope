@@ -103,6 +103,7 @@
     <!-- The Modal -->
     <div class="modal fade" id="editModal<?= $data['comp_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
+      <form method="POST" action="<?= url_to('saveEditCompany', $data['comp_id']) ?>">
       <div class="modal-content">
 
         <!-- Modal Header -->
@@ -113,7 +114,7 @@
         <!-- Modal body -->
         <div class="modal-body">
 
-        <form method="POST" action="<?= url_to('saveEditCompany', $data['comp_id']) ?>">
+        
 
         <div class="form-group">
           <label for="comp_nama">Company Name</label>
@@ -125,13 +126,15 @@
           <input type="text" class="form-control" id="comp_reg_no" name="comp_reg_no" value="<?= $data['comp_reg_no'] ?>">
         </div>
         
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Update</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
 
-        </form>
         </div>
 
       </div>
+      </form>
     </div>
     </div>
     <!-- / -->
