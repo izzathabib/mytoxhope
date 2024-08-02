@@ -71,10 +71,7 @@
                           <td>
                             <!-- Edit button -->
                             <div class="text-center">
-                              <button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data['comp_id']; ?>" class="btn btn-outline-primary text-center" data-bs-toggle="tooltip" title="Edit company"  
-                              data-id="<?= $data['comp_id']; ?>"
-                              data-companyName="<?= $data['comp_name']; ?>"
-                              data-companyRegNo="<?= $data['comp_reg_no']; ?>">
+                              <button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data['comp_id']; ?>" class="btn btn-outline-primary text-center" data-bs-toggle="tooltip" title="Edit company">
                               <i class="fa-solid fa-pencil"></i>
                               </button>
                             </div>
@@ -117,12 +114,6 @@
         <div class="modal-body">
 
         <form method="POST" action="<?= url_to('saveEditCompany', $data['comp_id']) ?>">
-
-        <!-- comp_id -->
-        <div class="form-group">
-          <input type="" class="form-control" id="comp_idea" name="comp_idea" value="<?= $data['comp_id'] ?>">
-        </div>
-        <!-- / -->
 
         <div class="form-group">
           <label for="comp_nama">Company Name</label>
