@@ -79,11 +79,6 @@ class RegisterController extends ShieldRegister
         if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-        
-        // Save user in company table
-        //$allowedPostFields = array_keys($rules);
-        //$companyData       = $this->getUserEntity();
-        //$companyData->fill($this->request->getPost($allowedPostFields));
 
         $companyData = [
             'comp_reg_no' => $this->request->getPost('comp_reg_no'),
