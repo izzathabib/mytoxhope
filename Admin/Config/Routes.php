@@ -17,6 +17,6 @@ use CodeIgniter\Router\RouteCollection;
  $routes->post('delete-user/(:num)', '\Admin\Controllers\Users::deleteUser/$1',['as' => 'deleteUser']);
 
  $routes->get('Admin/company', '\Admin\Controllers\CompanyController::index',['as' => 'viewCompany']);
-
+ $routes->post('save-edit-company/(:num)', '\Admin\Controllers\CompanyController::saveEditCompany/$1',['as' => 'saveEditCompany']);
 
  

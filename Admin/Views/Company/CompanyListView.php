@@ -69,45 +69,20 @@
                               <td><?= 'Verified'; ?></td>
                             <?php endif; ?>
                           <td>
+                            <!-- Edit button -->
                             <div class="text-center">
-                              <a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-outline-primary text-center" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit company"  href="<?= url_to('editUser', $data['comp_id']); ?>"><i class="fa-solid fa-pencil"></i></a>
+                              <button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data['comp_id']; ?>" class="btn btn-outline-primary text-center" data-bs-toggle="tooltip" title="Edit company"  
+                              data-id="<?= $data['comp_id']; ?>"
+                              data-companyName="<?= $data['comp_name']; ?>"
+                              data-companyRegNo="<?= $data['comp_reg_no']; ?>">
+                              <i class="fa-solid fa-pencil"></i>
+                              </button>
                             </div>
+                            <!-- / -->
                               <!--
                               <li><a class="dropdown-item" href="<?php //url_to('deleteUser', $data['comp_id']); ?>" data-bs-toggle="modal" data-bs-target="#myModal">Delete</a></li>
                               -->
-                            <!-- The Modal -->
-                              <div class="modal fade" id="myModal">
-                                <div class="modal-dialog modal-lg">
-                                  <div class="modal-content">
-
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                      <h4 class="modal-title">Company Details</h4>
-                                    </div>
-
-                                    <!-- Modal body -->
-                                    <div class="modal-body">
-                                    <form method="POST" action="<?= url_to('deleteUser', $data['comp_id']); ?>">
-                                      <div class="form-floating mb-3 w-100">
-                                        <input type="text" class="form-control" name="comp_name" 
-                                          value="<?= $data['comp_name'] ?>" id="floatingCompName"inputmode="text" required>
-                                        <label for="floatingCompName">Company Name</label>
-                                      </div>
-                                      <button type="submit" value="Submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                    </div>
-
-                                    <!-- Modal footer -->
-                                    <div class="modal-footer">
-                                    <form method="POST" action="<?= url_to('deleteUser', $data['comp_id']); ?>">
-                                      <button type="submit" value="Submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                    <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                                    </div>
-
-                                  </div>
-                                </div>
-                              </div>
+                            
                           </td>
                         </tr>
                       <?php endforeach; ?>
@@ -126,7 +101,50 @@
       </div>
       
     </div>
+    
+    <?php foreach ($companyData as $data): ?>
+    <!-- The Modal -->
+    <div class="modal fade" id="editModal<?= $data['comp_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
 
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Update Company Details</h4>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+
+        <form method="POST" action="<?= url_to('saveEditCompany', $data['comp_id']) ?>">
+
+        <!-- comp_id -->
+        <div class="form-group">
+          <input type="" class="form-control" id="comp_idea" name="comp_idea" value="<?= $data['comp_id'] ?>">
+        </div>
+        <!-- / -->
+
+        <div class="form-group">
+          <label for="comp_nama">Company Name</label>
+          <input type="text" class="form-control" id="comp_name" name="comp_name" value="<?= $data['comp_name'] ?>">
+        </div>
+
+        <div class="form-group">
+          <label for="comp_reg_nom">Company Registration No</label>
+          <input type="text" class="form-control" id="comp_reg_no" name="comp_reg_no" value="<?= $data['comp_reg_no'] ?>">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+        </form>
+        </div>
+
+      </div>
+    </div>
+    </div>
+    <!-- / -->
+    <?php endforeach; ?>
 </div>
 
 
@@ -146,6 +164,7 @@
         '<"row"<"col-sm-12"tr>>' +
         '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>'
     });
+    
   });
 </script>
 

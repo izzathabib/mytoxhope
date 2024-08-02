@@ -43,6 +43,10 @@ class LoginController extends ShieldLogin
         $email = $this->request->getPost('email');
         
         $existingUser = $identityModel->where('secret', $email)->first();
+        if ($existingUser == null) {
+            return redirect()->back()
+            ->with('errors',"You dont have an account registered");
+        }
         $existingUserId = $existingUser->user_id;
 
         //Fetch user data

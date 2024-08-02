@@ -148,6 +148,7 @@
       const closeBtn = document.createElement('span');
       closeBtn.classList.add('tag-close');
       closeBtn.innerHTML = '&times;';
+      
       closeBtn.addEventListener('click', function () {
         tag.remove();
         tags = tags.filter(t => t !== text);
