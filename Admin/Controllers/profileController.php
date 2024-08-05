@@ -53,4 +53,30 @@ class profileController extends BaseController
         return new User();
     }
 
+    public function updatePassword() {
+        $session = session();
+        $user = $session->get('user'); // Assuming user data is stored in session
+
+        $currentPassword = $this->request->getPost('current_password');
+        $newPassword = $this->request->getPost('new_password');
+        $confirmPassword = $this->request->getPost('confirm_password');
+
+        // Validate the current password
+        if (!password_verify($currentPassword, $user->password_hash)) {
+            return redirect()->back()->with('error', 'Current password is incorrect');
+        }
+
+        // Validate the new password and confirmation
+        if ($newPassword !== $confirmPassword) {
+            return redirect()->back()->with('error', 'New passwords do not match');
+        }
+
+        // Update the password
+        $user->password = password_hash($newPassword, PASSWORD_DEFAULT);
+        $userModel = new UserModel();
+        $userModel->save($user);
+
+        return redirect()->back()->with('success', 'Password updated successfully');
+    }
+
 }

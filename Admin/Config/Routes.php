@@ -21,6 +21,7 @@ use CodeIgniter\Router\RouteCollection;
 
  $routes->get('profile', '\Admin\Controllers\profileController::index',['as' => 'profile']);
  $routes->post('save-edit-profile/(:num)', '\Admin\Controllers\profileController::saveEditProfile/$1',['as' => 'saveEditProfile']);
+ $routes->post('update-password', '\Admin\Controllers\profileController::updatePassword',['as' => 'updatePassword']);
 
 
 
