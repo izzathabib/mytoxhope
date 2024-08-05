@@ -250,6 +250,8 @@
 
     .addprod-container {
       align-items: flex-start;
+      width: 95%;
+      padding: 10px;
     }
 
     .addprod-card {
@@ -259,7 +261,7 @@
     }
 
     .card-body {
-      padding: 1.5rem;
+      padding: 1rem;
     }
   }
 </style>

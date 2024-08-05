@@ -106,12 +106,12 @@
             overflow-y: auto;
         }
         .login-container {
-            padding: 20px 20px 40px;
+            padding: 30px 20px 80px;
             align-items: flex-start;
         }
         .login-card {
             transform: none;
-            margin-top: 20px;
+            margin-bottom: 6rem;
         }
     }
 </style>
