@@ -3,17 +3,15 @@
 <?= $this->section('content'); ?>
 
 <!-- Display company name -->
-<div class="container p-4 mt-3">
-  <div class="container-fluid">
+<div class="container-fluid p-4 mt-3">
   <?php foreach($companyData as $data): ?>
     <h1><?= $data->comp_name; ?></h1>
   <?php endforeach; ?>
-  </div>
 </div>
 <!--  -->
 
 <!-- Main card -->
-<div class="container">
+<div class="container-fluid">
   <div class="row">
             <!-- Knowledge Base Card -->
             <div class="col-md-4">

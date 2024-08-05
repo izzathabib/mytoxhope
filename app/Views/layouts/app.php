@@ -381,6 +381,7 @@
   <body class="<?= $this->renderSection('bodyClass') ?> <?= auth()->loggedIn() ? 'logged-in' : '' ?>">
     <div class="wrapper">
       <?php if (auth()->loggedIn()): ?>
+        <!-- Sidebar -->
         <div class="sidebar sidebar-dark-primary" id="sidebar">
           <ul class="list-unstyled components">
             <li>
@@ -432,6 +433,7 @@
             </li>
           </ul>
         </div>
+        <!-- ! -->
       <?php endif; ?>
 
       <!-- Content Section -->
@@ -480,7 +482,7 @@
                     <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
                         class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Profile</a></li>
+                      <li><a class="dropdown-item" href="<?= base_url('profile'); ?>">Profile</a></li>
                       <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
                     </ul>
                   </li>

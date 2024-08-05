@@ -32,7 +32,7 @@ class Users extends BaseController
             ->join('company', 'users.comp_id = company.comp_id')
             ->join('identities', 'users.id = identities.user_id')
             ->join('groups_users', 'users.id = groups_users.user_id')
-            ->where('users.deleted_at', null) 
+            //->where('users.deleted_at', null) 
             ->get()
             ->getResult();
             return view('Admin\Views\UsersView',compact('title','userData'));
