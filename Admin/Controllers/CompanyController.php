@@ -13,7 +13,13 @@ class CompanyController extends BaseController
         $title = 'Company List';
 
         $companyModel = new Company();
-        $companyData = $companyModel->findAll();
+        // Get all company detail 
+        $companyData = $companyModel
+        ->select('company.*, users.*, identities.secret') 
+        ->join('users', 'company.comp_admin = users.id')
+        ->join('identities', 'company.comp_admin = identities.user_id')
+        ->get()
+        ->getResult();
         return view('Admin\Views\Company\CompanyListView',compact('title','companyData'));
     }
 

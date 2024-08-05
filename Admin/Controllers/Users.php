@@ -92,7 +92,7 @@ class Users extends BaseController
 
         // Superadmin will fetch all company
         if (auth()->user()->inGroup('superadmin')) {
-            $companyData = $companyModel->findAll();
+            $companyData = $companyModel->where('status','verified')->findAll();
         } else {
             $currentUserId = $userModel->find(auth()->user()->id);
             $currentUserComp = $currentUserId->comp_id;
@@ -109,16 +109,61 @@ class Users extends BaseController
         $companyModel = new Company();
 
         // Validation rule
-        $rules = $this->getValidationRules();
+        $rules = [
+            'comp_reg_no' => [
+                'label' => 'Company Registration No',
+                'rules' => [
+                    'required',
+                    'max_length[30]',
+                    'min_length[3]',
+                ],
+            ],
+            'comp_name' => [
+                'label' => 'Company Name',
+                'rules' => [
+                    'required',
+                    'min_length[3]',
+                ],
+            ],
+            'username' => [
+                'label' => 'Auth.username',
+                'rules' => [
+                    'required',
+                    'max_length[30]',
+                    'min_length[3]',
+                    'is_unique[users.username]',
+                ],
+            ],
+            'email' => [
+                'label' => 'Auth.email',
+                'rules' => [
+                    'required',
+                    'max_length[254]',
+                    'valid_email',
+                    'is_unique[identities.secret]',
+                ],
+            ],
+            'password' => [
+                'label' => 'Auth.password',
+                'rules' => 'required|max_byte[72]|strong_password[]',
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes'
+                ]
+            ],
+            'password_confirm' => [
+                'label' => 'Auth.passwordConfirm',
+                'rules' => 'required|matches[password]',
+            ],
+        ];
 
         // If validation fail return back to the addUser page 
-        /*if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }*/
+        }
 
         // Get user company registration number from user input
         $compRegNum = $this->request->getPost('comp_reg_no');
-        // Get company ID
+        // Get data of company with same comp_reg_no from company table 
         $compId = $companyModel->where('comp_reg_no', $compRegNum)->first();
 
         // Save the user
@@ -126,7 +171,7 @@ class Users extends BaseController
         $user              = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
         $user->comp_id = $compId['comp_id'];
-        // Fetch user role from user input
+        // Get user role from user input
         $role = [$this->request->getPost('role')];
 
         # Save data to users table
@@ -160,7 +205,7 @@ class Users extends BaseController
 
         //$authenticator->completeLogin($user);
 
-        // Send email to the user
+        // Send email to the new user
         $email = \Config\Services::email();
         $email->setTo('muhdizat.h@gmail.com'); // Replace with your actual email address
         $email->setSubject('Test Email from CodeIgniter 4');

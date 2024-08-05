@@ -54,24 +54,19 @@
                     <?php if (!empty($companyData)): ?>
                       <?php foreach ($companyData as $data): ?>
                         <tr>
-                            <td><?= $data['comp_name']; ?></td>
-                            <td><?= $data['comp_reg_no']; ?></td>
-                            <td><?= $data['comp_admin']; ?></td>
-                            <td><?= $data['comp_email']; ?></td>
-                            <?php if ($data['status'] == 'unverified') : ?>
-                              <td>
-                                <!-- Form section to update status value in users table -->
-                                <form method="POST" action="<?= url_to('verifyUser', $data['comp_id']); ?>">
-                                  <button type="submit" value="Submit" class="btn btn-primary btn-sm">Verify</button>
-                                </form>
-                              </td>
-                            <?php elseif ($data['status'] == 'verified'): ?>
+                            <td><?= $data->comp_name; ?></td>
+                            <td><?= $data->comp_reg_no; ?></td>
+                            <td><?= $data->username; ?></td>
+                            <td><?= $data->secret; ?></td>
+                            <?php if ($data->status == 'unverified') : ?>
+                              <td><?= 'Unverified'; ?></td>
+                            <?php elseif ($data->status == 'verified'): ?>
                               <td><?= 'Verified'; ?></td>
                             <?php endif; ?>
                           <td>
                             <!-- Edit button -->
                             <div class="text-center">
-                              <button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data['comp_id']; ?>" class="btn btn-outline-primary text-center" data-bs-toggle="tooltip" title="Edit company">
+                              <button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data->comp_id; ?>" class="btn btn-outline-primary text-center" data-bs-toggle="tooltip" title="Edit company">
                               <i class="fa-solid fa-edit"></i>
                               </button>
                             </div>
@@ -97,9 +92,9 @@
     
     <?php foreach ($companyData as $data): ?>
     <!-- The Modal -->
-    <div class="modal fade" id="editModal<?= $data['comp_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editModal<?= $data->comp_id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <form method="POST" action="<?= url_to('saveEditCompany', $data['comp_id']) ?>">
+      <form method="POST" action="<?= url_to('saveEditCompany', $data->comp_id) ?>">
       <div class="modal-content">
 
         <!-- Modal Header -->
@@ -114,12 +109,12 @@
 
         <div class="form-group">
           <label for="comp_nama">Company Name</label>
-          <input type="text" class="form-control" id="comp_name" name="comp_name" value="<?= $data['comp_name'] ?>">
+          <input type="text" class="form-control" id="comp_name" name="comp_name" value="<?= $data->comp_name ?>">
         </div>
 
         <div class="form-group">
           <label for="comp_reg_nom">Company Registration No</label>
-          <input type="text" class="form-control" id="comp_reg_no" name="comp_reg_no" value="<?= $data['comp_reg_no'] ?>">
+          <input type="text" class="form-control" id="comp_reg_no" name="comp_reg_no" value="<?= $data->comp_reg_no ?>">
         </div>
         
         <div class="modal-footer">

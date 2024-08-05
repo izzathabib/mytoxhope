@@ -11,6 +11,24 @@
           <h3 class="text-center"><i class="fa fa-plus-circle"></i> Add User</h3>
         </div>
         <div class="card-body">
+
+          <!-- Alert message section -->
+          <?php if (session('error') !== null): ?>
+              <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+          <?php elseif (session('errors') !== null): ?>
+              <div class="alert alert-danger" role="alert">
+                  <?php if (is_array(session('errors'))): ?>
+                      <?php foreach (session('errors') as $error): ?>
+                          <?= $error ?>
+                          <br>
+                      <?php endforeach ?>
+                  <?php else: ?>
+                      <?= session('errors') ?>
+                  <?php endif ?>
+              </div>
+          <?php endif ?>
+          <!-- .Alert message -->
+
           <!-- Main Content -->
           <form action="<?= url_to('saveUser') ?>" method="post">
             <?= csrf_field() ?>
@@ -77,7 +95,7 @@
             <!-- Role -->
             <div class="form-floating mb-3 w-100">
             <select id="role" name="role" class="form-select" required>
-              <option value="Please select">User Role</option>
+              <option value=""></option>
               <?php if (auth()->user()->inGroup('superadmin')): ?>
                 <option value="superadmin">Admin PRN</option>
               <?php endif; ?>
