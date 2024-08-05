@@ -38,7 +38,7 @@
           <div class="card-body">
             <!-- Table data -->
             <div class="table-responsive">
-            <table id="userslist" class="table table-hover table-bordered"
+            <table id="userslist" class="table table-hover table-bordered table-striped"
                   style="width:100%">
                   <thead>
                     <tr>

@@ -19,7 +19,7 @@
           <!-- Card header -->
           <div class="card-header">
             <div class="card-tools">
-            <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addProduct'); ?>"><i class="fa fa-plus"></i> Add Product </a>
+            <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addProduct'); ?>"><i class="fa fa-plus"></i> <b>Add Product</b> </a>
             </div>
           </div>
           
@@ -27,7 +27,7 @@
           <div class="card-body">
             <!-- Table data -->
             <div class="table-responsive">
-            <table class="table table-hover table-bordered" style="width:100%">
+            <table class="table table-hover table-bordered table-striped" style="width:100%">
               <thead>
                 <tr>
                   <th>#</th>

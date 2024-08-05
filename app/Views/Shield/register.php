@@ -130,8 +130,12 @@
         .register-card {
             max-width: 100%;
         }
+        .register-container {
+            width: 95%;
+            padding: 10px;
+        }
         .card-body {
-            padding: 1.5rem;
+            padding: 1rem;
         }
     }
 </style>
