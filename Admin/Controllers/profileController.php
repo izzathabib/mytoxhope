@@ -76,11 +76,16 @@ class profileController extends BaseController
         }
 
         // Update the password
-        $user->password = password_hash($newPassword, PASSWORD_DEFAULT);
+        $user->password_hash = password_hash($newPassword, PASSWORD_DEFAULT);
         $userModel = new UserModel();
         $userModel->save($user);
 
-        return redirect()->back()->with('password', 'Password updated successfully');
+        auth()->logout(); 
+
+        // Success!
+        $session = session();
+        $session->setFlashdata('password', "Password updated successfully! Please log in with your new password.");
+        return redirect()->to('/login');
     }
 
 }

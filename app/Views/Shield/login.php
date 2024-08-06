@@ -15,7 +15,6 @@
                     <!-- Alert message section -->
                     <?php if (session('error') !== null): ?>
                         <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
-
                     <?php elseif (session('success') !== null): ?>
                         <div class="alert alert-success" role="alert"><?= session('success') ?></div>
                     <?php elseif (session('errors') !== null): ?>
@@ -28,6 +27,10 @@
                             <?php else: ?>
                                 <?= session('errors') ?>
                             <?php endif ?>
+                        </div>
+                    <?php elseif (session('password') !== null): ?>
+                        <div class="alert alert-success" role="alert">
+                            <div><i class="fas fa-check-circle"></i>  <?= session('password') ?></div>
                         </div>
                     <?php endif ?>
 
