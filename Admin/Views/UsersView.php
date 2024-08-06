@@ -4,7 +4,7 @@
 
 
 <!-- Display page title -->
-<div class="container-fluid content-header p-4 mt-2">
+<div class="container-fluid content-header p-3 mt-5">
   <div class="container-fluid">
     <h2 class="content-header">User List</h2>
   </div>
@@ -28,7 +28,7 @@
 
             <!-- Create user button -->
             <div class="col-xl-1">
-                <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addNewUser'); ?>"><i class="fas fa-plus"></i> <b>Add User</b></a>
+                <a class="btn btn-block btn-sm btn-default btn-flat border-primary text-nowrap" href="<?= url_to('addNewUser'); ?>"><i class="fas fa-plus"></i> <b>Add User</b></a>
             </div>
           </div>
           

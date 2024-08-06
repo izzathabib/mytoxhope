@@ -2,7 +2,8 @@
 <?= $this->section('bodyClass') ?>addprod-page<?= $this->endSection() ?>
 <?= $this->section('content'); ?>
 
-<div class="addprod-container p-4">
+<div class="mt-5">
+<div class="addprod-container p-3">
   <h4 class="text-left" style="margin-left: 40px;"><b>Register New Product</b></h4>
   <div class="card shadow-sm addprod-container">
     <div class="card-body">
@@ -167,6 +168,8 @@
     </div>
   </div>
 </div>
+</div>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const input = document.getElementById('active_ing_input');

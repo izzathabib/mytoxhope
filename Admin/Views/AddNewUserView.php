@@ -2,8 +2,7 @@
 <?= $this->section('bodyClass') ?>new-user-page<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
-<!-- Page title -->
-<div class="new-user-container">
+<div class="new-user-container mt-5">
   <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
       <div class="card shadow-sm">
@@ -132,9 +131,6 @@
     </div>
   </div>
 </div>
-<!---->
-
-
 
 <?= $this->endSection() ?>
 

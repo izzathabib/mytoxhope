@@ -4,7 +4,7 @@
 
 
 <!-- Display page title -->
-<div class="container-fluid content-header p-4 mt-2">
+<div class="container-fluid content-header p-3 mt-5">
   <div class="container-fluid">
     <h2 class="content-header">Company List</h2>
   </div>
@@ -23,13 +23,7 @@
             <div class="col">
               <h4><i class="fa fa-info-circle"></i> Company Information</h4>
             </div>
-
-            <!-- Create user button -->
-            <!--
-            <div class="col-xl-1">
-              a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addNewUser'); ?>"><i class="fas fa-plus"></i> <b>Add User</b></a>
-            </div>
-            -->
+            
           </div>
           
           </div>

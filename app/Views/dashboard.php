@@ -3,7 +3,7 @@
 <?= $this->section('content'); ?>
 
 <!-- Display company name -->
-<div class="container-fluid p-4 mt-3">
+<div class="container-fluid p-4 mt-5">
   <?php foreach($companyData as $data): ?>
     <h1><?= $data->comp_name; ?></h1>
   <?php endforeach; ?>
