@@ -45,7 +45,7 @@ class profileController extends BaseController
         
         $identityModel->update($identityId,$identityUpdate);
         $userModel->update($id,$userData);
-        return redirect()->to('dashboard');
+        return redirect()->back()->with('personalInfo', 'Personal information updated successfully');
     }
 
     protected function getUserEntity(): User
@@ -53,9 +53,13 @@ class profileController extends BaseController
         return new User();
     }
 
-    public function updatePassword() {
+    public function updatePassword()
+    {
         $session = session();
-        $user = $session->get('user'); // Assuming user data is stored in session
+        $userArray = $session->get('user'); // Assuming user data is stored in session as an array
+
+        // Convert array to User entity
+        $user = new User($userArray);
 
         $currentPassword = $this->request->getPost('current_password');
         $newPassword = $this->request->getPost('new_password');
@@ -76,7 +80,7 @@ class profileController extends BaseController
         $userModel = new UserModel();
         $userModel->save($user);
 
-        return redirect()->back()->with('success', 'Password updated successfully');
+        return redirect()->back()->with('password', 'Password updated successfully');
     }
 
 }

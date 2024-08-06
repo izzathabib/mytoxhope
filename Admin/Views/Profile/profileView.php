@@ -15,6 +15,19 @@
         <div class="card h-100 w-100 shadow-sm">
           <div class="card-header">Personal Information</div>
           <div class="card-body">
+          <!-- Alert message -->
+          <?php if (session('personalInfo') !== null): ?>
+            <div class="alert alert-success alert-dismissible fade show">
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              <div><?= session('personalInfo') ?></div> 
+            </div>
+          <?php elseif (session('password') !== null): ?>
+            <div class="alert alert-success alert-dismissible fade show">
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              <div><?= session('password') ?></div> 
+            </div>
+          <?php endif; ?>
+          <!-- ! -->
             <?php foreach($userData as $data): ?>
             <form method="post" action="<?= url_to('saveEditProfile',$data->id) ?>">
               <div class="mb-3 mt-3">
@@ -40,7 +53,7 @@
           <div class="card-header">Password</div>
           <div class="card-body">
 
-          <form method="post" action="<?php url_to('updatePassword') ?>">
+          <form method="post" action="<?= url_to('updatePassword') ?>">
               <div class="form-group">
                   <label for="current_password">Current Password</label>
                   <input type="password" class="form-control" id="current_password" name="current_password" required>
@@ -63,5 +76,7 @@
 
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <?= $this->endSection() ?>
