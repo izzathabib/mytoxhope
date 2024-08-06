@@ -107,7 +107,29 @@ class profileController extends BaseController
 
         $title = 'Company Profile';
 
-        return view('Admin\Views\Profile\compProfileView', compact('title'));
+        $companyModel = new Company();
+        $companyData = $companyModel
+        ->select('company.*, users.*')
+        ->join('users', 'users.comp_id = company.comp_id')
+        ->where('users.id', auth()->user()->id)
+        ->get()
+        ->getResult();
+
+        return view('Admin\Views\Profile\compProfileView', compact('title','companyData'));
+    }
+
+    public function saveEditCompProfile($compId) {
+
+        $companyData = [
+            'comp_name' => $this->request->getPost('comp_name'),
+            'comp_reg_no' => $this->request->getPost('comp_reg_no'),
+        ];
+
+        $companyModel = new Company();
+        $companyModel->update($compId,$companyData);
+
+        return redirect()->back()->with('compInfo', 'Company information updated successfully');
+
     }
 
 }

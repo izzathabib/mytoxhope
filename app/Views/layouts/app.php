@@ -471,7 +471,7 @@
                   <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Edit Profile </a>
                 </li>
                 <li>
-                  <a href="<?= base_url('editCompany'); ?>"><i class="fas fa-user-tie"></i> Edit Company </a>
+                  <a href="<?= base_url('edit-company'); ?>"><i class="fas fa-user-tie"></i> Edit Company </a>
                 </li>
               </ul>
             <?php endif; ?>

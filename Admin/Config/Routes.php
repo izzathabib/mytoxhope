@@ -23,7 +23,8 @@ use CodeIgniter\Router\RouteCollection;
  $routes->post('save-edit-profile/(:num)', '\Admin\Controllers\profileController::saveEditProfile/$1',['as' => 'saveEditProfile']);
  $routes->post('update-password', '\Admin\Controllers\profileController::updatePassword',['as' => 'updatePassword']);
 
- $routes->get('edit-company', '\Admin\Controllers\profileController::editCompany',['as' => 'editCompany']);
+ $routes->get('edit-company', '\Admin\Controllers\profileController::editCompany');
+ $routes->post('save-edit-company-profile/(:num)', '\Admin\Controllers\profileController::saveEditCompProfile/$1',['as' => 'saveEditCompProfile']);
 
 
 

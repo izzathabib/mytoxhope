@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <!-- Display username -->
-<div class="container-fluid p-4">
+<div class="container-fluid mt-5 p-2">
   <div class="row">
     <div class="col-1">
       <a role="button" class="btn btn-lg" href="<?= site_url('dashboard'); ?>"><i class="fas fa-arrow-left"></i></a>
