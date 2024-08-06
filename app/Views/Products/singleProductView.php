@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/app.php'); ?>
 <?= $this->section('content'); ?>
 
+<div class="mt-4">
 <div class="container-fluid p-5">
   <h3 class="text-left"><b><?= esc($title) ?></b></h3>
 
@@ -71,6 +72,8 @@
   </div>
 
 </div>
+</div>
+
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
