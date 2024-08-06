@@ -59,10 +59,14 @@
 
       html,
       body {
+        height: 100%;
         margin: 0;
         padding: 0;
-        height: 100%;
-        padding-top: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
       }
 
       /* navbar css */
@@ -76,15 +80,13 @@
       }
 
       .navbar {
-        background-color: #2c3034 !important;
+        background-color: #2c3034;
         position: fixed;
         top: 0;
-        left: 0;
         right: 0;
+        left: 250px;
         z-index: 1030;
-        transition: margin-left 0.3s, width 0.3s;
-        width: calc(100% - 250px);
-        margin-left: 250px;
+        transition: left 0.3s ease-in-out;
       }
 
       .navbar.expanded {
@@ -163,9 +165,9 @@
       }
 
       .wrapper {
-        min-height: 100vh;
+        flex: 1 0 auto;
         display: flex;
-        flex-direction: column;
+        overflow: hidden;
       }
 
       .content {
@@ -233,6 +235,28 @@
           text-align: left;
           float: none;
         }
+
+        .sidebar {
+          transform: translateX(-250px);
+        }
+
+        .content-wrapper,
+        .navbar,
+        .site-footer {
+          margin-left: 0;
+        }
+
+        .navbar {
+          left: 0;
+        }
+
+        body:not(.sidebar-collapsed) .sidebar {
+          transform: translateX(0);
+        }
+
+        #sidebarToggle {
+          left: 10px;
+        }
       }
 
       /* Sidebar styles */
@@ -244,12 +268,15 @@
         height: 100vh;
         z-index: 1000;
         background: #2c3034;
-        transition: transform 0.3s;
-        padding-top: 20px;
+        transition: transform 0.3s ease-in-out;
       }
 
-      .content-wrapper:not(.no-sidebar) {
-        margin-left: 250px;
+      .sidebar.mobile {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.mobile.active {
+        transform: translateX(0);
       }
 
       .sidebar.collapsed {
@@ -275,16 +302,16 @@
 
       /* Content wrapper styles */
       .content-wrapper {
-        margin-left: 250px;
-        transition: margin-left 0.3s;
         flex: 1;
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        margin-top: 70px;
-        padding-top: 40px;
-        padding-bottom: 40px;
+        margin-left: 250px;
+        transition: margin-left 0.3s ease-in-out;
         overflow-y: auto;
+        padding-top: 56px;
+        /* Adjust based on your navbar height */
+      }
+
+      .content-wrapper:not(.no-sidebar) {
+        margin-left: 250px;
       }
 
       .content-wrapper.expanded {
@@ -310,37 +337,65 @@
 
       /* Toggle button styles */
       #sidebarToggle {
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        z-index: 1030;
-        padding: 0.25rem 0.5rem;
-        margin-left: 16rem;
-        margin-top: 16px;
-        transition: margin-left 0.3s;
+        position: relative;
+        z-index: 1031;
+        margin-right: 15px;
+        margin-top: 15px;
       }
+
+      body.sidebar-collapsed #sidebarToggle {
+        margin-left: 0;
+        margin-top: 15px;
+      }
+
 
       .content-wrapper.expanded #sidebarToggle {
         margin-left: 0;
       }
 
+      /* Collapsed state */
+      body.sidebar-collapsed .sidebar {
+        transform: translateX(-250px);
+      }
+
+      body.sidebar-collapsed .content-wrapper,
+      body.sidebar-collapsed .site-footer {
+        margin-left: 0;
+      }
+
+      body.sidebar-collapsed .navbar {
+        left: 0;
+      }
+
       /* Responsive adjustments */
       @media (max-width: 767.98px) {
-        .sidebar {
-          transform: translateX(-250px);
-        }
 
-        .sidebar.active {
-          transform: translateX(0);
-        }
-
-        .content-wrapper,
+        .content-wrapper:not(.no-sidebar),
         .site-footer {
           margin-left: 0 !important;
         }
 
+        .navbar {
+          width: 100%;
+          margin-left: 0;
+        }
+
         #sidebarToggle {
           margin-left: 0;
+        }
+
+        .navbar .container-fluid {
+          flex-wrap: wrap;
+        }
+
+        .navbar-brand,
+        .d-flex {
+          flex: 0 0 100%;
+          margin-bottom: 0;
+        }
+
+        .navbar-toggler {
+          margin-left: auto;
         }
       }
 
@@ -372,6 +427,21 @@
 
         .navbar-toggler {
           margin-left: auto;
+        }
+      }
+
+      @media (min-width: 768px) {
+
+        #sidebarToggle {
+          margin-left: 250px;
+        }
+
+        .content-wrapper.expanded #sidebarToggle {
+          margin-left: 0;
+        }
+
+        .navbar-brand {
+          margin-left: 4rem;
         }
       }
     </style>
@@ -428,6 +498,23 @@
               </li>
             <?php endif; ?>
             <!-- / -->
+            <!-- Profile -->
+            <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
+              <li>
+                <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                  <i class="fa fa-user"></i> Profile
+                </a>
+                <ul class="collapse list-unstyled" id="productSubmenu3">
+                  <li>
+                    <a href=""><i class="fa fa-user-circle"></i> Personal Profile</a>
+                  </li>
+                  <li>
+                    <a href=""><i class="fas fa-user-tie"></i> Company Profile</a>
+                  </li>
+                </ul>
+              </li>
+            <?php endif; ?>
+            <!-- / -->
             <li>
               <a href="<?= url_to('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
@@ -455,7 +542,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
               aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+              <i class="fa fa-caret-down"></i>
             </button>
             <!-- Nav items -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -553,27 +640,16 @@
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap5.min.js"></script>
     <script>
-      // Initialize Bootstrap components that need JS interaction
-      var dropdownToggleList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-      var dropdownList = dropdownToggleList.map(function (dropdownToggle) {
-        return new bootstrap.Dropdown(dropdownToggle);
-      });
-
-      // Check if user is logged in
-      const isLoggedIn = <?= auth()->loggedIn() ? 'true' : 'false' ?>;
-
-      if (isLoggedIn) {
+      document.addEventListener('DOMContentLoaded', function () {
         const sidebar = document.getElementById('sidebar');
         const contentWrapper = document.querySelector('.content-wrapper');
         const sidebarToggle = document.getElementById('sidebarToggle');
         const navbar = document.querySelector('.navbar');
+        const footer = document.querySelector('.site-footer');
 
         function toggleSidebar() {
-          sidebar.classList.toggle('collapsed');
-          contentWrapper.classList.toggle('expanded');
-          document.querySelector('.site-footer').classList.toggle('expanded');
-          navbar.classList.toggle('expanded');
-          localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+          document.body.classList.toggle('sidebar-collapsed');
+          localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
         }
 
         if (sidebarToggle) {
@@ -583,77 +659,35 @@
         // Load sidebar state from localStorage
         const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
         if (sidebarCollapsed) {
-          sidebar.classList.add('collapsed');
-          contentWrapper.classList.add('expanded');
-          document.querySelector('.site-footer').classList.add('expanded');
-        } else {
-          sidebar.classList.remove('collapsed');
-          contentWrapper.classList.remove('expanded');
-          document.querySelector('.site-footer').classList.remove('expanded');
+          document.body.classList.add('sidebar-collapsed');
         }
 
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function (event) {
-          const isClickInside = sidebar.contains(event.target) || sidebarToggle.contains(event.target);
-          if (!isClickInside && window.innerWidth < 768 && !sidebar.classList.contains('collapsed')) {
-            toggleSidebar();
+        // Handle resize
+        function handleResize() {
+          if (window.innerWidth < 768) {
+            document.body.classList.add('sidebar-collapsed');
+          } else if (!sidebarCollapsed) {
+            document.body.classList.remove('sidebar-collapsed');
           }
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Call on initial load
+
+        // Initialize Bootstrap components that need JS interaction
+        var dropdownToggleList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+        var dropdownList = dropdownToggleList.map(function (dropdownToggle) {
+          return new bootstrap.Dropdown(dropdownToggle);
         });
 
-        // Update initial state and resize handler
-        function updateLayout() {
-          if (window.innerWidth < 768 || sidebar.classList.contains('collapsed')) {
-            sidebar.classList.add('collapsed');
-            contentWrapper.classList.add('expanded');
-            document.querySelector('.site-footer').classList.add('expanded');
-            navbar.classList.add('expanded'); // Add expanded class to navbar
-          } else {
-            sidebar.classList.remove('collapsed');
-            contentWrapper.classList.remove('expanded');
-            document.querySelector('.site-footer').classList.remove('expanded');
-            navbar.classList.remove('expanded'); // Remove expanded class from navbar
-          }
-        }
+        // Modal video handling
+        $('#aboutModal').on('hidden.bs.modal', function () {
+          $('#aboutVideo').attr('src', '');
+        });
 
-        // Call updateLayout on page load and resize
-        updateLayout();
-        window.addEventListener('resize', updateLayout);
-
-        // Function to update layout based on login state
-        function updateLayoutForLoginState() {
-          const body = document.body;
-          const contentWrapper = document.querySelector('.content-wrapper');
-          const navbar = document.querySelector('.navbar');
-
-          if (!body.classList.contains('logged-in')) {
-            contentWrapper.classList.add('no-sidebar');
-            navbar.classList.add('expanded');
-          } else {
-            contentWrapper.classList.remove('no-sidebar');
-            if (!sidebar.classList.contains('collapsed')) {
-              navbar.classList.remove('expanded');
-            }
-          }
-        }
-
-        // Call this function on page load
-        updateLayoutForLoginState();
-
-        // Initial state on page load for mobile
-        if (window.innerWidth < 768) {
-          sidebar.classList.add('collapsed');
-          contentWrapper.classList.add('expanded');
-        }
-      }
-
-      // Reset video on modal close
-      $('#aboutModal').on('hidden.bs.modal', function () {
-        $('#aboutVideo').attr('src', '');
-      });
-
-      // Embedded video in the modal 
-      $('#aboutModal').on('show.bs.modal', function () {
-        $('#aboutVideo').attr('src', 'https://www.youtube.com/embed/9ZNK-bKv5tI?si=t3FSmLKbOQfK4UhL');
+        $('#aboutModal').on('show.bs.modal', function () {
+          $('#aboutVideo').attr('src', 'https://www.youtube.com/embed/9ZNK-bKv5tI?si=t3FSmLKbOQfK4UhL');
+        });
       });
     </script>
 
