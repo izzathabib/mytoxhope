@@ -103,4 +103,11 @@ class profileController extends BaseController
         return redirect()->to('/login');
     }
 
+    public function editCompany() {
+
+        $title = 'Company Profile';
+
+        return view('Admin\Views\Profile\compProfileView', compact('title'));
+    }
+
 }
