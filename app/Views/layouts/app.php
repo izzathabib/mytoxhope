@@ -228,37 +228,6 @@
         margin-bottom: 15px;
       }
 
-      @media (max-width: 767px) {
-
-        .dataTables_wrapper .dataTables_length,
-        .dataTables_wrapper .dataTables_filter {
-          text-align: left;
-          float: none;
-        }
-
-        .sidebar {
-          transform: translateX(-250px);
-        }
-
-        .content-wrapper,
-        .navbar,
-        .site-footer {
-          margin-left: 0;
-        }
-
-        .navbar {
-          left: 0;
-        }
-
-        body:not(.sidebar-collapsed) .sidebar {
-          transform: translateX(0);
-        }
-
-        #sidebarToggle {
-          left: 10px;
-        }
-      }
-
       /* Sidebar styles */
       .sidebar {
         width: 250px;
@@ -307,7 +276,6 @@
         transition: margin-left 0.3s ease-in-out;
         overflow-y: auto;
         padding-top: 56px;
-        /* Adjust based on your navbar height */
       }
 
       .content-wrapper:not(.no-sidebar) {
@@ -326,13 +294,17 @@
       body:not(.logged-in) .content-wrapper {
         margin-left: 0;
         margin-top: 70px;
-        /* Adjust this value to match your navbar height */
       }
 
       /* Adjust navbar for logged out state */
       body:not(.logged-in) .navbar {
         width: 100%;
-        margin-left: 0;
+        left: 0;
+      }
+
+      /* Adjust logo positioning for logged out state */
+      body:not(.logged-in) .navbar-brand {
+        margin-left: 15px;
       }
 
       /* Toggle button styles */
@@ -410,7 +382,6 @@
 
         .navbar-brand {
           margin-left: 4rem;
-          /* Value to move logo right on larger screens */
         }
       }
 
@@ -444,6 +415,37 @@
           margin-left: 4rem;
         }
       }
+
+      @media (max-width: 767px) {
+
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter {
+          text-align: left;
+          float: none;
+        }
+
+        .sidebar {
+          transform: translateX(-250px);
+        }
+
+        .content-wrapper,
+        .navbar,
+        .site-footer {
+          margin-left: 0;
+        }
+
+        .navbar {
+          left: 0;
+        }
+
+        body:not(.sidebar-collapsed) .sidebar {
+          transform: translateX(0);
+        }
+
+        #sidebarToggle {
+          left: 10px;
+        }
+      }
     </style>
     <?= $this->renderSection('styles') ?>
   </head>
@@ -454,9 +456,35 @@
         <!-- Sidebar -->
         <div class="sidebar sidebar-dark-primary" id="sidebar">
           <ul class="list-unstyled components">
+            <!-- Profile -->
+            <li>
+              <?php if (auth()->user()->inGroup('user')): ?>
+              <li>
+                <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Profile </a>
+              </li>
+            <?php else: ?>
+              <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fa fa-user"></i> <?= esc(auth()->user()->username); ?>
+              </a>
+              <ul class="collapse list-unstyled" id="productSubmenu3">
+                <li>
+                  <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Edit Profile </a>
+                </li>
+                <li>
+                  <a href="<?= base_url('editCompany'); ?>"><i class="fas fa-user-tie"></i> Edit Company </a>
+                </li>
+              </ul>
+            <?php endif; ?>
+            </li>
+            <!-- ./Profile -->
+
+            <!-- Dashboard -->
             <li>
               <a href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i> Dashboard</a>
             </li>
+            <!-- ./Dashboard -->
+
+            <!-- Product -->
             <li>
               <a href="#productSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                 <i class="fas fa-box"></i> Product
@@ -474,6 +502,8 @@
                 </li>
               </ul>
             </li>
+            <!-- ./Product -->
+
             <!-- User Management -->
             <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
               <li>
@@ -490,43 +520,24 @@
                 </ul>
               </li>
             <?php endif; ?>
-            <!-- / -->
+            <!-- ./User Management -->
+
             <!-- Company Management -->
             <?php if (auth()->user()->inGroup('superadmin')): ?>
               <li>
                 <a href="<?= url_to('viewCompany') ?>"><i class="fa fa-building"></i> Company Management</a>
               </li>
             <?php endif; ?>
-            <!-- / -->
-            <!-- Profile -->
-            <li>
-              <?php if (auth()->user()->inGroup('user')): ?>
-                <li>
-                  <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Profile </a>
-                </li>
-              <?php else: ?>
-                <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                  <i class="fa fa-user"></i> Profile
-                </a>
-                <ul class="collapse list-unstyled" id="productSubmenu3">
-                  <li>
-                    <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Edit Profile </a>
-                  </li>
-                  <li>
-                    <a href="<?= base_url('editCompany'); ?>"><i class="fas fa-user-tie"></i> Edit Company </a>
-                  </li>
-                </ul>
-              <?php endif; ?>
-            </li>
-            <!-- / -->
+            <!-- ./Company Management -->
+
             <!-- Logout button -->
             <li>
               <a href="<?= url_to('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
-            <!-- ! -->
+            <!-- Logout button -->
           </ul>
         </div>
-        <!-- ! -->
+        <!-- ./Sidebar -->
       <?php endif; ?>
 
       <!-- Content Section -->
@@ -570,15 +581,6 @@
                 </li>
                 <!-- Check if user login -->
                 <?php if (auth()->loggedIn()): ?>
-                  <li class="nav-item dropdown">
-
-                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
-                        class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="<?= base_url('profile'); ?>">Profile</a></li>
-                      <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
-                    </ul>
-                  </li>
                 <?php else: ?>
                   <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
