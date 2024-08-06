@@ -499,25 +499,31 @@
             <?php endif; ?>
             <!-- / -->
             <!-- Profile -->
-            <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
-              <li>
+            <li>
+              <?php if (auth()->user()->inGroup('user')): ?>
+                <li>
+                  <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Profile </a>
+                </li>
+              <?php else: ?>
                 <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                   <i class="fa fa-user"></i> Profile
                 </a>
                 <ul class="collapse list-unstyled" id="productSubmenu3">
                   <li>
-                    <a href=""><i class="fa fa-user-circle"></i> Personal Profile</a>
+                    <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Edit Profile </a>
                   </li>
                   <li>
-                    <a href=""><i class="fas fa-user-tie"></i> Company Profile</a>
+                    <a href="<?= base_url('editCompany'); ?>"><i class="fas fa-user-tie"></i> Edit Company </a>
                   </li>
                 </ul>
-              </li>
-            <?php endif; ?>
+              <?php endif; ?>
+            </li>
             <!-- / -->
+            <!-- Logout button -->
             <li>
               <a href="<?= url_to('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
+            <!-- ! -->
           </ul>
         </div>
         <!-- ! -->
