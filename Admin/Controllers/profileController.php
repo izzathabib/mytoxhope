@@ -67,12 +67,27 @@ class profileController extends BaseController
 
         // Validate the current password
         if (!password_verify($currentPassword, $user->password_hash)) {
-            return redirect()->back()->with('error', 'Current password is incorrect');
+            return redirect()->back()->with('currentPass', 'Current password is incorrect');
         }
 
-        // Validate the new password and confirmation
+        // Rule new password format
+        $rules = [
+            'new_password' => [
+                'label' => 'New password',
+                'rules' => 'required|max_byte[72]|strong_password[]',
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes'
+                ]
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Validate the new password match with the comfirm new password field
         if ($newPassword !== $confirmPassword) {
-            return redirect()->back()->with('error', 'New passwords do not match');
+            return redirect()->back()->with('matchPass', 'New passwords do not match');
         }
 
         // Update the password

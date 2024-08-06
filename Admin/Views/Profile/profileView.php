@@ -62,18 +62,40 @@
             </div>
           <?php endif; ?> 
           <!--! -->
-          <form method="post" action="<?= url_to('updatePassword') ?>">
+          <form method="post" action="<?= url_to('updatePassword') ?>" class="needs-validation">
               <div class="form-group">
                   <label for="current_password">Current Password</label>
-                  <input type="password" class="form-control" id="current_password" name="current_password" required>
+                  <input type="password" class="form-control <?php if (session('currentPass') !== null):?> is-invalid <?php endif; ?>" id="current_password" name="current_password" required>
+                  <?php if (session('currentPass') !== null): ?>
+                  <div class="invalid-feedback">
+                    <div><?= session('currentPass') ?></div>
+                  </div>
+                  <?php endif; ?>
               </div>
               <div class="form-group">
                   <label for="new_password">New Password</label>
-                  <input type="password" class="form-control" id="new_password" name="new_password" required>
+                  <input type="password" class="form-control <?php if (session('errors') !== null):?> is-invalid <?php endif; ?>" id="new_password" name="new_password" required>
+                  <?php if (session('errors') !== null): ?>
+                    <div class="invalid-feedback" role="alert">
+                        <?php if (is_array(session('errors'))): ?>
+                            <?php foreach (session('errors') as $error): ?>
+                                <?= $error ?>
+                                <br>
+                            <?php endforeach ?>
+                        <?php else: ?>
+                            <?= session('errors') ?>
+                        <?php endif ?>
+                    </div>
+                  <?php endif ?>
               </div>
               <div class="form-group">
                   <label for="confirm_password">Confirm New Password</label>
-                  <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                  <input type="password" class="form-control <?php if (session('matchPass') !== null):?> is-invalid <?php endif; ?>" id="confirm_password" name="confirm_password" required>
+                  <?php if (session('matchPass') !== null): ?>
+                  <div class="invalid-feedback">
+                    <div><?= session('matchPass') ?></div>
+                  </div>
+                  <?php endif; ?>
               </div>
               <button type="submit" class="btn btn-primary">Update Password</button>
           </form>
