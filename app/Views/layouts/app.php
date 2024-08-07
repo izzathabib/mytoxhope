@@ -64,6 +64,10 @@
         padding: 0;
       }
 
+      html * {
+        font-family: Helvetica, sans-serif;
+      }
+
       body {
         display: flex;
         flex-direction: column;
@@ -384,7 +388,7 @@
           left: 10px;
           z-index: 1030;
           margin-right: 1rem;
-          
+
         }
 
         .navbar-brand {
@@ -481,18 +485,18 @@
           margin-left: 1rem;
         }
 
-        .navbar > .container-fluid {
+        .navbar>.container-fluid {
           flex-wrap: nowrap;
         }
 
         .navbar-collapse {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: #2c3034;
-    padding: 1rem;
-  }
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background-color: #2c3034;
+          padding: 1rem;
+        }
       }
     </style>
     <?= $this->renderSection('styles') ?>
@@ -705,12 +709,12 @@
 
         function toggleSidebar() {
           if (window.innerWidth < 768) {
-    document.body.classList.toggle('sidebar-collapsed');
-    localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
-  } else {
-    document.body.classList.toggle('sidebar-collapsed');
-    localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
-  }
+            document.body.classList.toggle('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
+          } else {
+            document.body.classList.toggle('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
+          }
         }
 
         if (sidebarToggle) {
@@ -718,23 +722,23 @@
         }
 
         function closeSidebarOnMobile() {
-  if (window.innerWidth < 768) {
-    document.body.classList.add('sidebar-collapsed');
-    localStorage.setItem('sidebarCollapsed', 'true');
-  }
-}
+          if (window.innerWidth < 768) {
+            document.body.classList.add('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', 'true');
+          }
+        }
 
-document.addEventListener('click', function(event) {
-  const sidebar = document.getElementById('sidebar');
-  const sidebarToggle = document.getElementById('sidebarToggle');
-  
-  if (window.innerWidth < 768 && 
-      !sidebar.contains(event.target) && 
-      event.target !== sidebarToggle && 
-      !sidebarToggle.contains(event.target)) {
-    closeSidebarOnMobile();
-  }
-});
+        document.addEventListener('click', function (event) {
+          const sidebar = document.getElementById('sidebar');
+          const sidebarToggle = document.getElementById('sidebarToggle');
+
+          if (window.innerWidth < 768 &&
+            !sidebar.contains(event.target) &&
+            event.target !== sidebarToggle &&
+            !sidebarToggle.contains(event.target)) {
+            closeSidebarOnMobile();
+          }
+        });
 
         // Load sidebar state from localStorage
         const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
