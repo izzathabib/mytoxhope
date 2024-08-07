@@ -27,8 +27,8 @@
             </div>
 
             <!-- Create user button -->
-            <div class="col-xl-1">
-                <a class="btn btn-block btn-sm btn-default btn-flat border-primary text-nowrap" href="<?= url_to('addNewUser'); ?>"><i class="fas fa-plus"></i> <b>Add User</b></a>
+            <div class="col-md-2 text-center">
+                <a class="btn btn-sm btn-outline-primary container-fluid text-nowrap" href="<?= url_to('addNewUser'); ?>"><b>Add User</b></a>
             </div>
           </div>
           
