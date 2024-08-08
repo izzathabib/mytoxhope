@@ -64,6 +64,10 @@
         padding: 0;
       }
 
+      html * {
+        font-family: Helvetica, sans-serif;
+      }
+
       body {
         display: flex;
         flex-direction: column;
@@ -313,6 +317,7 @@
         z-index: 1031;
         margin-right: 15px;
         margin-top: 15px;
+        transition: margin-left 0.3s ease-in-out;
       }
 
       body.sidebar-collapsed #sidebarToggle {
@@ -369,6 +374,11 @@
         .navbar-toggler {
           margin-left: auto;
         }
+
+        .content-wrapper {
+          margin-top: 60px;
+          padding-bottom: 20px;
+        }
       }
 
       @media (min-width: 992px) {
@@ -378,6 +388,7 @@
           left: 10px;
           z-index: 1030;
           margin-right: 1rem;
+
         }
 
         .navbar-brand {
@@ -392,19 +403,23 @@
 
         .navbar-brand,
         .d-flex {
-          flex: 0 0 100%;
+          flex: 0 0 50%;
           margin-bottom: 0;
         }
 
         .navbar-toggler {
           margin-left: auto;
         }
+
+        #sidebarToggle {
+          margin-bottom: 15px;
+        }
       }
 
       @media (min-width: 768px) {
 
         #sidebarToggle {
-          margin-left: 250px;
+          margin-left: 10px;
         }
 
         .content-wrapper.expanded #sidebarToggle {
@@ -426,6 +441,7 @@
 
         .sidebar {
           transform: translateX(-250px);
+          z-index: 1031;
         }
 
         .content-wrapper,
@@ -434,8 +450,23 @@
           margin-left: 0;
         }
 
+        .content-wrapper {
+          padding-top: 5px;
+        }
+
         .navbar {
           left: 0;
+          padding: 0.5rem 1rem;
+        }
+
+        .navbar-brand {
+          margin-right: auto;
+          margin-left: 0 !important;
+        }
+
+        .navbar-brand img {
+          max-height: 40px;
+          width: 60%;
         }
 
         body:not(.sidebar-collapsed) .sidebar {
@@ -444,6 +475,27 @@
 
         #sidebarToggle {
           left: 10px;
+          order: -1;
+          margin-right: 20px;
+          margin-left: 0;
+        }
+
+        .navbar-toggler {
+          order: 1;
+          margin-left: 1rem;
+        }
+
+        .navbar>.container-fluid {
+          flex-wrap: nowrap;
+        }
+
+        .navbar-collapse {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background-color: #2c3034;
+          padding: 1rem;
         }
       }
     </style>
@@ -656,13 +708,37 @@
         const footer = document.querySelector('.site-footer');
 
         function toggleSidebar() {
-          document.body.classList.toggle('sidebar-collapsed');
-          localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
+          if (window.innerWidth < 768) {
+            document.body.classList.toggle('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
+          } else {
+            document.body.classList.toggle('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
+          }
         }
 
         if (sidebarToggle) {
           sidebarToggle.addEventListener('click', toggleSidebar);
         }
+
+        function closeSidebarOnMobile() {
+          if (window.innerWidth < 768) {
+            document.body.classList.add('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', 'true');
+          }
+        }
+
+        document.addEventListener('click', function (event) {
+          const sidebar = document.getElementById('sidebar');
+          const sidebarToggle = document.getElementById('sidebarToggle');
+
+          if (window.innerWidth < 768 &&
+            !sidebar.contains(event.target) &&
+            event.target !== sidebarToggle &&
+            !sidebarToggle.contains(event.target)) {
+            closeSidebarOnMobile();
+          }
+        });
 
         // Load sidebar state from localStorage
         const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
