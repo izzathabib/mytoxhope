@@ -5,7 +5,7 @@
 <!-- Display company name -->
 <div class="container-fluid p-4 mt-5">
   <?php foreach($companyData as $data): ?>
-    <h1><?= $data->comp_name; ?></h1>
+    <h2><?= $data->comp_name; ?></h2>
   <?php endforeach; ?>
 </div>
 <!--  -->

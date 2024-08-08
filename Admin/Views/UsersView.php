@@ -4,9 +4,9 @@
 
 
 <!-- Display page title -->
-<div class="container-fluid content-header p-3 mt-5">
+<div class="container-fluid p-3 mt-5">
   <div class="container-fluid">
-    <h2 class="content-header">User List</h2>
+    <h2>User List</h2>
   </div>
 </div>
 

@@ -2,9 +2,9 @@
 <?= $this->section('content'); ?>
 
 <!-- Display page title -->
-<div class="container-fluid content-header p-2 mt-5">
+<div class="container-fluid p-2 mt-5">
   <div class="container-fluid">
-    <h2 class="content-header">Product List</h2>
+    <h2>Product List</h2>
   </div>
 </div>
 
