@@ -5,6 +5,7 @@ namespace Admin\Controllers;
 use App\Controllers\BaseController;
 use App\Models\Company;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\UserModel;
 
 class CompanyController extends BaseController
 {
@@ -13,11 +14,17 @@ class CompanyController extends BaseController
         $title = 'Company List';
 
         $companyModel = new Company();
+        $userModel = new UserModel();
+
+        // Get current user id
+        $currentUserId = $userModel->find(auth()->user()->id);
+        
         // Get all company detail 
         $companyData = $companyModel
         ->select('company.*, users.*, identities.secret') 
         ->join('users', 'company.comp_admin = users.id')
         ->join('identities', 'company.comp_admin = identities.user_id')
+        ->where('users.comp_id !=', $currentUserId->comp_id)
         ->get()
         ->getResult();
         return view('Admin\Views\Company\CompanyListView',compact('title','companyData'));
