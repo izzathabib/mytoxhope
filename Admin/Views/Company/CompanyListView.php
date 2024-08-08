@@ -58,13 +58,17 @@
                               <td><?= 'Verified'; ?></td>
                             <?php endif; ?>
                           <td>
-                            <!-- Edit button -->
-                            <div class="text-center">
-                              <button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data->comp_id; ?>" class="btn btn-outline-primary text-center" data-bs-toggle="tooltip" title="Edit company">
-                              <i class="fa-solid fa-edit"></i>
-                              </button>
+                            <div class="row">
+                              <div class="col-md-12 text-center">
+                                <button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data->comp_id; ?>" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Edit company">
+                                  <i class="fa-solid fa-edit"></i>
+                                </button>
+
+                                <button class="btn btn-outline-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $data->id; ?>">
+                                  <i class="fa-solid fa-trash"></i>
+                                </button>
+                              </div>
                             </div>
-                            
                           </td>
                         </tr>
                       <?php endforeach; ?>
@@ -85,7 +89,7 @@
     </div>
     
     <?php foreach ($companyData as $data): ?>
-    <!-- The Modal -->
+    <!-- Edit Modal -->
     <div class="modal fade" id="editModal<?= $data->comp_id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <form method="POST" action="<?= url_to('saveEditCompany', $data->comp_id) ?>">
@@ -123,6 +127,34 @@
     </div>
     </div>
     <!-- / -->
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal<?= $data->id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Confirmation!</h4>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Are you sure you want to delete this company? This action will also delete all users associated with it.
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <form method="POST" action="<?= url_to('deleteCompany', $data->comp_id); ?>">
+              <button type="submit" value="Submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+            <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- ! -->
     <?php endforeach; ?>
 </div>
 

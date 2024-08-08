@@ -44,4 +44,11 @@ class CompanyController extends BaseController
 
         return redirect()->to('Admin/company');
     }
+
+    public function deleteCompany($compId) {
+        $companyModel = new Company();
+        $companyModel->delete($compId);
+        //dd($id);
+        return redirect()->to('Admin/company');
+    }
 }
