@@ -315,14 +315,16 @@
       #sidebarToggle {
         position: relative;
         z-index: 1031;
-        margin-right: 15px;
-        margin-top: 15px;
-        transition: margin-left 0.3s ease-in-out;
+        margin: 15px 15px 0 0;
+        transform: translateX(250px);
+        transition: 0.6s;
       }
 
       body.sidebar-collapsed #sidebarToggle {
         margin-left: 0;
+        transform: translateX(0);
         margin-top: 15px;
+        transition: 0.6s;
       }
 
 
@@ -413,7 +415,13 @@
 
         #sidebarToggle {
           margin-bottom: 15px;
+          transform: translateX(0)
         }
+
+        body.sidebar-collapsed #sidebarToggle {
+        margin-left: 10px;
+        margin-top: 15px;
+      }
       }
 
       @media (min-width: 768px) {
