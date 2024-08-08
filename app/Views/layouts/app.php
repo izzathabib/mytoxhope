@@ -315,14 +315,16 @@
       #sidebarToggle {
         position: relative;
         z-index: 1031;
-        margin-right: 15px;
-        margin-top: 15px;
-        transition: margin-left 0.3s ease-in-out;
+        margin: 15px 15px 0 0;
+        transform: translateX(250px);
+        transition: 0.6s;
       }
 
       body.sidebar-collapsed #sidebarToggle {
         margin-left: 0;
+        transform: translateX(0);
         margin-top: 15px;
+        transition: 0.6s;
       }
 
 
@@ -413,7 +415,13 @@
 
         #sidebarToggle {
           margin-bottom: 15px;
+          transform: translateX(0)
         }
+
+        body.sidebar-collapsed #sidebarToggle {
+        margin-left: 10px;
+        margin-top: 15px;
+      }
       }
 
       @media (min-width: 768px) {
@@ -508,28 +516,6 @@
         <!-- Sidebar -->
         <div class="sidebar sidebar-dark-primary" id="sidebar">
           <ul class="list-unstyled components">
-            <!-- Profile -->
-            <li>
-              <?php if (auth()->user()->inGroup('user')): ?>
-              <li>
-                <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Profile </a>
-              </li>
-            <?php else: ?>
-              <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                <i class="fa fa-user"></i> <?= esc(auth()->user()->username); ?>
-              </a>
-              <ul class="collapse list-unstyled" id="productSubmenu3">
-                <li>
-                  <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Edit Profile </a>
-                </li>
-                <li>
-                  <a href="<?= base_url('edit-company'); ?>"><i class="fas fa-user-tie"></i> Edit Company </a>
-                </li>
-              </ul>
-            <?php endif; ?>
-            </li>
-            <!-- ./Profile -->
-
             <!-- Dashboard -->
             <li>
               <a href="<?= base_url('dashboard'); ?>"><i class="fas fa-chart-line"></i> Dashboard</a>
@@ -582,6 +568,28 @@
             <?php endif; ?>
             <!-- ./Company Management -->
 
+            <!-- Profile -->
+            <li>
+              <?php if (auth()->user()->inGroup('user')): ?>
+              <li>
+                <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Profile </a>
+              </li>
+            <?php else: ?>
+              <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fa fa-user"></i> Profile
+              </a>
+              <ul class="collapse list-unstyled" id="productSubmenu3">
+                <li>
+                  <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Edit Profile </a>
+                </li>
+                <li>
+                  <a href="<?= base_url('edit-company'); ?>"><i class="fas fa-user-tie"></i> Edit Company </a>
+                </li>
+              </ul>
+            <?php endif; ?>
+            </li>
+            <!-- ./Profile -->
+
             <!-- Logout button -->
             <li>
               <a href="<?= url_to('logout'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -633,6 +641,13 @@
                 </li>
                 <!-- Check if user login -->
                 <?php if (auth()->loggedIn()): ?>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i
+                        class="fa-solid fa-user"></i> <?= esc(auth()->user()->username); ?></a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Logout</a></li>
+                    </ul>
+                  </li>
                 <?php else: ?>
                   <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('login'); ?>">Login</a>
