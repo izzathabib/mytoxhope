@@ -94,7 +94,7 @@
             <!-- Role -->
             <div class="form-floating mb-3 w-100">
             <select id="role" name="role" class="form-select" required>
-              <option value="">Role</option>
+              <option value="">Select Role</option>
               <?php if (auth()->user()->inGroup('superadmin')): ?>
                 <option value="superadmin">Admin PRN</option>
               <?php endif; ?>

@@ -26,6 +26,7 @@ use CodeIgniter\Router\RouteCollection;
 
  $routes->get('edit-company', '\Admin\Controllers\profileController::editCompany');
  $routes->post('save-edit-company-profile/(:num)', '\Admin\Controllers\profileController::saveEditCompProfile/$1',['as' => 'saveEditCompProfile']);
+ $routes->post('save-main-admin-changes/(:num)', '\Admin\Controllers\profileController::saveMainAdminChanges/$1',['as' => 'saveMainAdminChanges']);
 
 
 

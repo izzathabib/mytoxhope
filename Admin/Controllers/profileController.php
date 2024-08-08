@@ -108,14 +108,44 @@ class profileController extends BaseController
         $title = 'Company Profile';
 
         $companyModel = new Company();
+        $userModel = new UserModel();
+        
         $companyData = $companyModel
-        ->select('company.*, users.*')
+        ->select('company.comp_name, company.comp_reg_no, company.comp_id, company.comp_admin')
         ->join('users', 'users.comp_id = company.comp_id')
         ->where('users.id', auth()->user()->id)
         ->get()
         ->getResult();
 
-        return view('Admin\Views\Profile\compProfileView', compact('title','companyData'));
+        // Get the company admin detail
+        foreach ($companyData as $data) {
+            $admin = $data->comp_admin;
+        }
+        
+        $adminData = $userModel->where('id',$admin)->first();
+
+        // Get current user data
+        $currentUserData = $userModel->find(auth()->user()->id);
+
+        // Get all user with the associate company to display as main administrator option
+        if (auth()->user()->inGroup('superadmin')) {
+            $userData = $userModel
+            ->select('users.username, users.id')
+            ->where('users.comp_id', $currentUserData->comp_id)
+            ->get()
+            ->getResult();
+        } else {
+            $userData = $userModel
+            ->select('users.username, users.id')
+            ->join('groups_users', 'users.id = groups_users.user_id')
+            ->where('users.comp_id', $currentUserData->comp_id)
+            ->where('groups_users.group', 'admin')
+            ->get()
+            ->getResult();
+        }
+        
+        //dd($userData);
+        return view('Admin\Views\Profile\compProfileView', compact('title','companyData', 'userData', 'adminData'));
     }
 
     public function saveEditCompProfile($compId) {
@@ -129,6 +159,19 @@ class profileController extends BaseController
         $companyModel->update($compId,$companyData);
 
         return redirect()->back()->with('compInfo', 'Company information updated successfully');
+
+    }
+
+    public function saveMainAdminChanges($compId) {
+
+        $companyData = [
+            'comp_admin' => $this->request->getPost('comp_admin'),
+        ];
+
+        $companyModel = new Company();
+        $companyModel->update($compId,$companyData);
+
+        return redirect()->back()->with('adminChange', 'Main administrator changed successfully');
 
     }
 

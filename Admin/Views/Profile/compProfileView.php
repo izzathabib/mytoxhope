@@ -47,6 +47,36 @@
         </div>
     </div>
     <!--! -->
+
+    <!-- Change company main admin -->
+    <div class="col-md-5">
+        <div class="card  w-100 shadow-sm">
+          <div class="text-dark-primary p-3"><strong>Company Main Administrator</strong></div>
+          <div class="card-body">
+          <!-- Alert message -->
+          <?php if (session('adminChange') !== null): ?>
+            <div class="alert alert-success alert-dismissible fade show">
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              <div><i class="fas fa-check-circle"></i>  <?= session('adminChange') ?></div> 
+            </div>
+          <?php endif; ?>
+          <!-- ! -->
+            <form method="post" action="<?= url_to('saveMainAdminChanges',$data->comp_id) ?>">
+              <div class="form-group">
+              <select id="comp_admin" name="comp_admin" class="form-select" required>
+                <?php foreach ($userData as $user): ?>
+                  <option value="<?= $user->id ?>" <?php echo isset($data->comp_admin) && $data->comp_admin == $user->id ? 'selected' : '' ?> ><?= $user->username ?></option>
+                <?php endforeach; ?>
+              </select>
+              </div>
+              
+              <button type="submit" class="btn btn-warning">Save Changes</button>
+              <a href="<?= site_url('dashboard'); ?>" class="btn btn-secondary" role="button">Cancel</a>
+            </form>
+          </div>
+        </div>
+    </div>
+    <!-- ! -->
   </div>
 </div>
 <?php endforeach; ?>

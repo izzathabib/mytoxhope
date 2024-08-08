@@ -27,6 +27,7 @@ class CompanyController extends BaseController
         ->where('users.comp_id !=', $currentUserId->comp_id)
         ->get()
         ->getResult();
+        
         return view('Admin\Views\Company\CompanyListView',compact('title','companyData'));
     }
 
