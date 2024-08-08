@@ -547,11 +547,11 @@
             <?php if (auth()->user()->inGroup('superadmin', 'admin')): ?>
               <li>
                 <a href="#productSubmenu2" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                  <i class="fa fa-user"></i> Users Management
+                  <i class="fa fa-user"></i> User Management
                 </a>
                 <ul class="collapse list-unstyled" id="productSubmenu2">
                   <li>
-                    <a href="<?= url_to('viewUser') ?>"><i class="fa fa-list"></i> View Users</a>
+                    <a href="<?= url_to('viewUser') ?>"><i class="fa fa-list"></i> View User</a>
                   </li>
                   <li>
                     <a href="<?= url_to('addNewUser') ?>"><i class="fa fa-plus-circle"></i> Add New User</a>
