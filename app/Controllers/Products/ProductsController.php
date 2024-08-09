@@ -39,7 +39,8 @@ class ProductsController extends BaseController
         if (auth()->user()->inGroup('superadmin')) {
             $productData = $productModel
             ->select('products.*, company.comp_name') 
-            ->join('company', 'products.comp_id = company.comp_id')
+            ->join('users', 'products.user_id = users.id')
+            ->join('company', 'users.comp_id = company.comp_id')
             ->get()
             ->getResult();
             return view('Products/productListView',compact('title','productData'));
@@ -51,11 +52,12 @@ class ProductsController extends BaseController
         $currentUserCompId = $currentUserId->comp_id;
 
         $productData = $productModel
-            ->select('products.*, company.comp_name') 
-            ->join('company', 'products.comp_id = company.comp_id')
-            ->where('products.comp_id', $currentUserCompId) 
-            ->get()
-            ->getResult();
+        ->select('products.*, company.comp_name') 
+        ->join('users', 'products.user_id = users.id')
+        ->join('company', 'users.comp_id = company.comp_id')
+        ->where('company.comp_id', $currentUserCompId) 
+        ->get()
+        ->getResult();
 
         return view('Products/productListView', compact('title','productData'));
     }
