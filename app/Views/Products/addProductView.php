@@ -28,9 +28,6 @@
               <?php endif ?>
               <!-- Error message -->
               </div>
-            <?php else: ?>
-              <input type="hidden" class="form-control" name="comp_id" 
-              value="<?= $companyData['comp_id'] ?>" required>
             <?php endif; ?>
 
             <!-- Product Name -->
