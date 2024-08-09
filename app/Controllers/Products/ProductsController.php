@@ -138,14 +138,14 @@ class ProductsController extends BaseController
             // Fetch company ID based on company name
             $compName = $this->request->getPost('comp_name');
             $compData = $companyModel->where('comp_name', $compName)->first();
-            $compId = $compData['comp_id'];
+            $userId = $compData['comp_admin'];
         } else {
-            $compId = $this->request->getPost('comp_id');
+            $userId = auth()->user()->id;
         }
 
         // Fetch data for each of the field
         $productData = [
-            "comp_id" => $compId,
+            "user_id" => $userId,
             "product_name" => $this->request->getPost('product_name'),
             "product_image" => $product_image->getClientName(),
             "type_poison" => $this->request->getPost('type_poison'),
@@ -164,8 +164,8 @@ class ProductsController extends BaseController
         $productModel->save($productData);
 
         // Get new product insert ID
-        $id = $productModel->insertID();
-
+        $id = $productModel->getInsertID();
+        
         // Check if the data have been save
         if ($productModel) {
             return redirect()->to(base_url('display-prod-detail/'.$id));

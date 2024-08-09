@@ -13,7 +13,7 @@ class Product extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'comp_id',
+        'user_id',
         'product_name',
         'product_image',
         'type_poison',
@@ -39,18 +39,7 @@ class Product extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [
-        'comp_id' => 'required',
-        'product_name' => 'required',
-        'product_image' => 'required',
-        'type_poison' => 'required',
-        'active_ing' => 'required',
-        'inactive_ing' => 'required',
-        'brand_name' => 'required',
-        'msds' => 'required',
-        'subtype_household' => 'required',
-        'prod_status' => 'required',
-    ];
+    protected $validationRules      = [];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
