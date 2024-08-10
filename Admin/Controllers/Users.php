@@ -50,11 +50,27 @@ class Users extends BaseController
             ->join('identities', 'users.id = identities.user_id')
             ->join('groups_users', 'users.id = groups_users.user_id') 
             ->where('users.comp_id', $currentUserCompId)
-            ->where('users.id !=', $currentUserId->id) 
+            ->where('users.id !=', $currentUserId->id)
             ->get()
             ->getResult();
 
         return view('Admin\Views\UsersView',compact('title','userData'));
+    }
+
+    public function viewVerifyRequest() {
+        $title = 'Verification Request';
+        $userModel = new UserModel();
+
+        $userData = $userModel
+            ->select('users.*, company.*, identities.secret, groups_users.group') 
+            ->join('company', 'users.comp_id = company.comp_id')
+            ->join('identities', 'users.id = identities.user_id')
+            ->join('groups_users', 'users.id = groups_users.user_id')
+            ->where('company.status', 'unverified')
+            ->get()
+            ->getResult();
+
+        return view('Admin\Views\UserVerifyView',compact('title','userData'));
     }
 
     public function verifyUser($id) {

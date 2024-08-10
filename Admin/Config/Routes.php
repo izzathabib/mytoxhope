@@ -9,6 +9,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 
  $routes->get('Admin/users', '\Admin\Controllers\Users::index',['as' => 'viewUser']);
+ $routes->get('view-verify-request', '\Admin\Controllers\Users::viewVerifyRequest',['as' => 'viewVerifyRequest']);
+
  $routes->post('verify-user/(:num)', '\Admin\Controllers\Users::verifyUser/$1',['as' => 'verifyUser']);
  $routes->get('add-new-user', '\Admin\Controllers\Users::addNewUser',['as' => 'addNewUser']);
  $routes->post('save-user', '\Admin\Controllers\Users::saveUser',['as' => 'saveUser']);

@@ -553,6 +553,11 @@
                   <li>
                     <a href="<?= url_to('viewUser') ?>"><i class="fa fa-list"></i> View User</a>
                   </li>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                  <li>
+                    <a href="<?= url_to('viewVerifyRequest') ?>"><i class="far fa-check-circle"></i> Verification Request</a>
+                  </li>
+                  <?php endif; ?>
                   <li>
                     <a href="<?= url_to('addNewUser') ?>"><i class="fa fa-plus-circle"></i> Add New User</a>
                   </li>

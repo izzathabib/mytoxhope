@@ -6,7 +6,7 @@
 <!-- Display page title -->
 <div class="container-fluid p-3 mt-5">
   <div class="container-fluid">
-    <h2>User List</h2>
+    <h2>Verification Request</h2>
   </div>
 </div>
 
@@ -26,10 +26,6 @@
               <h4><i class="fa fa-info-circle"></i> User Information</h4>
             </div>
 
-            <!-- Create user button -->
-            <div class="col-md-2 text-center">
-                <a class="btn btn-sm btn-outline-primary container-fluid text-nowrap" href="<?= url_to('addNewUser'); ?>"><b>Add User</b></a>
-            </div>
           </div>
           
           </div>
@@ -78,16 +74,13 @@
                           <?php if (auth()->user()->inGroup('superadmin')): ?>
                             <?php if ($data->status == 'unverified') : ?>
                               <td>
-                                <div class="text-center">
-                                  <div class="badge rounded-pill text-bg-danger"><?= 'Unverified'; ?></div>
-                                </div>
+                                <!-- Form section to update status value in users table -->
+                                <form method="POST" action="<?= url_to('verifyUser', $data->id); ?>">
+                                  <button type="submit" value="Submit" class="btn btn-primary btn-sm">Verify</button>
+                                </form>
                               </td>
                             <?php elseif ($data->status == 'verified'): ?>
-                              <td>
-                                <div class="text-center">
-                                  <div class="badge rounded-pill text-bg-success"><?= 'Verified'; ?></div>
-                                </div>
-                              </td>
+                              <td><?= 'Verified'; ?></td>
                             <?php endif; ?>
                           <?php endif; ?>
                           <td>
