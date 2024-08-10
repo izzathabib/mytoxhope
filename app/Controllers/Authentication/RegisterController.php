@@ -145,7 +145,7 @@ class RegisterController extends ShieldRegister
 
         $authenticator->completeLogin($user);
 
-        // Send email to adminPRN so they new registration happen for them to verify the user
+        // Send email to adminPRN so they knew new registration happen for them to verify the user
         $email = \Config\Services::email();
         $email->setTo('muhdizat.h@gmail.com'); // Replace with your actual email address
         $email->setSubject('Test Email from CodeIgniter 4');
