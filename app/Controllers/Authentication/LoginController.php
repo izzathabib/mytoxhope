@@ -48,13 +48,20 @@ class LoginController extends ShieldLogin
             ->with('errors',"You dont have an account registered");
         }
         $existingUserId = $existingUser->user_id;
-
+        
         //Fetch user data
-        $userData = $userModel->find($existingUserId);
-
-        if ($userData->status=='unverified') {
-            return redirect()->back()
-            ->with('errors',"Account Verification Pending. For assistance, please contact Pusat Racun Negara.");
+        $userData = $userModel
+        ->select('company.status')
+        ->join('company', 'users.comp_id = company.comp_id')
+        ->where('users.id', $existingUserId)
+        ->get()
+        ->getResult();
+        
+        foreach ($userData as $data) {
+            if ($data->status=='unverified') {
+                return redirect()->back()
+                ->with('errors',"Account Verification Pending. For assistance, please contact Pusat Racun Negara.");
+            }
         }
 
         // Validate here first, since some things,
