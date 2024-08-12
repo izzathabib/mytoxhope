@@ -551,7 +551,10 @@
                 </a>
                 <ul class="collapse list-unstyled" id="productSubmenu2">
                   <li>
-                    <a href="<?= url_to('viewUser') ?>"><i class="fa fa-list"></i> View User</a>
+                    <a href="<?= url_to('viewUser') ?>"><i class="fa-solid fa-user-gear"></i> View Admin</a>
+                  </li>
+                  <li>
+                    <a href="<?= url_to('viewUser') ?>"><i class="fa-solid fa-user-group"></i> View Staff</a>
                   </li>
                   <?php if (auth()->user()->inGroup('superadmin')): ?>
                   <li>
@@ -567,24 +570,38 @@
             <!-- ./User Management -->
 
             <!-- Company Management -->
+             <li>
             <?php if (auth()->user()->inGroup('superadmin')): ?>
+              <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fa fa-building"></i> Company Management
+              </a>
+              <ul class="collapse list-unstyled" id="productSubmenu3">
               <li>
-                <a href="<?= url_to('viewCompany') ?>"><i class="fa fa-building"></i> Company Management</a>
+                <a href="<?= url_to('viewCompany') ?>"><i class="fa fa-building"></i> View Company</a>
               </li>
+              <li>
+                <a href=""><i class="fa fa-building"></i> Add Company</a>
+              </li>
+              </ul>
             <?php endif; ?>
+            </li>
             <!-- ./Company Management -->
 
+            <!-- Bin -->
+            <li>
+              <a href=""><i class="fa fa-trash"></i> Bin</a>
+            </li>
             <!-- Profile -->
             <li>
               <?php if (auth()->user()->inGroup('user')): ?>
               <li>
-                <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Profile </a>
+                <a href="<?= base_url('profile'); ?>"><i class="fa-solid fa-user"></i> Profile </a>
               </li>
             <?php else: ?>
-              <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                <i class="fa fa-user"></i> Profile
+              <a href="#productSubmenu4" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fa-solid fa-user"></i> Profile
               </a>
-              <ul class="collapse list-unstyled" id="productSubmenu3">
+              <ul class="collapse list-unstyled" id="productSubmenu4">
                 <li>
                   <a href="<?= base_url('profile'); ?>"><i class="fa fa-user-circle"></i> Edit Profile </a>
                 </li>
