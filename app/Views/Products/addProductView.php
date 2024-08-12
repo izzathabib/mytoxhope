@@ -4,8 +4,13 @@
 
 <div class="mt-5">
 <div class="addprod-container p-3">
-  <h4 class="text-left" style="margin-left: 40px;"><b>Register New Product</b></h4>
-  <div class="card shadow-sm addprod-container">
+<div class="d-flex align-items-center mb-3" style="margin-left: 40px;">
+  <a href="<?= site_url('list-product'); ?>" class="btn btn-tertiary btn-lg me-3">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  <h4 class="mb-0"><b>Register New Product</b></h4>
+</div>
+<div class="card shadow-sm addprod-container">
     <div class="card-body">
       
       <form method="POST" action="<?= url_to('saveProdDetail'); ?>" enctype="multipart/form-data" class="needs-validation">

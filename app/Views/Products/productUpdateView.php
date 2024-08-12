@@ -2,9 +2,14 @@
 <?= $this->section('content'); ?>
 
 <div class="mt-5">
-<div class="container-fluid p-5">
-  <h4 class="text-left"><b>Update Product Details</b></h4>
-  <div class="card w-100 shadow-sm">
+<div class="container-fluid p-3">
+<div class="d-flex align-items-center mb-3" style="margin-left: 0;">
+  <a href="javascript:history.back()" class="btn btn-tertiary btn-lg me-3">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  <h4 class="mb-0"><b>Update Product Details</b></h4>
+</div>
+<div class="card w-100 shadow-sm">
     <div class="card-body">
       <form method="POST" action="<?= url_to('saveUpdateDetail', $productData['id']); ?>" enctype="multipart/form-data">
         <div class="row">

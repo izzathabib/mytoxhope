@@ -4,14 +4,12 @@
 <?php foreach($companyData as $data): ?>
 <!-- Display username -->
 <div class="container-fluid mt-5 p-3">
-  <div class="row">
-    <div class="col-1">
-      <a role="button" class="btn btn-lg" href="<?= site_url('dashboard'); ?>"><i class="fas fa-arrow-left"></i></a>
-    </div>
-    <div class="col-2 text-nowrap">
-      <h3><?= esc($data->comp_name); ?></h3>
-    </div>
-  </div>
+<div class="d-flex align-items-center mb-1">
+  <a href="<?= base_url('dashboard') ?>" class="btn btn-tertiary btn-lg me-1">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  <h3 class="mb-0"><b><?= esc($data->comp_name) ?></b></h3>
+</div>
 </div>
 <!---->
 
@@ -21,7 +19,7 @@
     <!-- Company Information -->
     <div class="col-md-7">
         <div class="card h-100 w-100 shadow-sm">
-          <div class="text-dark-primary p-3"><strong>Company Information</strong></div>
+          <div class="text-dark-primary p-3" style="font-size: 20px;"><strong>Company Information</strong></div>
           <div class="card-body">
           <!-- Alert message -->
           <?php if (session('compInfo') !== null): ?>
@@ -51,7 +49,7 @@
     <!-- Change company main admin -->
     <div class="col-md-5">
         <div class="card  w-100 shadow-sm">
-          <div class="text-dark-primary p-3"><strong>Company Main Administrator</strong></div>
+          <div class="text-dark-primary p-3" style="font-size: 19px;"><strong>Company Main Administrator</strong></div>
           <div class="card-body">
           <!-- Alert message -->
           <?php if (session('adminChange') !== null): ?>

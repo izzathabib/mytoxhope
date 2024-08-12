@@ -6,8 +6,13 @@
 <!-- Display page title -->
 <div class="container-fluid p-3 mt-5">
   <div class="container-fluid">
-    <h2>User List</h2>
-  </div>
+  <div class="d-flex align-items-center mb-1">
+  <a href="<?= base_url('dashboard') ?>" class="btn btn-tertiary btn-lg me-3">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  <h2 class="mb-0"><b>User List</b></h2>
+</div>
+</div>
 </div>
 
 <!-- Main section -->
