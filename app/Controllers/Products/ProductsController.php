@@ -22,9 +22,12 @@ class ProductsController extends BaseController
         $companyModel = new Company();
 
         if (auth()->user()->inGroup('superadmin')) {
-            $companyData = $companyModel->where('status','verified')->findAll();
+            $companyData = $companyModel
+            ->where('status','verified')
+            ->where('comp_id !=', auth()->user()->comp_id)
+            ->findAll();
         } else {
-            $companyData = $companyModel->where('comp_id',auth()->user()->comp_id)->first();
+            $companyData = auth()->user()->id;
         }
         
         return view('Products/addProductView',compact('title', 'companyData'));
@@ -134,18 +137,11 @@ class ProductsController extends BaseController
         // Declare company model
         $companyModel = new Company();
 
-        if (auth()->user()->inGroup('superadmin')) {
-            // Fetch company ID based on company name
-            $compName = $this->request->getPost('comp_name');
-            $compData = $companyModel->where('comp_name', $compName)->first();
-            $userId = $compData['comp_admin'];
-        } else {
-            $userId = auth()->user()->id;
-        }
+        
 
         // Fetch data for each of the field
         $productData = [
-            "user_id" => $userId,
+            "user_id" => $this->request->getPost('comp_name'),
             "product_name" => $this->request->getPost('product_name'),
             "product_image" => $product_image->getClientName(),
             "type_poison" => $this->request->getPost('type_poison'),
@@ -156,7 +152,7 @@ class ProductsController extends BaseController
             "subtype_household" => $this->request->getPost('subtype_household'),
             "prod_status" => 'Active',
         ];
-
+        
         // Declare instances for model
         $productModel = new Product();
 

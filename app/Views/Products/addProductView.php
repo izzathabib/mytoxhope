@@ -19,7 +19,7 @@
               <select value="<?= old('comp_name') ?>" id="comp_name" name="comp_name" class="form-select" required >
                 <option value="Please select">Please select</option>
                 <?php foreach($companyData as $data): ?>
-                  <option value="<?= $data['comp_name'] ?>"><?= $data['comp_name'] ?></option>
+                  <option value="<?= $data['comp_admin'] ?>"><?= $data['comp_name'] ?></option>
                 <?php endforeach; ?>
               </select>
               <!-- Error message -->
@@ -28,6 +28,8 @@
               <?php endif ?>
               <!-- Error message -->
               </div>
+            <?php else: ?>
+              <input value="<?= $companyData ?>" type="hidden" name="comp_name">
             <?php endif; ?>
 
             <!-- Product Name -->
