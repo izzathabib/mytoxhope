@@ -60,11 +60,28 @@
     
     <?php if ($data->prod_status=='Discontinued'): ?>
       <!-- Button -->
-      <div class="row mt-3">
-        <div class="col-md-12 text-center">
-          <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+      <?php if (auth()->user()->inGroup('user')): ?>
+        <?php if ($data->user_id == auth()->user()->id): ?>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+            </div>
+          </div>
+        <?php else: ?>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <button disabled type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+            </div>
+          </div>
+        <?php endif; ?>
+      <?php else: ?>
+        <div class="row mt-3">
+          <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+          </div>
         </div>
-      </div>
+      <?php endif; ?>
+      <!-- ! -->
     <?php endif; ?>
     
     <!-- Form to submit reasons for deletion -->

@@ -48,13 +48,34 @@
       </div>
 
       <!-- Button -->
-      <div class="row mt-3">
-        <div class="col-md-12 text-center">
-          <a class="btn btn-primary" href="<?= url_to('productUpdate', $productData['id']) ?>">Update</a>
-          <a class="btn btn-secondary" href="<?= url_to('productDiscontinue', $productData['id']) ?>">Discontinued</a>
-          <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+      <?php if (auth()->user()->inGroup('user')): ?>
+        <?php if ($productData['user_id'] == auth()->user()->id): ?>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <a class="btn btn-primary" href="<?= url_to('productUpdate', $productData['id']) ?>">Update</a>
+              <a class="btn btn-secondary" href="<?= url_to('productDiscontinue', $productData['id']) ?>">Discontinued</a>
+              <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+            </div>
+          </div>
+        <?php else: ?>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <button disabled class="btn btn-primary" href="<?= url_to('productUpdate', $productData['id']) ?>">Update</button>
+              <button disabled class="btn btn-secondary" href="<?= url_to('productDiscontinue', $productData['id']) ?>">Discontinued</button>
+              <button disabled type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+            </div>
+          </div>
+        <?php endif; ?>
+      <?php else: ?>
+        <div class="row mt-3">
+          <div class="col-md-12 text-center">
+            <a class="btn btn-primary" href="<?= url_to('productUpdate', $productData['id']) ?>">Update</a>
+            <a class="btn btn-secondary" href="<?= url_to('productDiscontinue', $productData['id']) ?>">Discontinued</a>
+            <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+          </div>
         </div>
-      </div>
+      <?php endif; ?>
+      <!-- ! -->
 
       <div id="deleteConfirmation" style="display: none;" class="mt-3">
         <form id="deleteForm" action="<?= url_to('productDelete',$productData['id']); ?>" method="POST">
@@ -65,7 +86,7 @@
           <div class="text-center">
             <button type="submit" class="btn btn-danger">Delete</button>
             <button type="button" class="btn btn-success" id="cancelDelete">Cancel</button>
-          </div>
+        /div>
         </form>
       </div>
     </div>
