@@ -531,17 +531,22 @@
               <ul class="collapse list-unstyled" id="productSubmenu">
                 <li>
                   <a href="<?= url_to('productList') ?>">
-                    <i class="fa-solid fa-table-list"></i> List 
+                    <i class="fa-solid fa-table-list"></i> List
                   </a>
                 </li>
                 <li>
                   <a href="<?= url_to('addProduct') ?>">
-                    <i class="fas fa-plus"></i> Add 
+                    <i class="fas fa-plus"></i> Add
                   </a>
                 </li>
                 <li>
-                  <a href=""><i class="fa fa-trash"></i> Bin</a>
+                 <a href=""><i class="fa fa-trash"></i> Bin</a> 
                 </li>
+                <?php if (auth()->user()->inGroup('superadmin')): ?>
+                <li>
+                  <a href=""><i class="fa fa-minus-square"></i> Delete Request</a>
+                </li>
+                <?php endif; ?>
               </ul>
             </li>
             <!-- ./Product -->
@@ -590,7 +595,6 @@
             </li>
             <!-- ./Company Management -->
 
-            
             <!-- Profile -->
             <li>
               <?php if (auth()->user()->inGroup('user')): ?>
