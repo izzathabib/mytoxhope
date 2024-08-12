@@ -531,13 +531,16 @@
               <ul class="collapse list-unstyled" id="productSubmenu">
                 <li>
                   <a href="<?= url_to('productList') ?>">
-                    <i class="fa-solid fa-table-list"></i> View Product
+                    <i class="fa-solid fa-table-list"></i> List 
                   </a>
                 </li>
                 <li>
                   <a href="<?= url_to('addProduct') ?>">
-                    <i class="fas fa-plus"></i> Add Product
+                    <i class="fas fa-plus"></i> Add 
                   </a>
+                </li>
+                <li>
+                  <a href=""><i class="fa fa-trash"></i> Bin</a>
                 </li>
               </ul>
             </li>
@@ -587,10 +590,7 @@
             </li>
             <!-- ./Company Management -->
 
-            <!-- Bin -->
-            <li>
-              <a href=""><i class="fa fa-trash"></i> Bin</a>
-            </li>
+            
             <!-- Profile -->
             <li>
               <?php if (auth()->user()->inGroup('user')): ?>
