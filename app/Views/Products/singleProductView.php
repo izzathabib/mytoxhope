@@ -90,7 +90,7 @@
           <div class="text-center">
             <button type="submit" class="btn btn-danger">Delete</button>
             <button type="button" class="btn btn-success" id="cancelDelete">Cancel</button>
-        /div>
+          </div>
         </form>
       </div>
     </div>

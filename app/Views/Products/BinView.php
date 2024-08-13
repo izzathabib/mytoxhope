@@ -56,16 +56,23 @@
                   <td><?= $data->product_name; ?></td>
                   <td><?= $data->inactive_ing; ?></td>
                   <td><?= $data->active_ing; ?></td>
-                  <td><?= $data->reason_deletion; ?></td>
+                  <td>
+                    <div class="text-center">
+                      <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonDeleteModal<?= $data->id; ?>">
+                        View
+                      </button>
+                    </div>
+                  </td>
                   <td><?= date('d-m-Y', strtotime($data->created_at)); ?></td>
                   <td>
                     <div class="row">
                       <div class="col-md-12 text-center">
-                        <button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data->comp_id; ?>" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Edit company">
+                        <!--<button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data->comp_id; ?>" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Edit company">
                           <i class="fa fa-eye"></i>
-                        </button>
+                        </button>-->
 
-                        <button class="btn btn-outline-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $data->id; ?>">
+                        <button class="btn btn-outline-danger btn-sm btn-flat" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $data->id; ?>">
                           <i class="fa-solid fa-trash"></i>
                         </button>
                       </div>
@@ -90,5 +97,26 @@
       
     </div>
 </div>
+
+<!-- reasonDeleteModal -->
+<?php foreach ($productData as $data): ?>
+<div class="modal fade" id="reasonDeleteModal<?= $data->id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reason Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <?= $data->reason_deletion; ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<?php endforeach; ?>
+<!-- ! -->
 
 <?= $this->endsection(); ?>

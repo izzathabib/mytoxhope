@@ -350,12 +350,13 @@ class ProductsController extends BaseController
         
         // Get the product detail from associate table
         $productData = $productModel
-        ->select('products.*, delete_requests.reason_deletion') 
+        ->select('products.*, delete_requests.reason_deletion, users.comp_id') 
         ->join('delete_requests', 'products.id = delete_requests.prod_id')
+        ->join('users', 'products.user_id = users.id')
         ->where('products.id',$id)
         ->get()
         ->getResult();
-
+        
         // Fetch delete product data to insert
         foreach ($productData as $data) {
             $deleteProduct = [

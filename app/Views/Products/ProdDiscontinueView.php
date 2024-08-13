@@ -3,7 +3,7 @@
 
 <div class="container-fluid p-5">
 <div class="d-flex align-items-center mb-3" style="margin-left: 0;">
-  <a href="javascript:history.back()" class="btn btn-tertiary btn-lg me-3">
+  <a href="<?= base_url('list-product') ?>" class="btn btn-tertiary btn-lg me-3">
     <i class="fas fa-arrow-left"></i>
   </a>
   <h4 class="mb-0"><b><?= esc($title) ?></b></h4>
@@ -15,6 +15,9 @@
     <div class="row mb-5 text-danger">
       <div class="col-md-12 text-center">
         <h2><?= $data->prod_status ?></h2>
+        <?php if ($data->prod_status=='To Be Deleted'): ?>
+          <div>Waiting approval from Poison Centre</div>
+        <?php endif; ?>
       </div>
     </div>
 
