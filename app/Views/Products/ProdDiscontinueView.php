@@ -82,15 +82,27 @@
           </div>
         <?php else: ?>
           <div class="row mt-3">
-            <div class="col-md-12 text-center">
+            <div class="col-5"></div>
+            <div class="col-1">
               <button disabled type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+            </div>
+            <div class="col-1">
+              <form method="POST" action="<?= url_to('activateProd', $data->id) ?>">
+                <button disabled type="submit" class="btn btn-primary" id="deleteBtn">Activate</button>
+              </form>
             </div>
           </div>
         <?php endif; ?>
       <?php else: ?>
         <div class="row mt-3">
-          <div class="col-md-12 text-center">
+          <div class="col-5"></div>
+          <div class="col-1">
             <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+          </div>
+          <div class="col-1">
+            <form method="POST" action="<?= url_to('activateProd', $data->id) ?>">
+              <button type="submit" class="btn btn-primary" id="deleteBtn">Activate</button>
+            </form>
           </div>
         </div>
       <?php endif; ?>
