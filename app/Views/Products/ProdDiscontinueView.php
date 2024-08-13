@@ -70,41 +70,26 @@
       <?php if (auth()->user()->inGroup('user')): ?>
         <?php if ($data->user_id == auth()->user()->id): ?>
           <div class="row mt-3 ">
-              <div class="col-5"></div>
-              <div class="col-1">
-                <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
-              </div>
-              <div class="col-1">
-                <form method="POST" action="<?= url_to('activateProd', $data->id) ?>">
-                  <button type="submit" class="btn btn-primary" id="deleteBtn">Activate</button>
-                </form>
-              </div>
+            <div class="col-md-12 text-center">
+              <a class="btn btn-secondary" href="<?= url_to('activateProd', $data->id) ?>">Activate</a>
+              <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+            </div>
           </div>
         <?php else: ?>
-          <div class="row mt-3">
-            <div class="col-5"></div>
-            <div class="col-1">
+          <div class="row mt-3 ">
+            <div class="col-md-12 text-center">
+              <button disabled class="btn btn-secondary" href="<?= url_to('activateProd', $data->id) ?>">Activate</button>
               <button disabled type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
-            </div>
-            <div class="col-1">
-              <form method="POST" action="<?= url_to('activateProd', $data->id) ?>">
-                <button disabled type="submit" class="btn btn-primary" id="deleteBtn">Activate</button>
-              </form>
             </div>
           </div>
         <?php endif; ?>
       <?php else: ?>
-        <div class="row mt-3">
-          <div class="col-5"></div>
-          <div class="col-1">
-            <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+        <div class="row mt-3 ">
+            <div class="col-md-12 text-center">
+              <a class="btn btn-secondary" href="<?= url_to('activateProd', $data->id) ?>">Activate</a>
+              <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+            </div>
           </div>
-          <div class="col-1">
-            <form method="POST" action="<?= url_to('activateProd', $data->id) ?>">
-              <button type="submit" class="btn btn-primary" id="deleteBtn">Activate</button>
-            </form>
-          </div>
-        </div>
       <?php endif; ?>
       <!-- ! -->
     <?php endif; ?>

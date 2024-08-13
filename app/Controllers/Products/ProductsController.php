@@ -43,7 +43,9 @@ class ProductsController extends BaseController
             $productData = $productModel
             ->select('products.*, company.comp_name') 
             ->join('users', 'products.user_id = users.id')
-            ->join('company', 'users.comp_id = company.comp_id')
+            ->join('company', 'users.comp_id = company.comp_id') 
+            ->orderBy('company.comp_name', 'ASC')
+            ->orderBy('products.updated_at', 'DESC')
             ->get()
             ->getResult();
             return view('Products/productListView',compact('title','productData'));
@@ -58,7 +60,8 @@ class ProductsController extends BaseController
         ->select('products.*, company.comp_name') 
         ->join('users', 'products.user_id = users.id')
         ->join('company', 'users.comp_id = company.comp_id')
-        ->where('company.comp_id', $currentUserCompId) 
+        ->where('company.comp_id', $currentUserCompId)
+        ->orderBy('products.user_id = ' . $currentUserId->id . ' DESC, products.created_at DESC', '', false)
         ->get()
         ->getResult();
 

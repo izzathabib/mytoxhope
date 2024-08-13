@@ -4,7 +4,7 @@
 <div class="mt-4">
 <div class="container-fluid p-5">
 <div class="d-flex align-items-center mb-3" style="margin-left: 0;">
-  <a href="javascript:history.back()" class="btn btn-tertiary btn-lg me-3">
+  <a href="<?= base_url('list-product') ?>" class="btn btn-tertiary btn-lg me-3">
     <i class="fas fa-arrow-left"></i>
   </a>
   <h4 class="mb-0"><b><?= esc($title) ?></b></h4>
