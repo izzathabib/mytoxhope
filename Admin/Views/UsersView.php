@@ -171,19 +171,37 @@
 <!-- Initialize DataTables -->
 <script>
   $(document).ready(function () {
-    $('#userslist').DataTable({
+    $("#userslist").DataTable({
       responsive: true,
+      paging: true,
+      pageLength: 10,
+      lengthChange: true,
       autoWidth: false,
       lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
       language: {
         lengthMenu: "Show _MENU_ entries",
         search: "Search:",
-        searchPlaceholder: "Enter search term"
+        searchPlaceholder: "Enter search term",
+        paginate: {
+          first: "First",
+          last: "Last",
+          next: "Next",
+          previous: "Previous"
+        },
+        info: "Showing _START_ to _END_ of _TOTAL_ entries",
+        infoEmpty: "Showing 0 to 0 of 0 entries",
+        infoFiltered: "(filtered from _MAX_ total entries)"
       },
       dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
         '<"row"<"col-sm-12"tr>>' +
         '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>'
     });
+    $('#userslist').DataTable({
+    // ... other options ...
+    initComplete: function(settings, json) {
+        console.log('Total records: ' + this.api().data().length);
+    }
+});
   });
 </script>
 
