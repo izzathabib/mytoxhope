@@ -68,13 +68,24 @@
                   <td>
                     <div class="row">
                       <div class="col-md-12 text-center">
-                        <!--<button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?= $data->comp_id; ?>" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Edit company">
+                        <!--<button id="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#editModal<?php //$data->comp_id; ?>" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Edit company">
                           <i class="fa fa-eye"></i>
                         </button>-->
-
-                        <button class="btn btn-outline-danger btn-sm btn-flat" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $data->id; ?>">
-                          <i class="fa-solid fa-trash"></i>
-                        </button>
+                        <?php if (auth()->user()->inGroup('user')): ?>
+                          <?php if ($data->user_id==auth()->user()->id): ?>
+                            <button class="btn btn-outline-danger btn-sm btn-flat" type="button" data-bs-toggle="modal" data-bs-target="#delPermanentModal<?= $data->id; ?>">
+                              <i class="fa-solid fa-trash"></i>
+                            </button>
+                          <?php else: ?>
+                            <button disabled class="btn btn-outline-danger btn-sm btn-flat" type="button" data-bs-toggle="modal" data-bs-target="#delPermanentModal<?= $data->id; ?>">
+                              <i class="fa-solid fa-trash"></i>
+                            </button>
+                          <?php endif; ?>
+                        <?php else: ?>
+                          <button class="btn btn-outline-danger btn-sm btn-flat" type="button" data-bs-toggle="modal" data-bs-target="#delPermanentModal<?= $data->id; ?>">
+                            <i class="fa-solid fa-trash"></i>
+                          </button>
+                        <?php endif; ?>
                       </div>
                     </div>
                   </td>
@@ -98,8 +109,8 @@
     </div>
 </div>
 
-<!-- reasonDeleteModal -->
 <?php foreach ($productData as $data): ?>
+<!-- reasonDeleteModal -->
 <div class="modal fade" id="reasonDeleteModal<?= $data->id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -116,7 +127,29 @@
     </div>
   </div>
 </div>
-<?php endforeach; ?>
 <!-- ! -->
+
+<!-- delPermanentModal -->
+<div class="modal fade" id="delPermanentModal<?= $data->id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        This record will be permanently deleted
+      </div>
+      <div class="modal-footer">
+        <form method="POST" action="<?= url_to('delProdPermanent', $data->id) ?>">
+          <button type="submit" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Continue</button>
+        </form>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ! -->
+<?php endforeach; ?>
 
 <?= $this->endsection(); ?>

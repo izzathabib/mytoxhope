@@ -350,9 +350,8 @@ class ProductsController extends BaseController
         
         // Get the product detail from associate table
         $productData = $productModel
-        ->select('products.*, delete_requests.reason_deletion, users.comp_id') 
+        ->select('products.*, delete_requests.reason_deletion') 
         ->join('delete_requests', 'products.id = delete_requests.prod_id')
-        ->join('users', 'products.user_id = users.id')
         ->where('products.id',$id)
         ->get()
         ->getResult();
@@ -360,7 +359,7 @@ class ProductsController extends BaseController
         // Fetch delete product data to insert
         foreach ($productData as $data) {
             $deleteProduct = [
-                'comp_id' => $data->comp_id,
+                'user_id' => $data->user_id,
                 'product_name' => $data->product_name,
                 'product_image' => $data->product_image,
                 'type_poison' => $data->type_poison,
@@ -409,13 +408,35 @@ class ProductsController extends BaseController
 
         $title = 'Delete Product';
         $delProductModel = new DeleteProduct();
-        $productData = $delProductModel
-        ->select('delete_products.*')
-        ->where('delete_products.comp_id', auth()->user()->comp_id)
-        ->get()
-        ->getResult();
+
+        if (auth()->user()->inGroup('superadmin')) {
+            $productData = $delProductModel
+            ->select('delete_products.*, company.comp_name')
+            ->join('users', 'users.id = delete_products.user_id')
+            ->join('company', 'company.comp_id = users.comp_id')
+            ->orderBy('delete_products.created_at', 'DESC') 
+            ->orderBy('company.comp_name', 'ASC') 
+            ->get()
+            ->getResult();
+        } else {
+            $productData = $delProductModel
+            ->select('delete_products.*')
+            ->join('users', 'delete_products.user_id = users.id')
+            ->where('users.comp_id', auth()->user()->comp_id)
+            ->orderBy('delete_products.created_at', 'DESC')
+            ->get()
+            ->getResult();
+        }
+        
 
         return view('Products/BinView', compact('title','productData'));
+    }
+
+    public function delProdPermanent($id) {
+        $delProductModel = new DeleteProduct();
+        
+        $delProductModel->delete($id);
+        return redirect()->to(base_url('delete-product-list'));
     }
 
 }

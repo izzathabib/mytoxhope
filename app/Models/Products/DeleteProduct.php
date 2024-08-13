@@ -13,7 +13,7 @@ class DeleteProduct extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'comp_id',
+        'user_id',
         'product_name',
         'product_image',
         'type_poison',
