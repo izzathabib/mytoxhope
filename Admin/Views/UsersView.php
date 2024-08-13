@@ -196,8 +196,9 @@
         '<"row"<"col-sm-12"tr>>' +
         '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>'
     });
+
+    //test script
     $('#userslist').DataTable({
-    // ... other options ...
     initComplete: function(settings, json) {
         console.log('Total records: ' + this.api().data().length);
     }
