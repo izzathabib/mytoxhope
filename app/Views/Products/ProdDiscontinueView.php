@@ -69,10 +69,16 @@
       <!-- Button -->
       <?php if (auth()->user()->inGroup('user')): ?>
         <?php if ($data->user_id == auth()->user()->id): ?>
-          <div class="row mt-3">
-            <div class="col-md-12 text-center">
-              <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
-            </div>
+          <div class="row mt-3 ">
+              <div class="col-5"></div>
+              <div class="col-1">
+                <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+              </div>
+              <div class="col-1">
+                <form method="POST" action="<?= url_to('activateProd', $data->id) ?>">
+                  <button type="submit" class="btn btn-primary" id="deleteBtn">Activate</button>
+                </form>
+              </div>
           </div>
         <?php else: ?>
           <div class="row mt-3">

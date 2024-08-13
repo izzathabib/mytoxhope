@@ -439,4 +439,14 @@ class ProductsController extends BaseController
         return redirect()->to(base_url('delete-product-list'));
     }
 
+    public function activateProd($id) {
+        $productModel = new Product();
+        $productData = [
+            'prod_status' => 'Active' 
+        ];
+        $productModel->update($id, $productData);
+
+        return redirect()->to('list-product');
+    }
+
 }

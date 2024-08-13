@@ -28,6 +28,7 @@ $routes->get('approve-delete/(:num)', 'Products\ProductsController::approveDelet
 $routes->get('reject-delete/(:num)', 'Products\ProductsController::rejectDelete/$1', ['as' => 'rejectDelete']);
 $routes->get('delete-product-list', 'Products\ProductsController::productDeleteList', ['as' => 'productDeleteList']);
 $routes->post('delete-product-permanently/(:num)', 'Products\ProductsController::delProdPermanent/$1', ['as' => 'delProdPermanent']);
+$routes->post('activate-product/(:num)', 'Products\ProductsController::activateProd/$1', ['as' => 'activateProd']);
 
 
 
