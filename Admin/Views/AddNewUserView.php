@@ -13,18 +13,18 @@
 
           <!-- Alert message section -->
           <?php if (session('error') !== null): ?>
-              <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+            <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
           <?php elseif (session('errors') !== null): ?>
-              <div class="alert alert-danger" role="alert">
-                  <?php if (is_array(session('errors'))): ?>
-                      <?php foreach (session('errors') as $error): ?>
-                          <?= $error ?>
-                          <br>
-                      <?php endforeach ?>
-                  <?php else: ?>
-                      <?= session('errors') ?>
-                  <?php endif ?>
-              </div>
+            <div class="alert alert-danger" role="alert">
+              <?php if (is_array(session('errors'))): ?>
+                <?php foreach (session('errors') as $error): ?>
+                  <?= $error ?>
+                  <br>
+                <?php endforeach ?>
+              <?php else: ?>
+                <?= session('errors') ?>
+              <?php endif ?>
+            </div>
           <?php endif ?>
           <!-- .Alert message -->
 
@@ -36,20 +36,20 @@
             <!-- Dropdown input for superadmin -->
             <?php if (auth()->user()->inGroup('superadmin')): ?>
               <div class="form-floating mb-3 w-100">
-              <select id="type_poison" name="comp_reg_no" class="form-select" required >
-                <option value="Please select">Company Registration No</option>
-                <?php foreach($companyData as $data): ?>
-                  <option value="<?= $data['comp_reg_no'] ?>"><?= $data['comp_reg_no'] ?></option>
-                <?php endforeach; ?>
-              </select>
+                <select id="type_poison" name="comp_reg_no" class="form-select" required>
+                  <option value="Please select">Company Registration No</option>
+                  <?php foreach ($companyData as $data): ?>
+                    <option value="<?= $data['comp_reg_no'] ?>"><?= $data['comp_reg_no'] ?></option>
+                  <?php endforeach; ?>
+                </select>
               </div>
-            <!-- Disabled input for company admin -->
+              <!-- Disabled input for company admin -->
             <?php else: ?>
               <div class="form-floating mb-3 w-100">
-              <input type="text" class="form-control" name="comp_reg_no" id="comp_reg_no" 
-                value="<?= $companyData['comp_reg_no'] ?>" required disabled>
-              <input type="hidden" class="form-control" name="comp_reg_no" id="comp_reg_no" 
-              value="<?= $companyData['comp_reg_no'] ?>" required> 
+                <input type="text" class="form-control" name="comp_reg_no" id="comp_reg_no"
+                  value="<?= $companyData['comp_reg_no'] ?>" required disabled>
+                <input type="hidden" class="form-control" name="comp_reg_no" id="comp_reg_no"
+                  value="<?= $companyData['comp_reg_no'] ?>" required>
               </div>
             <?php endif; ?>
             <!-- -->
@@ -58,21 +58,21 @@
             <!-- Dropdown input for superadmin -->
             <?php if (auth()->user()->inGroup('superadmin')): ?>
               <div class="form-floating mb-3 w-100">
-              <select id="comp_name" name="comp_name" class="form-select" required>
-                <option value="Please select">Company Name</option>
-                <?php foreach($companyData as $data): ?>
-                  <option value="<?= $data['comp_name'] ?>"><?= $data['comp_name'] ?></option>
-                <?php endforeach; ?>
-              </select>
+                <select id="comp_name" name="comp_name" class="form-select" required>
+                  <option value="Please select">Company Name</option>
+                  <?php foreach ($companyData as $data): ?>
+                    <option value="<?= $data['comp_name'] ?>"><?= $data['comp_name'] ?></option>
+                  <?php endforeach; ?>
+                </select>
               </div>
-            <!-- Disabled input for company admin -->
+              <!-- Disabled input for company admin -->
             <?php else: ?>
               <div class="form-floating mb-3 w-100">
-              <input type="text" class="form-control" name="comp_name" 
-                value="<?= $companyData['comp_name'] ?>" required disabled>
-              <input type="hidden" class="form-control" name="comp_name" 
-              value="<?= $companyData['comp_name'] ?>" required>
-            </div>
+                <input type="text" class="form-control" name="comp_name" value="<?= $companyData['comp_name'] ?>" required
+                  disabled>
+                <input type="hidden" class="form-control" name="comp_name" value="<?= $companyData['comp_name'] ?>"
+                  required>
+              </div>
             <?php endif; ?>
             <!---->
 
@@ -87,20 +87,22 @@
             <!-- Email -->
             <div class="form-floating mb-3 w-100">
               <input type="email" class="form-control" id="floatingEmailInput" name="email" inputmode="email"
-                autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>
+                autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
               <label for="floatingEmailInput">Email</label>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
             </div>
 
             <!-- Role -->
             <div class="form-floating mb-3 w-100">
-            <select id="role" name="role" class="form-select" required>
-              <option value="">Select Role</option>
-              <?php if (auth()->user()->inGroup('superadmin')): ?>
-                <option value="superadmin">Admin PRN</option>
-              <?php endif; ?>
-              <option value="admin">Admin Company</option>
-              <option value="user">Staff Company</option>
-            </select>
+              <select id="role" name="role" class="form-select" required>
+                <option value="">Select Role</option>
+                <?php if (auth()->user()->inGroup('superadmin')): ?>
+                  <option value="superadmin">Admin PRN</option>
+                <?php endif; ?>
+                <option value="admin">Admin Company</option>
+                <option value="user">Staff Company</option>
+              </select>
             </div>
 
             <!-- Password -->
@@ -131,6 +133,29 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const emailInput = document.getElementById('floatingEmailInput');
+
+    emailInput.addEventListener('input', function () {
+      if (emailInput.validity.typeMismatch) {
+        emailInput.setCustomValidity('Please enter a valid email address.');
+      } else {
+        emailInput.setCustomValidity('');
+      }
+    });
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+      if (!emailInput.checkValidity()) {
+        event.preventDefault();
+        emailInput.classList.add('is-invalid');
+      } else {
+        emailInput.classList.remove('is-invalid');
+      }
+    });
+  });
+</script>
 
 <?= $this->endSection() ?>
 
