@@ -540,7 +540,7 @@
                   </a>
                 </li>
                 <li>
-                 <a href=""><i class="fa fa-trash"></i> Bin</a> 
+                  <a href="<?= url_to('productDeleteList') ?>"><i class="fa fa-trash"></i> Bin</a>
                 </li>
                 <?php if (auth()->user()->inGroup('superadmin')): ?>
                 <li>

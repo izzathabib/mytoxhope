@@ -404,4 +404,17 @@ class ProductsController extends BaseController
 
     }
 
+    public function productDeleteList() {
+
+        $title = 'Delete Product';
+        $delProductModel = new DeleteProduct();
+        $productData = $delProductModel
+        ->select('delete_products.*')
+        ->where('delete_products.comp_id', auth()->user()->comp_id)
+        ->get()
+        ->getResult();
+
+        return view('Products/BinView', compact('title','productData'));
+    }
+
 }
