@@ -3,8 +3,12 @@
 
 <div class="mt-4">
 <div class="container-fluid p-5">
-  <h3 class="text-left"><b><?= esc($title) ?></b></h3>
-
+<div class="d-flex align-items-center mb-3" style="margin-left: 0;">
+  <a href="javascript:history.back()" class="btn btn-tertiary btn-lg me-3">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  <h4 class="mb-0"><b><?= esc($title) ?></b></h4>
+</div>
   <div class="card w-100 shadow-sm">
     <div class="card-body">
 

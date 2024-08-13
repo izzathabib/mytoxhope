@@ -6,8 +6,13 @@
 <!-- Display page title -->
 <div class="container-fluid p-3 mt-5">
   <div class="container-fluid">
-    <h2>Verification Request</h2>
-  </div>
+  <div class="d-flex align-items-center mb-1">
+  <a href="<?= base_url('dashboard') ?>" class="btn btn-tertiary btn-lg me-1">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  <h3 class="mb-0"><b>Verification Request</b></h3>
+</div>
+</div>
 </div>
 
 <!-- Main section -->
