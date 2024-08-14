@@ -198,8 +198,11 @@ class ProductsController extends BaseController
 
         // Move image if new image exist
         if ($newProductImage->isValid() && !$newProductImage->hasMoved()) {
-            if (file_exists('images/product'.$oldImage)) {
-                unlink('images/product'.$oldImage);
+
+            $oldImagePath = 'public/assets/images/product/' . $oldImage;
+
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
             }
             $imageName = $newProductImage->getClientName();
             $newProductImage->move('public/assets/images/product');
@@ -209,8 +212,11 @@ class ProductsController extends BaseController
 
         // Move msds if new msds exist
         if ($newMsds->isValid() && !$newMsds->hasMoved()) {
-            if (file_exists('documents/'.$oldMsds)) {
-                unlink('documents/'.$oldMsds);
+
+            $oldMsdsPath = 'public/assets/documents/' . $oldMsds;
+
+            if (file_exists($oldMsdsPath)) {
+                unlink($oldMsdsPath);
             }
             $msdsName = $newMsds->getClientName();
             $newMsds->move('public/assets/documents');
