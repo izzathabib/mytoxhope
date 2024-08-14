@@ -13,10 +13,18 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet">
     <style>
+      tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+      }
+
       /* home page css */
       .card-container {
         display: flex;
@@ -420,9 +428,9 @@
         }
 
         body.sidebar-collapsed #sidebarToggle {
-        margin-left: 10px;
-        margin-top: 15px;
-      }
+          margin-left: 10px;
+          margin-top: 15px;
+        }
       }
 
       @media (min-width: 768px) {
@@ -571,7 +579,8 @@
                       <a href="<?= url_to('viewStaffList') ?>"><i class="fa-solid fa-user-group"></i> Staff </a>
                     </li>
                     <li>
-                      <a href="<?= url_to('viewVerifyRequest') ?>"><i class="far fa-check-circle"></i> Verification Request</a>
+                      <a href="<?= url_to('viewVerifyRequest') ?>"><i class="far fa-check-circle"></i> Verification
+                        Request</a>
                     </li>
                   <?php endif; ?>
                   <li>
@@ -583,7 +592,7 @@
             <!-- ./User Management -->
 
             <!-- Company Management -->
-             <li>
+            <li>
             <?php if (auth()->user()->inGroup('superadmin')): ?>
               <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                 <i class="fa fa-building"></i> Company Management
@@ -597,6 +606,7 @@
               </li>
               </ul>
             <?php endif; ?>
+
             </li>
             <!-- ./Company Management -->
 
@@ -738,14 +748,16 @@
     </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const sidebar = document.getElementById('sidebar');
