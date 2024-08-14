@@ -27,7 +27,7 @@
                     <?php endif ?>
                     <!-- .Alert message -->
 
-                    <form action="" method="post">
+                    <form action="<?= url_to('saveNewCompany') ?>" method="post">
                         <?= csrf_field() ?>
 
                         <!-- Company Registration No -->
@@ -51,7 +51,7 @@
                             <input type="text" class="form-control" id="floatingUsernameInput" name="username"
                                 inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>"
                                 value="<?= old('username') ?>" required>
-                            <label for="floatingUsernameInput">Name</label>
+                            <label for="floatingUsernameInput">Name (main company admin)</label>
                         </div>
 
                         <!-- Email -->
@@ -59,7 +59,7 @@
                             <input type="email" class="form-control" id="floatingEmailInput" name="email"
                                 inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
                                 value="<?= old('email') ?>" required>
-                            <label for="floatingEmailInput">Email</label>
+                            <label for="floatingEmailInput">Email (main company admin)</label>
                         </div>
 
                         <!-- Password -->

@@ -539,14 +539,14 @@
                     <i class="fas fa-plus"></i> Add
                   </a>
                 </li>
+                <?php if (auth()->user()->inGroup('superadmin')): ?>
+                  <li>
+                    <a href=""><i class="fa fa-minus-square"></i> Delete Request</a>
+                  </li>
+                <?php endif; ?>
                 <li>
                   <a href="<?= url_to('productDeleteList') ?>"><i class="fa fa-trash"></i> Bin</a>
                 </li>
-                <?php if (auth()->user()->inGroup('superadmin')): ?>
-                <li>
-                  <a href=""><i class="fa fa-minus-square"></i> Delete Request</a>
-                </li>
-                <?php endif; ?>
               </ul>
             </li>
             <!-- ./Product -->
@@ -593,7 +593,7 @@
                 <a href="<?= url_to('viewCompany') ?>"><i class="fa fa-building"></i> View Company</a>
               </li>
               <li>
-                <a href=""><i class="fa fa-building"></i> Add Company</a>
+                <a href="<?= url_to('addCompany') ?>"><i class="fa fa-building"></i> Add Company</a>
               </li>
               </ul>
             <?php endif; ?>
