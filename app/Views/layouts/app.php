@@ -547,14 +547,14 @@
                     <i class="fas fa-plus"></i> Add
                   </a>
                 </li>
-                <li>
-                  <a href="<?= url_to('productDeleteList') ?>"><i class="fa fa-trash"></i> Bin</a>
-                </li>
                 <?php if (auth()->user()->inGroup('superadmin')): ?>
                   <li>
                     <a href=""><i class="fa fa-minus-square"></i> Delete Request</a>
                   </li>
                 <?php endif; ?>
+                <li>
+                  <a href="<?= url_to('productDeleteList') ?>"><i class="fa fa-trash"></i> Bin</a>
+                </li>
               </ul>
             </li>
             <!-- ./Product -->
@@ -593,19 +593,20 @@
 
             <!-- Company Management -->
             <li>
-              <?php if (auth()->user()->inGroup('superadmin')): ?>
-                <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                  <i class="fa fa-building"></i> Company Management
-                </a>
-                <ul class="collapse list-unstyled" id="productSubmenu3">
-                  <li>
-                    <a href="<?= url_to('viewCompany') ?>"><i class="fa fa-building"></i> View Company</a>
-                  </li>
-                  <li>
-                    <a href=""><i class="fa fa-building"></i> Add Company</a>
-                  </li>
-                </ul>
-              <?php endif; ?>
+            <?php if (auth()->user()->inGroup('superadmin')): ?>
+              <a href="#productSubmenu3" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fa fa-building"></i> Company Management
+              </a>
+              <ul class="collapse list-unstyled" id="productSubmenu3">
+              <li>
+                <a href="<?= url_to('viewCompany') ?>"><i class="fa fa-building"></i> View Company</a>
+              </li>
+              <li>
+                <a href="<?= url_to('addCompany') ?>"><i class="fa fa-building"></i> Add Company</a>
+              </li>
+              </ul>
+            <?php endif; ?>
+
             </li>
             <!-- ./Company Management -->
 

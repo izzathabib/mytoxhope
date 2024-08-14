@@ -210,7 +210,7 @@ class Users extends BaseController
         $compRegNum = $this->request->getPost('comp_reg_no');
         // Get data of company with same comp_reg_no from company table 
         $compId = $companyModel->where('comp_reg_no', $compRegNum)->first();
-
+        
         // Save the user
         $allowedPostFields = array_keys($rules);
         $user              = $this->getUserEntity();
