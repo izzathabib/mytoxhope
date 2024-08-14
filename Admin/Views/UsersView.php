@@ -6,25 +6,25 @@
 <!-- Display page title -->
 <div class="container-fluid p-3 mt-5">
   <div class="container-fluid">
-  <div class="d-flex align-items-center mb-1">
-  <a href="<?= base_url('dashboard') ?>" class="btn btn-tertiary btn-lg me-3">
-    <i class="fas fa-arrow-left"></i>
-  </a>
-  <h2 class="mb-0"><b>User List</b></h2>
-</div>
-</div>
+    <div class="d-flex align-items-center mb-1">
+      <a href="<?= base_url('dashboard') ?>" class="btn btn-tertiary btn-lg me-3">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h2 class="mb-0"><b>User List</b></h2>
+    </div>
+  </div>
 </div>
 
 <!-- Main section -->
 <div class="container-fluid">
-    <div class="row">
+  <div class="row">
 
-      <div class="col-lg-12">
-        <div class="card w-100 shadow-sm ">
+    <div class="col-lg-12">
+      <div class="card w-100 shadow-sm ">
 
 
-          <!-- Card header -->
-          <div class="card-header">
+        <!-- Card header -->
+        <div class="card-header">
           <div class="row">
 
             <div class="col">
@@ -33,124 +33,125 @@
 
             <!-- Create user button -->
             <div class="col-md-2 text-center">
-                <a class="btn btn-sm btn-outline-primary container-fluid text-nowrap" href="<?= url_to('addNewUser'); ?>"><b>Add User</b></a>
+              <a class="btn btn-sm btn-outline-primary container-fluid text-nowrap"
+                href="<?= url_to('addNewUser'); ?>"><b>Add User</b></a>
             </div>
           </div>
-          
-          </div>
-          
-          <!-- Card body -->
-          <div class="card-body">
-            <!-- Table data -->
-            <div class="table-responsive">
-            <table id="userslist" class="table table-hover table-bordered table-striped"
-                  style="width:100%">
-                  <thead>
+
+        </div>
+
+        <!-- Card body -->
+        <div class="card-body">
+          <!-- Table data -->
+          <div class="table-responsive">
+            <table id="userslist" class="table display table-hover table-bordered table-striped" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>E-mail</th>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                    <th>Company Name</th>
+                    <th>Company Registration No</th>
+                  <?php endif; ?>
+                  <?php if (auth()->user()->inGroup('admin')): ?>
+                    <th>Role</th>
+                  <?php endif; ?>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                    <th>Status</th>
+                  <?php endif; ?>
+                  <th style="width: 90px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php if (!empty($userData)): ?>
+                  <?php foreach ($userData as $data): ?>
                     <tr>
-                        <th>Name</th>
-                        <th>E-mail</th>
-                        <?php if (auth()->user()->inGroup('superadmin')): ?>
-                          <th>Company Name</th>
-                          <th>Company Registration No</th>
-                        <?php endif; ?>
-                        <?php if (auth()->user()->inGroup('admin')): ?>
-                          <th>Role</th>
-                        <?php endif; ?>
-                        <?php if (auth()->user()->inGroup('superadmin')): ?>
-                          <th>Status</th>
-                        <?php endif; ?>
-                        <th style="width: 90px;">Action</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    <?php if (!empty($userData)): ?>
-                      <?php foreach ($userData as $data): ?>
-                        <tr>
-                          <td><?= $data->username; ?></td>
-                          <td><?= $data->secret; ?></td>
-                          <!-- If current user is Admin PRN & Company Admin -->
-                          <?php if (auth()->user()->inGroup('superadmin')): ?>
-                            <td>
-                              <?php if ($data->group == 'superadmin'): ?>
-                                <span class="badge rounded-pill bg-primary"><?= $data->comp_name; ?></span>
-                              <?php else: ?>
-                                <?= $data->comp_name; ?>
-                              <?php endif; ?>
-                            </td>
-                            <td><?= $data->comp_reg_no; ?></td>
-                          <?php endif; ?>
-                          <?php if (auth()->user()->inGroup('admin')): ?>
-                            <td>
-                              <?php if ($data->group == 'superadmin') : ?>
-                                <span class="badge rounded-pill bg-primary">Admin Pusat Racun</span> 
-                              <?php elseif($data->group == 'admin'): ?>
-                                <span class="badge rounded-pill bg-success">Admin</span>
-                              <?php else: ?>
-                                <span class="badge rounded-pill bg-secondary">Staff</span>
-                              <?php endif; ?>
-                            </td>
-                          <?php endif; ?>
-                          <?php if (auth()->user()->inGroup('superadmin')): ?>
-                            <?php if ($data->status == 'unverified') : ?>
-                              <td>
-                                <div class="text-center">
-                                  <div class="badge rounded-pill text-bg-danger"><?= 'Unverified'; ?></div>
-                                </div>
-                              </td>
-                            <?php elseif ($data->status == 'verified'): ?>
-                              <td>
-                                <div class="text-center">
-                                  <div class="badge rounded-pill text-bg-success"><?= 'Verified'; ?></div>
-                                </div>
-                              </td>
-                            <?php endif; ?>
-                          <?php endif; ?>
-                          <td>
-                            <div class="dropdown-toggle btn btn-outline-primary btn-sm" role="button" data-bs-toggle="dropdown">Action</div>
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="<?= url_to('editUser', $data->id); ?>">Edit</a></li>
-                              <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $data->id; ?>">Delete</button></li>
-                            </ul>
-                            
-                          </td>
-                        </tr>
-                      <?php endforeach; ?>
-                    <?php else: ?>
-                      <tr>
-                        <td colspan="6">No data available</td>
-                      </tr>
-                    <?php endif; ?>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>Name</th>
-                      <th>E-mail</th>
+                      <td><?= $data->username; ?></td>
+                      <td><?= $data->secret; ?></td>
+                      <!-- If current user is Admin PRN & Company Admin -->
                       <?php if (auth()->user()->inGroup('superadmin')): ?>
-                        <th>Company Name</th>
-                        <th>Company Registration No</th>
+                        <td>
+                          <?php if ($data->group == 'superadmin'): ?>
+                            <span class="badge rounded-pill bg-primary"><?= $data->comp_name; ?></span>
+                          <?php else: ?>
+                            <?= $data->comp_name; ?>
+                          <?php endif; ?>
+                        </td>
+                        <td><?= $data->comp_reg_no; ?></td>
                       <?php endif; ?>
                       <?php if (auth()->user()->inGroup('admin')): ?>
-                        <th>Role</th>
+                        <td>
+                          <?php if ($data->group == 'superadmin'): ?>
+                            <span class="badge rounded-pill bg-primary">Admin Pusat Racun</span>
+                          <?php elseif ($data->group == 'admin'): ?>
+                            <span class="badge rounded-pill bg-success">Admin</span>
+                          <?php else: ?>
+                            <span class="badge rounded-pill bg-secondary">Staff</span>
+                          <?php endif; ?>
+                        </td>
                       <?php endif; ?>
                       <?php if (auth()->user()->inGroup('superadmin')): ?>
-                        <th>Status</th>
+                        <?php if ($data->status == 'unverified'): ?>
+                          <td>
+                            <div class="text-center">
+                              <div class="badge rounded-pill text-bg-danger"><?= 'Unverified'; ?></div>
+                            </div>
+                          </td>
+                        <?php elseif ($data->status == 'verified'): ?>
+                          <td>
+                            <div class="text-center">
+                              <div class="badge rounded-pill text-bg-success"><?= 'Verified'; ?></div>
+                            </div>
+                          </td>
+                        <?php endif; ?>
                       <?php endif; ?>
-                      <th style="width: 90px;">Action</th>
+                      <td>
+                        <div class="dropdown-toggle btn btn-outline-primary btn-sm" role="button" data-bs-toggle="dropdown">
+                          Action</div>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="<?= url_to('editUser', $data->id); ?>">Edit</a></li>
+                          <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
+                              data-bs-target="#deleteModal<?= $data->id; ?>">Delete</button></li>
+                        </ul>
+
+                      </td>
                     </tr>
-                  </tfoot>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <tr>
+                    <td colspan="6">No data available</td>
+                  </tr>
+                <?php endif; ?>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Name</th>
+                  <th>E-mail</th>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                    <th>Company Name</th>
+                    <th>Company Registration No</th>
+                  <?php endif; ?>
+                  <?php if (auth()->user()->inGroup('admin')): ?>
+                    <th>Role</th>
+                  <?php endif; ?>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                    <th>Status</th>
+                  <?php endif; ?>
+                  <th style="width: 90px;">Action</th>
+                </tr>
+
+              </tfoot>
             </table>
-            </div>
-            
           </div>
-          
         </div>
       </div>
-      
     </div>
-    
-    <?php foreach($userData as $data): ?>
+  </div>
+
+  <?php foreach ($userData as $data): ?>
     <!-- The Modal -->
-    <div class="modal fade" id="deleteModal<?= $data->id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal<?= $data->id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
 
@@ -175,48 +176,47 @@
         </div>
       </div>
     </div>
-    <?php endforeach; ?>
-
+  <?php endforeach; ?>
 </div>
 
 
 <!-- Initialize DataTables -->
 <script>
-  $(document).ready(function () {
-    $("#userslist").DataTable({
-      responsive: true,
-      paging: true,
-      pageLength: 10,
-      lengthChange: true,
-      autoWidth: false,
-      lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-      language: {
-        lengthMenu: "Show _MENU_ entries",
-        search: "Search:",
-        searchPlaceholder: "Enter search term",
-        paginate: {
-          first: "First",
-          last: "Last",
-          next: "Next",
-          previous: "Previous"
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize DataTable
+    var table = $("#userslist").DataTable({
+      renderer: "bootstrap",
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        autoWidth: false,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        language: {
+            lengthMenu: "Show _MENU_ entries",
+            search: "Search:",
+            searchPlaceholder: "Enter search term",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            infoEmpty: "Showing 0 to 0 of 0 entries",
+            infoFiltered: "(filtered from _MAX_ total entries)"
         },
-        info: "Showing _START_ to _END_ of _TOTAL_ entries",
-        infoEmpty: "Showing 0 to 0 of 0 entries",
-        infoFiltered: "(filtered from _MAX_ total entries)"
-      },
-      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
-        '<"row"<"col-sm-12"tr>>' +
-        '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>'
+        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+            '<"row"<"col-sm-12"tr>>' +
+            '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+        initComplete: function () {
+            this.api().columns().every(function () {
+                var column = this;
+                var input = $('<input type="text" class="form-control form-control-sm" placeholder="Search ' + column.header().textContent + '" />')
+                    .appendTo($(column.footer()).empty())
+                    .on('keyup change', function () {
+                        if (column.search() !== this.value) {
+                            column.search(this.value).draw();
+                        }
+                    });
+            });
+        }
     });
-
-    //test script
-    $('#userslist').DataTable({
-    initComplete: function(settings, json) {
-        console.log('Total records: ' + this.api().data().length);
-    }
 });
-  });
 </script>
 
 <?= $this->endsection(); ?>
-
