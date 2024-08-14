@@ -53,7 +53,9 @@
                           <th>Company Name</th>
                           <th>Company Registration No</th>
                         <?php endif; ?>
+                        <?php if (auth()->user()->inGroup('admin')): ?>
                           <th>Role</th>
+                        <?php endif; ?>
                         <?php if (auth()->user()->inGroup('superadmin')): ?>
                           <th>Status</th>
                         <?php endif; ?>
@@ -68,20 +70,26 @@
                           <td><?= $data->secret; ?></td>
                           <!-- If current user is Admin PRN & Company Admin -->
                           <?php if (auth()->user()->inGroup('superadmin')): ?>
-                            <td><?= $data->comp_name; ?></td>
+                            <td>
+                              <?php if ($data->group == 'superadmin'): ?>
+                                <span class="badge rounded-pill bg-primary"><?= $data->comp_name; ?></span>
+                              <?php else: ?>
+                                <?= $data->comp_name; ?>
+                              <?php endif; ?>
+                            </td>
                             <td><?= $data->comp_reg_no; ?></td>
                           <?php endif; ?>
-                          <td>
-                            <div class="text-center">
+                          <?php if (auth()->user()->inGroup('admin')): ?>
+                            <td>
                               <?php if ($data->group == 'superadmin') : ?>
-                                <span class="badge rounded-pill bg-secondary">Admin Pusat Racun</span> 
+                                <span class="badge rounded-pill bg-primary">Admin Pusat Racun</span> 
                               <?php elseif($data->group == 'admin'): ?>
                                 <span class="badge rounded-pill bg-success">Admin</span>
                               <?php else: ?>
                                 <span class="badge rounded-pill bg-secondary">Staff</span>
                               <?php endif; ?>
-                            </div>
-                          </td>
+                            </td>
+                          <?php endif; ?>
                           <?php if (auth()->user()->inGroup('superadmin')): ?>
                             <?php if ($data->status == 'unverified') : ?>
                               <td>
@@ -121,7 +129,9 @@
                         <th>Company Name</th>
                         <th>Company Registration No</th>
                       <?php endif; ?>
+                      <?php if (auth()->user()->inGroup('admin')): ?>
                         <th>Role</th>
+                      <?php endif; ?>
                       <?php if (auth()->user()->inGroup('superadmin')): ?>
                         <th>Status</th>
                       <?php endif; ?>

@@ -568,7 +568,7 @@
                       <a href="<?= url_to('viewUser') ?>"><i class="fa-solid fa-user-gear"></i> Admin </a>
                     </li>
                     <li>
-                      <a href="<?= url_to('viewUser') ?>"><i class="fa-solid fa-user-group"></i> Staff </a>
+                      <a href="<?= url_to('viewStaffList') ?>"><i class="fa-solid fa-user-group"></i> Staff </a>
                     </li>
                     <li>
                       <a href="<?= url_to('viewVerifyRequest') ?>"><i class="far fa-check-circle"></i> Verification Request</a>

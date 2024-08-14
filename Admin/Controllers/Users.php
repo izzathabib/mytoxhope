@@ -35,6 +35,10 @@ class Users extends BaseController
             ->join('company', 'users.comp_id = company.comp_id')
             ->join('identities', 'users.id = identities.user_id')
             ->join('groups_users', 'users.id = groups_users.user_id')
+            ->where('groups_users.group', 'superadmin')
+            ->orWhere('groups_users.group', 'admin')
+            ->orderBy('users.id = ' . $currentUserData->id . ' DESC, groups_users.group DESC', '', false)
+            ->orderBy('company.comp_name', 'ASC')
             ->get()
             ->getResult();
             return view('Admin\Views\UsersView',compact('title','userData'));
@@ -56,6 +60,31 @@ class Users extends BaseController
         return view('Admin\Views\UsersView',compact('title','userData'));
     }
 
+    public function viewStaffList()
+    {
+        $title = 'User List';
+        $userModel = new UserModel();
+
+        // Get current user id
+        $currentUserData = $userModel->find(auth()->user()->id);
+
+        // Display all user if current user is superadmin
+        if (auth()->user()->inGroup('superadmin')) {
+            $userData = $userModel
+            ->select('users.*, company.*, identities.secret, groups_users.group') 
+            ->join('company', 'users.comp_id = company.comp_id')
+            ->join('identities', 'users.id = identities.user_id')
+            ->join('groups_users', 'users.id = groups_users.user_id')
+            ->where('groups_users.group', 'user')
+            ->orderBy('company.comp_name', 'ASC')
+            ->orderBy('users.username', 'ASC')
+            ->get()
+            ->getResult();
+            return view('Admin\Views\UsersView',compact('title','userData'));
+        }
+
+        return view('Admin\Views\UsersView',compact('title','userData'));
+    }
     public function viewVerifyRequest() {
         $title = 'Verification Request';
         $userModel = new UserModel();
