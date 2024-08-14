@@ -61,7 +61,7 @@ class ProductsController extends BaseController
         ->join('users', 'products.user_id = users.id')
         ->join('company', 'users.comp_id = company.comp_id')
         ->where('company.comp_id', $currentUserCompId)
-        ->orderBy('products.user_id = ' . $currentUserId->id . ' DESC, products.created_at DESC', '', false)
+        ->orderBy('products.user_id = ' . $currentUserId->id . ' DESC, products.updated_at DESC', '', false)
         ->get()
         ->getResult();
 
