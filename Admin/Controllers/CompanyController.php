@@ -17,14 +17,17 @@ class CompanyController extends BaseController
         $userModel = new UserModel();
 
         // Get current user id
-        $currentUserId = $userModel->find(auth()->user()->id);
-        
+        $currentUserData = $userModel
+        ->join('company', 'company.comp_id = users.comp_id')
+        ->find(auth()->user()->id);
+        //dd($currentUserData);
         // Get all company detail 
         $companyData = $companyModel
         ->select('company.*, users.*, identities.secret') 
         ->join('users', 'company.comp_admin = users.id')
         ->join('identities', 'company.comp_admin = identities.user_id')
-        ->where('users.comp_id !=', $currentUserId->comp_id)
+        ->orderBy('company.comp_id = ' . $currentUserData->comp_id . ' DESC, company.status ASC', '', false)
+        ->orderBy('company.comp_name', 'ASC')
         ->get()
         ->getResult();
         

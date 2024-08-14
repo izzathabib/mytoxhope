@@ -43,7 +43,7 @@
                     <tr>
                       <th>Company Name</th>
                       <th>Company Registration No</th>
-                      <th>Company Admin</th>
+                      <th>Company Main Admin</th>
                       <th>Admin E-mail</th>
                       <th>Status</th>
                       <th style="width: 90px;">Action</th>
@@ -58,9 +58,13 @@
                             <td><?= $data->username; ?></td>
                             <td><?= $data->secret; ?></td>
                             <?php if ($data->status == 'unverified') : ?>
-                              <td><?= 'Unverified'; ?></td>
+                              <td>
+                                <span class="badge rounded-pill bg-danger">Unverified</span>
+                              </td>
                             <?php elseif ($data->status == 'verified'): ?>
-                              <td><?= 'Verified'; ?></td>
+                              <td>
+                                <span class="badge  bg-success">Verified</span>
+                              </td>
                             <?php endif; ?>
                           <td>
                             <div class="row">
@@ -145,7 +149,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            Are you sure you want to delete this company? This action will also delete all users associated with it.
+            Are you sure you want to delete this company? This will also remove all associated users.
           </div>
 
           <!-- Modal footer -->
