@@ -558,19 +558,24 @@
                   <i class="fa fa-user"></i> User Management
                 </a>
                 <ul class="collapse list-unstyled" id="productSubmenu2">
-                  <li>
-                    <a href="<?= url_to('viewUser') ?>"><i class="fa-solid fa-user-gear"></i> View Admin</a>
-                  </li>
-                  <li>
-                    <a href="<?= url_to('viewUser') ?>"><i class="fa-solid fa-user-group"></i> View Staff</a>
-                  </li>
+                  <?php if (auth()->user()->inGroup('admin')): ?>
+                    <li>
+                      <a href="<?= url_to('viewUser') ?>"><i class="fa-solid fa-user-gear"></i> View User </a>
+                    </li>
+                  <?php endif; ?>
                   <?php if (auth()->user()->inGroup('superadmin')): ?>
-                  <li>
-                    <a href="<?= url_to('viewVerifyRequest') ?>"><i class="far fa-check-circle"></i> Verification Request</a>
-                  </li>
+                    <li>
+                      <a href="<?= url_to('viewUser') ?>"><i class="fa-solid fa-user-gear"></i> Admin </a>
+                    </li>
+                    <li>
+                      <a href="<?= url_to('viewUser') ?>"><i class="fa-solid fa-user-group"></i> Staff </a>
+                    </li>
+                    <li>
+                      <a href="<?= url_to('viewVerifyRequest') ?>"><i class="far fa-check-circle"></i> Verification Request</a>
+                    </li>
                   <?php endif; ?>
                   <li>
-                    <a href="<?= url_to('addNewUser') ?>"><i class="fa fa-plus-circle"></i> Add New User</a>
+                    <a href="<?= url_to('addNewUser') ?>"><i class="fa fa-plus-circle"></i> Add User</a>
                   </li>
                 </ul>
               </li>

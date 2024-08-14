@@ -26,7 +26,7 @@ class Users extends BaseController
         $userModel = new UserModel();
 
         // Get current user id
-        $currentUserId = $userModel->find(auth()->user()->id);
+        $currentUserData = $userModel->find(auth()->user()->id);
 
         // Display all user if current user is superadmin
         if (auth()->user()->inGroup('superadmin')) {
@@ -35,14 +35,13 @@ class Users extends BaseController
             ->join('company', 'users.comp_id = company.comp_id')
             ->join('identities', 'users.id = identities.user_id')
             ->join('groups_users', 'users.id = groups_users.user_id')
-            ->where('users.id !=', $currentUserId->id)
             ->get()
             ->getResult();
             return view('Admin\Views\UsersView',compact('title','userData'));
         }
         
         // Get current user company ID
-        $currentUserCompId = $currentUserId->comp_id;
+        $currentUserCompId = $currentUserData->comp_id;
 
         $userData = $userModel
             ->select('users.*, company.*, identities.secret, groups_users.group') 
@@ -50,7 +49,7 @@ class Users extends BaseController
             ->join('identities', 'users.id = identities.user_id')
             ->join('groups_users', 'users.id = groups_users.user_id') 
             ->where('users.comp_id', $currentUserCompId)
-            ->where('users.id !=', $currentUserId->id)
+            ->orderBy('users.id = ' . $currentUserData->id . ' DESC, groups_users.group ASC', '', false)
             ->get()
             ->getResult();
 

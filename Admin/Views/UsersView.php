@@ -72,13 +72,15 @@
                             <td><?= $data->comp_reg_no; ?></td>
                           <?php endif; ?>
                           <td>
-                            <?php if ($data->group == 'superadmin') : ?>
-                              ADMIN PUSAT RACUN 
-                            <?php elseif($data->group == 'admin'): ?>
-                              Admin
-                            <?php else: ?>
-                              Staff
-                            <?php endif; ?>
+                            <div class="text-center">
+                              <?php if ($data->group == 'superadmin') : ?>
+                                <span class="badge rounded-pill bg-secondary">Admin Pusat Racun</span> 
+                              <?php elseif($data->group == 'admin'): ?>
+                                <span class="badge rounded-pill bg-success">Admin</span>
+                              <?php else: ?>
+                                <span class="badge rounded-pill bg-secondary">Staff</span>
+                              <?php endif; ?>
+                            </div>
                           </td>
                           <?php if (auth()->user()->inGroup('superadmin')): ?>
                             <?php if ($data->status == 'unverified') : ?>
