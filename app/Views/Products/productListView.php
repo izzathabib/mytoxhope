@@ -57,34 +57,36 @@
                   <td><?= $data->product_name; ?></td>
                   <td><?= $data->inactive_ing; ?></td>
                   <td><?= $data->active_ing; ?></td>
-                  <?php if($data->prod_status=='To Be Deleted'): ?>
-                    <?php if(auth()->user()->inGroup('superadmin')) : ?>
-                      <td>
-                        <div class="row alert alert-danger small text-center p-1 m-1">
+                  <td>
+                    <?php if($data->prod_status=='Active'): ?>
+                      <span class="badge bg-success"><?= $data->prod_status; ?></span>
+                    <?php elseif ($data->prod_status=='Discontinued'): ?>
+                      <span class="badge bg-secondary"><?= $data->prod_status; ?></span>
+                    <?php elseif ($data->prod_status=='To Be Deleted'): ?>
+                      <?php if (auth()->user()->inGroup('superadmin')): ?>
+                        <div class="row alert alert-danger small text-center p-1 m-1 text-nowrap">
                           <div class="col-12">Delete Request</div>
                         </div>
-                        <div class="row p-1 m-1  text-center">
-                          <div class="col-6">
-                            <a class="btn btn-danger  btn-sm text-center" href="<?= url_to('approveDelete', $data->id); ?>">Approve</a>
-                          </div>
-                          <div class="col-6">
-                            <a class="btn btn-secondary  btn-sm text-center" href="<?= url_to('rejectDelete', $data->id); ?>">Reject</a>
-                          </div>
+                        <div class="text-center">
+                          <a class="btn btn-outline-danger  btn-sm text-center" href="<?= url_to('approveDelete', $data->id); ?>">
+                            <i class="fas fa-check"></i>
+                          </a>
+                          <a class="btn btn-outline-secondary  btn-sm text-center" href="<?= url_to('rejectDelete', $data->id); ?>">
+                            <i class="fas fa-times"></i>
+                          </a>
                         </div>
-                      </td>
-                    <?php else: ?>
-                      <td><?= $data->prod_status; ?></td>
+                      <?php else: ?>
+                        <span class="badge bg-danger"><?= $data->prod_status; ?></span>
+                      <?php endif; ?>
                     <?php endif; ?>
-                  <?php else: ?>
-                    <td><?= $data->prod_status; ?></td>
-                  <?php endif; ?>
+                  </td>
                   <td><?= date('d-m-Y', strtotime($data->created_at)); ?></td>
                   <td><?= date('d-m-Y', strtotime($data->updated_at)); ?></td>
                   <td>
                     <?php if($data->prod_status=='Active'): ?>
-                      <a class="btn btn-primary btn-sm" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
+                      <a class="btn btn-outline-primary btn-sm" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
                     <?php else: ?>
-                      <a class="btn btn-primary btn-sm" href="<?= url_to('displayDisconDeleteProd', $data->id); ?>">View</a>
+                      <a class="btn btn-outline-primary btn-sm" href="<?= url_to('displayDisconDeleteProd', $data->id); ?>">View</a>
                     <?php endif; ?>
                   </td>
                 </tr>

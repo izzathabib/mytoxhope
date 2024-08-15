@@ -16,7 +16,9 @@
       <div class="col-md-12 text-center">
         <h2><?= $data->prod_status ?></h2>
         <?php if ($data->prod_status=='To Be Deleted'): ?>
-          <div>Waiting approval from Poison Centre</div>
+          <?php if (auth()->user()->inGroup('admin', 'user')): ?>
+            <div>Waiting approval from Poison Centre</div>
+          <?php endif; ?>
         <?php endif; ?>
       </div>
     </div>

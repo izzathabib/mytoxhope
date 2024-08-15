@@ -461,8 +461,17 @@ class ProductsController extends BaseController
     public function deleteRequestList() {
 
         $title = 'Delete Request';
-        dd('Success');
-        return view('Products/delReqView', compact('title',));
+        $delReqModel = new DeleteRequest();
+
+        $productData = $delReqModel
+        ->select('products.*, company.comp_name')
+        ->join('products', 'products.id = delete_requests.prod_id')
+        ->join('users', 'products.user_id = users.id')
+        ->join('company', 'company.comp_id = users.comp_id')
+        ->get()
+        ->getResult();
+        
+        return view('Products/delReqView', compact('title', 'productData'));
 
     }
 

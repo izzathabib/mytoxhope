@@ -72,7 +72,7 @@
                       <?php if (auth()->user()->inGroup('superadmin')): ?>
                         <td>
                           <?php if ($data->group == 'superadmin'): ?>
-                            <span class="badge rounded-pill bg-primary"><?= $data->comp_name; ?></span>
+                            <span class="badge bg-primary"><?= $data->comp_name; ?></span>
                           <?php else: ?>
                             <?= $data->comp_name; ?>
                           <?php endif; ?>
