@@ -64,18 +64,16 @@
 
                         <!-- Password -->
                         <div class="form-floating mb-3 w-100">
-                            <input type="password" class="form-control" id="floatingPasswordInput" name="password"
+                            <input type="hidden" class="form-control" id="floatingPasswordInput" name="password"
                                 inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>"
-                                required>
-                            <label for="floatingPasswordInput"><?= lang('Auth.password') ?></label>
+                                required value="<?= $randomPassword ?>">
                         </div>
 
                         <!-- Password (Again) -->
                         <div class="form-floating mb-3 w-100">
-                            <input type="password" class="form-control" id="floatingPasswordConfirmInput"
+                            <input type="hidden" class="form-control" id="floatingPasswordConfirmInput"
                                 name="password_confirm" inputmode="text" autocomplete="new-password"
-                                placeholder="<?= lang('Auth.passwordConfirm') ?>" required>
-                            <label for="floatingPasswordConfirmInput"><?= lang('Auth.passwordConfirm') ?></label>
+                                placeholder="<?= lang('Auth.passwordConfirm') ?>" required value="<?= $randomPassword ?>">
                         </div>
 
 

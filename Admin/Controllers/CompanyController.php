@@ -63,7 +63,12 @@ class CompanyController extends BaseController
     public function addCompany() {
 
         $title = 'Add Company';
-        return view('Admin\Views\Company\AddNewCompanyView', compact('title'));
+
+        // Generate random password to store as value for 'password' and 'pasword_again' input
+        helper('text');
+        $randomPassword = random_string('alnum', 8);
+        
+        return view('Admin\Views\Company\AddNewCompanyView', compact('title', 'randomPassword'));
 
     }
 
@@ -72,6 +77,9 @@ class CompanyController extends BaseController
         // Declare model being used
         $users = new UserModel;
         $companyModel = new Company();
+
+        // Get the random password generated
+        $generatedPass = $this->request->getPost('password');
 
         $comp_reg_no = $this->request->getPost('comp_reg_no');
 
@@ -153,7 +161,7 @@ class CompanyController extends BaseController
         $companyData = [
             'comp_reg_no' => $this->request->getPost('comp_reg_no'),
             'comp_name' => $this->request->getPost('comp_name'),
-            'status' => 'unverified',
+            'status' => 'verified',
         ];
 
         try {
@@ -216,11 +224,26 @@ class CompanyController extends BaseController
 
         $authenticator->completeLogin($user);
 
+        // Get the new registered company admin email
+        $companyEmail = $user->email;
+        
         // Send email to New Company (main admin) so they knew their company have been registered
         $email = \Config\Services::email();
         $email->setTo('muhdizat.h@gmail.com'); // Replace with your actual email address
-        $email->setSubject('Test Email from CodeIgniter 4');
-        $email->setMessage('This is a test email sent using MailEnable.');
+        $email->setSubject('Mytoxhope Company Registration');
+
+        $message = "
+            <p>Pusat Racun Negara have registered your company in Mytoxhope system.</p>
+            <p>You can login using the details below:</p>
+            <p style='margin-left: 80px;'>
+                <strong>Email:</strong> {$companyEmail}<br>
+                <strong>Password:</strong> {$generatedPass}
+            </p>
+            <p><strong>Important:</strong> For your security, please change your password immediately after logging in.</p>
+        ";
+
+        $email->setMessage($message);
+        $email->setMailType('html');
 
         if ($email->send()) {
             // **Prevent automatic login:**
