@@ -594,7 +594,7 @@
                 <a href="<?= url_to('viewCompany') ?>"><i class="fa fa-building"></i> View Company</a>
               </li>
               <li>
-                <a href=""><i class="fa fa-building"></i> Add Company</a>
+                <a href="<?= url_to('addCompany') ?>"><i class="fa fa-building"></i> Add Company</a>
               </li>
               </ul>
             <?php endif; ?>
