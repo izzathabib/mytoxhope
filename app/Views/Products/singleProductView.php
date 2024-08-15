@@ -93,6 +93,24 @@
           </div>
         </form>
       </div>
+      <!-- Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this product?
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger btn-sm" id="confirmDelete">Delete</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
   </div>
 
@@ -101,23 +119,41 @@
 
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const deleteBtn = document.getElementById('deleteBtn');
-    const deleteConfirmation = document.getElementById('deleteConfirmation');
-    const cancelDelete = document.getElementById('cancelDelete');
-    const deleteReason = document.getElementById('deleteReason');
+document.addEventListener('DOMContentLoaded', function () {
+  const deleteBtn = document.getElementById('deleteBtn');
+  const deleteConfirmation = document.getElementById('deleteConfirmation');
+  const cancelDelete = document.getElementById('cancelDelete');
+  const deleteReason = document.getElementById('deleteReason');
+  const deleteForm = document.getElementById('deleteForm');
+  const confirmDelete = document.getElementById('confirmDelete');
 
-    deleteBtn.addEventListener('click', function () {
-      deleteBtn.style.display = 'none';
-      deleteConfirmation.style.display = 'block';
-      deleteReason.focus();
-    });
-
-    cancelDelete.addEventListener('click', function () {
-      deleteConfirmation.style.display = 'none';
-      deleteBtn.style.display = 'inline-block';
-      deleteReason.value = ''; // Clear the textarea
-    });
+  deleteBtn.addEventListener('click', function () {
+    deleteBtn.style.display = 'none';
+    deleteConfirmation.style.display = 'block';
+    deleteReason.focus();
   });
+
+  cancelDelete.addEventListener('click', function () {
+    deleteConfirmation.style.display = 'none';
+    deleteBtn.style.display = 'inline-block';
+    deleteReason.value = ''; // Clear the textarea
+  });
+
+  deleteForm.addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent form submission
+    if (deleteReason.value.trim() !== '') {
+      // Show the modal
+      var deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+      deleteModal.show();
+    } else {
+      alert('Please provide a reason for deletion.');
+    }
+  });
+
+  confirmDelete.addEventListener('click', function () {
+    // Submit the form
+    deleteForm.submit();
+  });
+});
 </script>
 <?= $this->endsection(); ?>

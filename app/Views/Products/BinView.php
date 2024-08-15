@@ -147,7 +147,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        This record will be permanently deleted
+        This record will be deleted. Proceed to deletion?
       </div>
       <div class="modal-footer">
         <form method="POST" action="<?= url_to('delProdPermanent', $data->id) ?>">
