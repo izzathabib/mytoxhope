@@ -20,7 +20,7 @@
             <!-- Select company option for superadmin -->
             <?php if (auth()->user()->inGroup('superadmin')): ?>
               <div class="form-group mb-4">
-              <label for="comp_name">Select Company</label>
+              <label for="comp_name" style="margin-bottom: 5px;"><b>Select Company</b></label>
               <select value="<?= old('comp_name') ?>" id="comp_name" name="comp_name" class="form-select" required >
                 <option value="Please select">Please select</option>
                 <?php foreach($companyData as $data): ?>
@@ -39,7 +39,7 @@
 
             <!-- Product Name -->
             <div class="form-group mb-4">
-              <label for="product_name">Product Name</label>
+              <label for="product_name" style="margin-bottom: 5px;"><b>Product Name</b></label>
               <input value="<?= old('product_name') ?>" type="text" id="product_name" name="product_name" class="form-control" required>
               <!-- Error message -->
               <?php if(isset(session('errors')['product_name'])): ?>
@@ -50,7 +50,7 @@
 
             <!-- Product Image -->
             <div class="form-group mb-4">
-              <label for="product_image">Product Image</label>
+              <label for="product_image" style="margin-bottom: 5px;"><b>Product Image</b></label>
               <input value="<?= old('product_image') ?>" type="file" id="product_image" name="product_image" class="form-control" required >
               <!-- Error message -->
               <?php if (session('image') !== null): ?>
@@ -64,7 +64,7 @@
 
             <!-- Type of Poison -->
             <div class="form-group mb-4">
-              <label for="type_poison">Type of Poison</label>
+              <label for="type_poison" style="margin-bottom: 5px;"><b>Type of Poison</b></label>
               <select value="<?= old('type_poison') ?>" id="type_poison" name="type_poison" class="form-select" required >
                 <option value="Please select">Please select</option>
                 <option value="List 1">List 1</option>
@@ -80,7 +80,7 @@
 
             <!-- Active ingredient -->
             <div class="form-group mb-4 ">
-              <label for="active_ing">Active Ingredient/ Chemical Name</label>
+              <label for="active_ing" style="margin-bottom: 5px;"><b>Active Ingredient/ Chemical Name</b></label>
               <div class="tag-input ">
                 <input type="text" id="active_ing_input" class="form-control"
                   placeholder="Type an ingredient and press Enter">
@@ -96,7 +96,7 @@
 
             <!-- Inactive ingredient -->
             <div class="form-group mb-4">
-              <label for="inactive_ing">Inactive Ingredients</label>
+              <label for="inactive_ing" style="margin-bottom: 5px;"><b>Inactive Ingredients</b></label>
               <textarea value="<?= old('inactive_ing') ?>" id="inactive_ing" name="inactive_ing" class="form-control" required></textarea>
               <!-- Error message -->
               <?php if(isset(session('errors')['inactive_ing'])): ?>
@@ -109,7 +109,7 @@
           <div class="col-md-6">
             <!-- Brand Name -->
             <div class="form-group mb-4">
-              <label for="brand_name">Brand Name</label>
+              <label for="brand_name" style="margin-bottom: 5px;"><b>Brand Name</b></label>
               <input value="<?= old('brand_name') ?>" type="text" id="brand_name" name="brand_name" class="form-control" required>
               <!-- Error message -->
               <?php if(isset(session('errors')['brand_name'])): ?>
@@ -120,7 +120,7 @@
 
             <!-- Product MSDS -->
             <div class="form-group mb-4">
-              <label for="msds">Product MSDS</label>
+              <label for="msds" style="margin-bottom: 5px;"><b>Product MSDS</b></label>
               <input value="<?= old('msds') ?>" type="file" id="msds" name="msds" class="form-control" required>
               <!-- Error message -->
               <?php if (session('msds') !== null): ?>
@@ -133,7 +133,7 @@
 
             <!-- Subtype of Household / Consumer Product -->
             <div class="form-group mb-4">
-              <label for="subtype_household">Subtype of Household / Consumer Product</label>
+              <label for="subtype_household" style="margin-bottom: 5px;"><b>Subtype of Household / Consumer Product</b></label>
               <select value="<?= old('subtype_household') ?>" id="subtype_household" name="subtype_household" class="form-select" required >
                 <option value="Please select">Please select</option>
                 <option value="Agricultural/Garden">Agricultural/Garden</option>
