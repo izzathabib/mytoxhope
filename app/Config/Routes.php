@@ -12,6 +12,8 @@ $routes->get('register', 'Authentication\RegisterController::registerView');
 $routes->post('register', 'Authentication\RegisterController::registerAction',['as' => 'register']);
 $routes->get('login', 'Authentication\LoginController::loginView');
 $routes->post('login', 'Authentication\LoginController::loginAction');
+$routes->get('forgot-password', 'Authentication\LoginController::forgotPass', ['as' => 'forgotPass']);
+$routes->post('sent-passcode', 'Authentication\LoginController::sentPasscode', ['as' => 'sentPasscode']);
 
 $routes->get('dashboard', 'Home::dashboard');
 

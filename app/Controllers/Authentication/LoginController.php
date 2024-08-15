@@ -94,4 +94,84 @@ class LoginController extends ShieldLogin
 
         return redirect()->to(config('Auth')->loginRedirect())->withCookies();
     }
+
+    public function forgotPass() {
+
+        $title = 'Forgot Password';
+
+        return view('Shield/forgotPassView', compact('title'));
+
+    }
+
+    public function sentPasscode() {
+
+        $title = 'Reset Password';
+        $userIdentityModel = new UserIdentityModel();
+
+        // Email validation
+        $currentUserEmail = $this->request->getPost('email');
+
+        $rules = [
+            'email' => [
+                'label' => 'Email',
+                'rules' => [
+                    'required',
+                    'max_length[254]',
+                    'valid_email',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Check if user with the email exist
+        $currentUser = $userIdentityModel->where('secret', $currentUserEmail)->first();
+
+        if ($currentUser == null) {
+            return redirect()->back()->with('error', 'Email address doesn\'t exist. Please try again or create a new account.');
+        }
+
+        // Generated Passcode
+        helper('text');
+        $randomPasscode = random_string('alnum', 8);
+
+        // Sent email to the user with the random password
+        $email = \Config\Services::email();
+        $email->setTo('muhdizat.h@gmail.com'); // For development purpose
+        //$email->setTo($currentUserEmail);
+        $email->setSubject('Login With Temporary Passcode');
+
+        $message = "
+            
+            <p>You can login using the temporary passcode below:</p>
+            <p style='margin-left: 80px;'>
+                <strong>Password:</strong> {$randomPasscode}
+            </p>
+            <p><strong>Important:</strong> For your security, please change your password immediately after logging in.</p>
+        ";
+
+        $email->setMessage($message);
+        $email->setMailType('html');
+
+        $userData = [
+            'secret2' => password_hash($randomPasscode, PASSWORD_DEFAULT),
+        ];
+        
+        if ($email->send()) {
+
+            $identityId = $currentUser->id;
+            $userIdentityModel->update($identityId, $userData);
+            return redirect()->to('login')->with('success', "We have email you the passcode. Please logging using the temporary passcode.");
+
+        } else {
+
+            return redirect()->back()
+            ->with('error', 'Failed to send passcode to your email. Please try again.');
+
+        }
+
+    }
+    
 }

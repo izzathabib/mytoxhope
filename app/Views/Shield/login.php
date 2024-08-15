@@ -75,8 +75,7 @@
 
                         <!-- Forgot password -->
                         <?php if (setting('Auth.allowMagicLinkLogins')): ?>
-                            <p class="text-center"><?= lang('Auth.forgotPassword') ?> <a
-                                    href="<?= url_to('magic-link') ?>" style="text-decoration: none;"><?= lang('Auth.useMagicLink') ?></a></p>
+                            <p class="text-center"><a href="<?= url_to('forgotPass') ?>" style="text-decoration: none;">Forgot Password</a></p>
                         <?php endif ?>
 
                         <!-- Register account -->
