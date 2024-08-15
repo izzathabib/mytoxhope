@@ -458,4 +458,12 @@ class ProductsController extends BaseController
         return redirect()->to('list-product');
     }
 
+    public function deleteRequestList() {
+
+        $title = 'Delete Request';
+        dd('Success');
+        return view('Products/delReqView', compact('title',));
+
+    }
+
 }

@@ -549,7 +549,7 @@
                 </li>
                 <?php if (auth()->user()->inGroup('superadmin')): ?>
                   <li>
-                    <a href=""><i class="fa fa-minus-square"></i> Delete Request</a>
+                    <a href="<?= url_to('deleteRequestList') ?>"><i class="fa fa-minus-square"></i> Delete Request</a>
                   </li>
                 <?php endif; ?>
                 <li>

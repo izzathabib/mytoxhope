@@ -30,6 +30,9 @@ $routes->get('delete-product-list', 'Products\ProductsController::productDeleteL
 $routes->post('delete-product-permanently/(:num)', 'Products\ProductsController::delProdPermanent/$1', ['as' => 'delProdPermanent']);
 $routes->get('activate-product/(:num)', 'Products\ProductsController::activateProd/$1', ['as' => 'activateProd']);
 
+// Delete request
+$routes->get('delete-request-list', 'Products\ProductsController::deleteRequestList', ['as' => 'deleteRequestList']);
+
 
 
 
