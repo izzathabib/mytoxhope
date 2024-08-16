@@ -65,6 +65,13 @@
           <?php endif; ?>
       </div>
       </div>
+      <?php if (auth()->user()->inGroup('user')): ?>
+      <div class="row mt-3 ">
+            <div class="col-md-12 text-center">
+              <a class="btn btn-secondary" href="">Cancel Delete</a>
+            </div>
+          </div>
+          <?php endif; ?>
     </div>
     
     <?php if ($data->prod_status=='Discontinued'): ?>
