@@ -188,17 +188,6 @@ class Users extends BaseController
                     'is_unique[identities.secret]',
                 ],
             ],
-            'password' => [
-                'label' => 'Auth.password',
-                'rules' => 'required|max_byte[72]|strong_password[]',
-                'errors' => [
-                    'max_byte' => 'Auth.errorPasswordTooLongBytes'
-                ]
-            ],
-            'password_confirm' => [
-                'label' => 'Auth.passwordConfirm',
-                'rules' => 'required|matches[password]',
-            ],
         ];
 
         // If validation fail return back to the addUser page 
@@ -209,13 +198,20 @@ class Users extends BaseController
         // Get user company registration number from user input
         $compRegNum = $this->request->getPost('comp_reg_no');
         // Get data of company with same comp_reg_no from company table 
-        $compId = $companyModel->where('comp_reg_no', $compRegNum)->first();
+        $compData = $companyModel->where('comp_reg_no', $compRegNum)->first();
         
         // Save the user
         $allowedPostFields = array_keys($rules);
         $user              = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
-        $user->comp_id = $compId['comp_id'];
+        $user->comp_id = $compData['comp_id'];
+
+        // Generate random password
+        helper('text');
+        $randomPassword = random_string('alnum', 8);
+        $user->password = $randomPassword;
+        // --!--
+
         // Get user role from user input
         $role = [$this->request->getPost('role')];
 
@@ -237,8 +233,6 @@ class Users extends BaseController
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
-        //$authenticator->startLogin($user);
-
         // If an action has been defined for register, start it up.
         $hasAction = $authenticator->startUpAction('register', $user);
         if ($hasAction) {
@@ -247,21 +241,43 @@ class Users extends BaseController
         
         // Set the user active
         $user->activate();
-
-        //$authenticator->completeLogin($user);
-
+        
         // Send email to the new user
         $email = \Config\Services::email();
-        $email->setTo('muhdizat.h@gmail.com'); // Replace with your actual email address
-        $email->setSubject('Test Email from CodeIgniter 4');
-        $email->setMessage('This is a test email sent using MailEnable.');
+        $email->setTo('muhdizat.h@gmail.com'); // For development purpose
+        // Get email to send login detail
+        $userEmail = $user->email;
+        //$email->setTo($userEmail);
 
+        // Email content
+        $email->setSubject('Account Registration');
+        $message = "
+            <p>You have been registered in Mytoxhope system.</p>
+            <p>You can login using the details below:</p>
+            <p style='margin-left: 80px;'>
+                <strong>Email:</strong> {$userEmail}<br>
+                <strong>Password:</strong> {$randomPassword}
+            </p>
+            <p><strong>Important:</strong> For your security, please change your password immediately after logging in.</p>
+        ";
+        // --!--
+
+        $email->setMessage($message);
+        $email->setMailType('html');
+
+        /* For adminprn view: 
+        1. If new user added is an 'admin' the view will be redirect to admin list.
+        2. If new user added is a 'user' the view will be redirect to user list. */
         if ($email->send()) {
-
-            // Success!
-            $session = session();
-            //$session->setFlashdata('success', "Registration successful!  We'll email you once your account is verified for login.");
-            return redirect()->to('Admin/users');
+            if (auth()->user()->inGroup('superadmin')) {
+                if ($user->inGroup('superadmin', 'admin')) {
+                    return redirect()->to('Admin/users');
+                } else {
+                    return redirect()->to('view-staff-list');
+                }
+            } else{
+                return redirect()->to('Admin/users');
+            }
         } else {
             return redirect()->back()
             ->with('error', 'Failed to send registration email to admin');

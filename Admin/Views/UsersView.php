@@ -84,9 +84,7 @@
                       <?php endif; ?>
                       <?php if (auth()->user()->inGroup('admin')): ?>
                         <td>
-                          <?php if ($data->group == 'superadmin'): ?>
-                            <span class="badge rounded-pill bg-primary">Admin Pusat Racun</span>
-                          <?php elseif ($data->group == 'admin'): ?>
+                          <?php if ($data->group == 'admin'): ?>
                             <span class="badge rounded-pill bg-success">Admin</span>
                           <?php else: ?>
                             <span class="badge rounded-pill bg-secondary">Staff</span>
