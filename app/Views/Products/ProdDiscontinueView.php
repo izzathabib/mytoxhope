@@ -134,6 +134,20 @@
       deleteBtn.style.display = 'inline-block';
       deleteReason.value = ''; // Clear the textarea
     });
+    <?php if (session()->getFlashdata('success')): ?>
+        Swal.fire({
+          position: 'top-end',
+          toast: true,
+          backgroundColor: '#28a745',
+          titleColor: '#fff',
+            title: 'Success!',
+            text: '<?= session()->getFlashdata('success') ?>',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true
+        });
+    <?php endif; ?>
   });
 </script>
 <?= $this->endsection(); ?>

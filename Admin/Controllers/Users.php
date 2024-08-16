@@ -126,7 +126,7 @@ class Users extends BaseController
                 ->where('comp_id', $compId)
                 ->update($companyData);
         }
-        
+        session()->setFlashdata('success', 'User Verified!');
         return redirect()->to(base_url('Admin/users'));
     }
 
@@ -271,11 +271,14 @@ class Users extends BaseController
         if ($email->send()) {
             if (auth()->user()->inGroup('superadmin')) {
                 if ($user->inGroup('superadmin', 'admin')) {
+                    session()->setFlashdata('success', 'User Added Successfully!');
                     return redirect()->to('Admin/users');
                 } else {
+                    session()->setFlashdata('success', 'User Added Successfully!');
                     return redirect()->to('view-staff-list');
                 }
             } else{
+                session()->setFlashdata('success', 'User Added Successfully!');
                 return redirect()->to('Admin/users');
             }
         } else {
@@ -373,6 +376,7 @@ class Users extends BaseController
         // Save the updated user
         try {
             $userModel->save($user);
+            session()->setFlashdata('success', 'Details Updated Successfully!');
             return redirect()->to('Admin/users');
         } catch (ValidationException $e) {
             return redirect()->back()->withInput();
@@ -383,6 +387,7 @@ class Users extends BaseController
         $userModel = new UserModel();
         $userModel->delete($id);
         //dd($id);
+        session()->setFlashdata('success', 'User Deleted Successfully!');
         return redirect()->to('Admin/users');
     }
 }

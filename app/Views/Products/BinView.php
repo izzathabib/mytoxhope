@@ -161,6 +161,7 @@
 <!-- ! -->
 <?php endforeach; ?>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const table = document.getElementById('delprod');
@@ -269,6 +270,21 @@
     // Initial setup
     setupPagination();
     showPage(currentPage);
+
+    <?php if (session()->getFlashdata('success')): ?>
+        Swal.fire({
+          position: 'top-end',
+          toast: true,
+          backgroundColor: '#28a745',
+          titleColor: '#fff',
+            title: 'Success!',
+            text: '<?= session()->getFlashdata('success') ?>',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true
+        });
+    <?php endif; ?>
   });
 </script>
 
