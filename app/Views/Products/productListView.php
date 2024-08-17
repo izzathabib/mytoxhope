@@ -4,7 +4,7 @@
 <!-- Display page title -->
 <div class="container-fluid p-2 mt-5">
   <div class="container-fluid">
-  <div class="d-flex align-items-center mb-1">
+    <div class="d-flex align-items-center mb-1">
       <a href="<?= base_url('dashboard') ?>" class="btn btn-tertiary btn-lg me-3">
         <i class="fas fa-arrow-left"></i>
       </a>
@@ -15,32 +15,33 @@
 
 <!-- Main section -->
 <div class="container-fluid">
-    <div class="row">
+  <div class="row">
 
-      <div class="col-md-12">
+    <div class="col-md-12">
 
-        <div class="card w-100 shadow-sm ">
+      <div class="card w-100 shadow-sm ">
 
-          <!-- Card header -->
-          <div class="card-header">
-            <div class="card-tools">
-            <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addProduct'); ?>"><i class="fa fa-plus"></i> <b>Add Product</b> </a>
-            </div>
+        <!-- Card header -->
+        <div class="card-header">
+          <div class="card-tools">
+            <a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="<?= url_to('addProduct'); ?>"><i
+                class="fa fa-plus"></i> <b>Add Product</b> </a>
           </div>
-          
-          <!-- Card body -->
-          <div class="card-body">
-            <!-- Table data -->
-            <div class="table-responsive">
+        </div>
+
+        <!-- Card body -->
+        <div class="card-body">
+          <!-- Table data -->
+          <div class="table-responsive">
             <div class="mb-3 d-flex justify-content-end">
-              <input type="text" id="searchInput" class="form-control form-control-sm w-25"
+              <input type="text" id="globalSearchInput" class="form-control form-control-sm w-25"
                 placeholder="Enter search term here...">
             </div>
             <table id="prodlist" class="table table-hover table-bordered table-striped" style="width:100%">
               <thead>
                 <tr>
                   <th>#</th>
-                  <?php if(auth()->user()->inGroup('superadmin')): ?>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
                     <th>Company</th>
                   <?php endif; ?>
                   <th>Brand</th>
@@ -54,74 +55,96 @@
                 </tr>
               </thead>
               <tbody>
-              <?php if (!empty($productData)): ?>
-                <?php $i = 1; ?>
-                <?php foreach ($productData as $data): ?>
-                <tr>
-                  <td><?= $i++; ?></td>
-                  <?php if(auth()->user()->inGroup('superadmin')): ?>
-                    <td><?= $data->comp_name; ?></td>
-                  <?php endif; ?>
-                  <td><?= $data->brand_name; ?></td>
-                  <td><?= $data->product_name; ?></td>
-                  <td><?= $data->inactive_ing; ?></td>
-                  <td><?= $data->active_ing; ?></td>
-                  <td>
-                    <?php if($data->prod_status=='Active'): ?>
-                      <span class="badge bg-success"><?= $data->prod_status; ?></span>
-                    <?php elseif ($data->prod_status=='Discontinued'): ?>
-                      <span class="badge bg-secondary"><?= $data->prod_status; ?></span>
-                    <?php elseif ($data->prod_status=='To Be Deleted'): ?>
+                <?php if (!empty($productData)): ?>
+                  <?php $i = 1; ?>
+                  <?php foreach ($productData as $data): ?>
+                    <tr>
+                      <td><?= $i++; ?></td>
                       <?php if (auth()->user()->inGroup('superadmin')): ?>
-                        <div class="row alert alert-danger small text-center p-1 m-1 text-nowrap">
-                          <div class="col-12">Delete Request</div>
-                        </div>
-                        <div class="text-center">
-                          <a class="btn btn-outline-danger  btn-sm text-center" href="<?= url_to('approveDelete', $data->id); ?>">
-                            <i class="fas fa-check"></i>
-                          </a>
-                          <a class="btn btn-outline-secondary  btn-sm text-center" href="<?= url_to('rejectDelete', $data->id); ?>">
-                            <i class="fas fa-times"></i>
-                          </a>
-                        </div>
-                      <?php else: ?>
-                        <span class="badge bg-danger"><?= $data->prod_status; ?></span>
+                        <td><?= $data->comp_name; ?></td>
                       <?php endif; ?>
-                    <?php endif; ?>
-                  </td>
-                  <td><?= date('d-m-Y', strtotime($data->created_at)); ?></td>
-                  <td><?= date('d-m-Y', strtotime($data->updated_at)); ?></td>
-                  <td>
-                    <?php if($data->prod_status=='Active'): ?>
-                      <a class="btn btn-outline-primary btn-sm" href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
-                    <?php else: ?>
-                      <a class="btn btn-outline-primary btn-sm" href="<?= url_to('displayDisconDeleteProd', $data->id); ?>">View</a>
-                    <?php endif; ?>
-                  </td>
-                </tr>
-                <?php endforeach; ?>
-              <?php else: ?>
-                <tr>
-                  <td colspan="6">No data available</td>
-                </tr>
-              <?php endif; ?>
+                      <td><?= $data->brand_name; ?></td>
+                      <td><?= $data->product_name; ?></td>
+                      <td><?= $data->inactive_ing; ?></td>
+                      <td><?= $data->active_ing; ?></td>
+                      <td>
+                        <?php if ($data->prod_status == 'Active'): ?>
+                          <span class="badge bg-success"><?= $data->prod_status; ?></span>
+                        <?php elseif ($data->prod_status == 'Discontinued'): ?>
+                          <span class="badge bg-secondary"><?= $data->prod_status; ?></span>
+                        <?php elseif ($data->prod_status == 'To Be Deleted'): ?>
+                          <?php if (auth()->user()->inGroup('superadmin')): ?>
+                            <div class="row alert alert-danger small text-center p-1 m-1 text-nowrap">
+                              <div class="col-12">Delete Request</div>
+                            </div>
+                            <div class="text-center">
+                              <a class="btn btn-outline-danger  btn-sm text-center"
+                                href="<?= url_to('approveDelete', $data->id); ?>">
+                                <i class="fas fa-check"></i>
+                              </a>
+                              <a class="btn btn-outline-secondary  btn-sm text-center"
+                                href="<?= url_to('rejectDelete', $data->id); ?>">
+                                <i class="fas fa-times"></i>
+                              </a>
+                            </div>
+                          <?php else: ?>
+                            <span class="badge bg-danger"><?= $data->prod_status; ?></span>
+                          <?php endif; ?>
+                        <?php endif; ?>
+                      </td>
+                      <td><?= date('d-m-Y', strtotime($data->created_at)); ?></td>
+                      <td><?= date('d-m-Y', strtotime($data->updated_at)); ?></td>
+                      <td>
+                        <?php if ($data->prod_status == 'Active'): ?>
+                          <a class="btn btn-outline-primary btn-sm"
+                            href="<?= url_to('displayProdDetail', $data->id); ?>">View</a>
+                        <?php else: ?>
+                          <a class="btn btn-outline-primary btn-sm"
+                            href="<?= url_to('displayDisconDeleteProd', $data->id); ?>">View</a>
+                        <?php endif; ?>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <tr>
+                    <td colspan="6">No data available</td>
+                  </tr>
+                <?php endif; ?>
               </tbody>
+              <tfoot>
+                <tr id="column-filters">
+                  <th><input type="hidden" class="form-control column-search" placeholder="Search #">#</th>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                    <th><input type="text" class="form-control column-search" placeholder="Search Company"></th>
+                  <?php endif; ?>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Brand"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Product Name"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Inactive Ingredients">
+                  </th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Active Ingredient"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Status"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Created Date"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Modified Date"></th>
+                  <th>Action</th>
+                </tr>
+              </tfoot>
             </table>
             <nav aria-label="Page navigation">
               <ul class="pagination justify-content-end" id="pagination">
               </ul>
             </nav>
-            </div>
-          </div>  
+          </div>
         </div>
-      </div> 
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const table = document.getElementById('prodlist');
-    const searchInput = document.getElementById('searchInput');
+    const globalSearchInput = document.getElementById('globalSearchInput');
+    const columnSearchInputs = document.querySelectorAll('#column-filters .column-search');
     const tbody = table.getElementsByTagName('tbody')[0];
     const rows = Array.from(tbody.getElementsByTagName('tr'));
     const itemsPerPage = 10; // Records to be shown per page
@@ -129,16 +152,26 @@
     let filteredRows = rows;
 
     function filterRows() {
-      const searchTerm = searchInput.value.toLowerCase().trim();
+      const globalSearchTerm = globalSearchInput.value.toLowerCase().trim();
+
       filteredRows = rows.filter(row => {
-        const cells = row.getElementsByTagName('td');
-        for (let cell of cells) {
-          if (cell.textContent.toLowerCase().includes(searchTerm)) {
-            return true;
-          }
-        }
-        return false;
+        const cells = Array.from(row.getElementsByTagName('td'));
+
+        // Global search
+        const matchesGlobalSearch = globalSearchTerm === '' || cells.some(cell =>
+          cell.textContent.toLowerCase().includes(globalSearchTerm)
+        );
+
+        // Column-specific search
+        const matchesColumnSearch = Array.from(columnSearchInputs).every((input, index) => {
+          if (!input.value.trim()) return true;
+          const cellText = cells[index].textContent.toLowerCase();
+          return cellText.includes(input.value.toLowerCase().trim());
+        });
+
+        return matchesGlobalSearch && matchesColumnSearch;
       });
+
       return filteredRows;
     }
 
@@ -216,44 +249,53 @@
       paginationElement.appendChild(nextLi);
     }
 
-    searchInput.addEventListener('input', function () {
+    function updateTable() {
       filterRows();
-      currentPage = 1; // Reset to first page after search
+      currentPage = 1;
       setupPagination();
       showPage(currentPage);
+    }
+
+    globalSearchInput.addEventListener('input', updateTable);
+
+    columnSearchInputs.forEach(input => {
+      input.addEventListener('input', updateTable);
     });
 
     // Initial setup
     setupPagination();
     showPage(currentPage);
 
+    // SweetAlert for success message
     <?php if (session()->getFlashdata('success')): ?>
-        Swal.fire({
-          position: 'top-end',
-          toast: true,
-          backgroundColor: '#28a745',
-          titleColor: '#fff',
-            title: 'Success!',
-            text: '<?= session()->getFlashdata('success') ?>',
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true
-        });
+      Swal.fire({
+        position: 'top-end',
+        toast: true,
+        backgroundColor: '#28a745',
+        titleColor: '#fff',
+        title: 'Success!',
+        text: '<?= session()->getFlashdata('success') ?>',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true
+      });
     <?php endif; ?>
+
+    // SweetAlert for failed/rejected message
     <?php if (session()->getFlashdata('failed')): ?>
-        Swal.fire({
-          position: 'top-end',
-          toast: true,
-          backgroundColor: '#28a745',
-          titleColor: '#fff',
-            title: 'Success!',
-            text: '<?= session()->getFlashdata('failed') ?>',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true
-        });
+      Swal.fire({
+        position: 'top-end',
+        toast: true,
+        backgroundColor: '#28a745',
+        titleColor: '#fff',
+        title: 'Success!',
+        text: '<?= session()->getFlashdata('failed') ?>',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true
+      });
     <?php endif; ?>
   });
 </script>

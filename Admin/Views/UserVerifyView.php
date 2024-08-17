@@ -6,25 +6,25 @@
 <!-- Display page title -->
 <div class="container-fluid p-3 mt-5">
   <div class="container-fluid">
-  <div class="d-flex align-items-center mb-1">
-  <a href="<?= base_url('dashboard') ?>" class="btn btn-tertiary btn-lg me-1">
-    <i class="fas fa-arrow-left"></i>
-  </a>
-  <h3 class="mb-0"><b>Verification Request</b></h3>
-</div>
-</div>
+    <div class="d-flex align-items-center mb-1">
+      <a href="<?= base_url('dashboard') ?>" class="btn btn-tertiary btn-lg me-1">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h3 class="mb-0"><b>Verification Request</b></h3>
+    </div>
+  </div>
 </div>
 
 <!-- Main section -->
 <div class="container-fluid">
-    <div class="row">
+  <div class="row">
 
-      <div class="col-lg-12">
-        <div class="card w-100 shadow-sm ">
+    <div class="col-lg-12">
+      <div class="card w-100 shadow-sm ">
 
 
-          <!-- Card header -->
-          <div class="card-header">
+        <!-- Card header -->
+        <div class="card-header">
           <div class="row">
 
             <div class="col">
@@ -32,112 +32,113 @@
             </div>
 
           </div>
-          
-          </div>
-          
-          <!-- Card body -->
-          <div class="card-body">
-            <!-- Table data -->
-            <div class="table-responsive">
+
+        </div>
+
+        <!-- Card body -->
+        <div class="card-body">
+          <!-- Table data -->
+          <div class="table-responsive">
             <div class="mb-3 d-flex justify-content-end">
-              <input type="text" id="searchInput" class="form-control form-control-sm w-25"
+              <input type="text" id="globalSearchInput" class="form-control form-control-sm w-25"
                 placeholder="Enter search term here...">
             </div>
-            <table id="userslist" class="table table-hover table-bordered table-striped"
-                  style="width:100%">
-                  <thead>
+            <table id="userslist" class="table table-hover table-bordered table-striped" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>E-mail</th>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                    <th>Company Name</th>
+                    <th>Company Registration No</th>
+                  <?php endif; ?>
+                  <th>Role</th>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                    <th>Status</th>
+                  <?php endif; ?>
+                  <th style="width: 90px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php if (!empty($userData)): ?>
+                  <?php foreach ($userData as $data): ?>
                     <tr>
-                        <th>Name</th>
-                        <th>E-mail</th>
-                        <?php if (auth()->user()->inGroup('superadmin')): ?>
-                          <th>Company Name</th>
-                          <th>Company Registration No</th>
-                        <?php endif; ?>
-                          <th>Role</th>
-                        <?php if (auth()->user()->inGroup('superadmin')): ?>
-                          <th>Status</th>
-                        <?php endif; ?>
-                        <th style="width: 90px;">Action</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    <?php if (!empty($userData)): ?>
-                      <?php foreach ($userData as $data): ?>
-                        <tr>
-                          <td><?= $data->username; ?></td>
-                          <td><?= $data->secret; ?></td>
-                          <!-- If current user is Admin PRN & Company Admin -->
-                          <?php if (auth()->user()->inGroup('superadmin')): ?>
-                            <td><?= $data->comp_name; ?></td>
-                            <td><?= $data->comp_reg_no; ?></td>
-                          <?php endif; ?>
-                          <td>
-                            <?php if ($data->group == 'superadmin') : ?>
-                              ADMIN PUSAT RACUN 
-                            <?php elseif($data->group == 'admin'): ?>
-                              Admin
-                            <?php else: ?>
-                              Staff
-                            <?php endif; ?>
-                          </td>
-                          <?php if (auth()->user()->inGroup('superadmin')): ?>
-                            <?php if ($data->status == 'unverified') : ?>
-                              <td>
-                                <!-- Form section to update status value in users table -->
-                                <form method="POST" action="<?= url_to('verifyUser', $data->id); ?>">
-                                  <button type="submit" value="Submit" class="btn btn-primary btn-sm">Verify</button>
-                                </form>
-                              </td>
-                            <?php elseif ($data->status == 'verified'): ?>
-                              <td><?= 'Verified'; ?></td>
-                            <?php endif; ?>
-                          <?php endif; ?>
-                          <td>
-                            <div class="dropdown-toggle btn btn-outline-primary btn-sm" role="button" data-bs-toggle="dropdown">Action</div>
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="<?= url_to('editUser', $data->id); ?>">Edit</a></li>
-                              <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $data->id; ?>">Delete</button></li>
-                            </ul>
-                            
-                          </td>
-                        </tr>
-                      <?php endforeach; ?>
-                    <?php else: ?>
-                      <tr>
-                        <td colspan="6">No data available</td>
-                      </tr>
-                    <?php endif; ?>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>Name</th>
-                      <th>E-mail</th>
+                      <td><?= $data->username; ?></td>
+                      <td><?= $data->secret; ?></td>
+                      <!-- If current user is Admin PRN & Company Admin -->
                       <?php if (auth()->user()->inGroup('superadmin')): ?>
-                        <th>Company Name</th>
-                        <th>Company Registration No</th>
+                        <td><?= $data->comp_name; ?></td>
+                        <td><?= $data->comp_reg_no; ?></td>
                       <?php endif; ?>
-                        <th>Role</th>
+                      <td>
+                        <?php if ($data->group == 'superadmin'): ?>
+                          ADMIN PUSAT RACUN
+                        <?php elseif ($data->group == 'admin'): ?>
+                          Admin
+                        <?php else: ?>
+                          Staff
+                        <?php endif; ?>
+                      </td>
                       <?php if (auth()->user()->inGroup('superadmin')): ?>
-                        <th>Status</th>
+                        <?php if ($data->status == 'unverified'): ?>
+                          <td>
+                            <!-- Form section to update status value in users table -->
+                            <form method="POST" action="<?= url_to('verifyUser', $data->id); ?>">
+                              <button type="submit" value="Submit" class="btn btn-primary btn-sm">Verify</button>
+                            </form>
+                          </td>
+                        <?php elseif ($data->status == 'verified'): ?>
+                          <td><?= 'Verified'; ?></td>
+                        <?php endif; ?>
                       <?php endif; ?>
-                      <th style="width: 90px;">Action</th>
+                      <td>
+                        <div class="dropdown-toggle btn btn-outline-primary btn-sm" role="button" data-bs-toggle="dropdown">
+                          Action</div>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="<?= url_to('editUser', $data->id); ?>">Edit</a></li>
+                          <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
+                              data-bs-target="#deleteModal<?= $data->id; ?>">Delete</button></li>
+                        </ul>
+
+                      </td>
                     </tr>
-                  </tfoot>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <tr>
+                    <td colspan="6">No data available</td>
+                  </tr>
+                <?php endif; ?>
+              </tbody>
+              <tfoot>
+                <tr id="column-filters">
+                  <th><input type="text" class="form-control column-search" placeholder="Search Name"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search E-mail"></th>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                    <th><input type="text" class="form-control column-search" placeholder="Search Company Name"></th>
+                    <th><input type="text" class="form-control column-search" placeholder="Search Company Reg No"></th>
+                  <?php endif; ?>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Role"></th>
+                  <?php if (auth()->user()->inGroup('superadmin')): ?>
+                    <th><input type="text" class="form-control column-search" placeholder="Search Status"></th>
+                  <?php endif; ?>
+                  <th>Action</th>
+                </tr>
             </table>
             <nav aria-label="Page navigation">
               <ul class="pagination justify-content-end" id="pagination">
               </ul>
             </nav>
-            </div>
           </div>
         </div>
       </div>
-      
     </div>
-    
-    <?php foreach($userData as $data): ?>
+
+  </div>
+
+  <?php foreach ($userData as $data): ?>
     <!-- The Modal -->
-    <div class="modal fade" id="deleteModal<?= $data->id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal<?= $data->id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
 
@@ -162,7 +163,7 @@
         </div>
       </div>
     </div>
-    <?php endforeach; ?>
+  <?php endforeach; ?>
 
 </div>
 
@@ -171,7 +172,8 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const table = document.getElementById('userslist');
-    const searchInput = document.getElementById('searchInput');
+    const globalSearchInput = document.getElementById('globalSearchInput');
+    const columnSearchInputs = document.querySelectorAll('#column-filters .column-search');
     const tbody = table.getElementsByTagName('tbody')[0];
     const rows = Array.from(tbody.getElementsByTagName('tr'));
     const itemsPerPage = 10; // Records to be shown per page
@@ -179,16 +181,26 @@
     let filteredRows = rows;
 
     function filterRows() {
-      const searchTerm = searchInput.value.toLowerCase().trim();
+      const globalSearchTerm = globalSearchInput.value.toLowerCase().trim();
+
       filteredRows = rows.filter(row => {
-        const cells = row.getElementsByTagName('td');
-        for (let cell of cells) {
-          if (cell.textContent.toLowerCase().includes(searchTerm)) {
-            return true;
-          }
-        }
-        return false;
+        const cells = Array.from(row.getElementsByTagName('td'));
+
+        // Global search
+        const matchesGlobalSearch = globalSearchTerm === '' || cells.some(cell =>
+          cell.textContent.toLowerCase().includes(globalSearchTerm)
+        );
+
+        // Column-specific search
+        const matchesColumnSearch = Array.from(columnSearchInputs).every((input, index) => {
+          if (!input.value.trim()) return true;
+          const cellText = cells[index].textContent.toLowerCase();
+          return cellText.includes(input.value.toLowerCase().trim());
+        });
+
+        return matchesGlobalSearch && matchesColumnSearch;
       });
+
       return filteredRows;
     }
 
@@ -266,11 +278,17 @@
       paginationElement.appendChild(nextLi);
     }
 
-    searchInput.addEventListener('input', function () {
+    function updateTable() {
       filterRows();
-      currentPage = 1; // Reset to first page after search
+      currentPage = 1;
       setupPagination();
       showPage(currentPage);
+    }
+
+    globalSearchInput.addEventListener('input', updateTable);
+
+    columnSearchInputs.forEach(input => {
+      input.addEventListener('input', updateTable);
     });
 
     // Initial setup
@@ -280,4 +298,3 @@
 </script>
 
 <?= $this->endsection(); ?>
-

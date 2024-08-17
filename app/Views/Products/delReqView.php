@@ -28,7 +28,7 @@
             <!-- Table data -->
             <div class="table-responsive">
             <div class="mb-3 d-flex justify-content-end">
-              <input type="text" id="searchInput" class="form-control form-control-sm w-25"
+              <input type="text" id="globalSearchInput" class="form-control form-control-sm w-25"
                 placeholder="Enter search term here...">
             </div>
             <table id="delreq" class="table table-hover table-bordered table-striped" style="width:100%">
@@ -73,6 +73,19 @@
                 </tr>
               <?php endif; ?>
               </tbody>
+              <tfoot>
+                <tr id="column-filters">
+                  <th><input type="hidden" class="form-control column-search" placeholder="Search #">#</th>
+                    <th><input type="text" class="form-control column-search" placeholder="Search Company"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Brand"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Product Name"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Inactive Ingredients"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Active Ingredient"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Created Date"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Modified Date"></th>
+                  <th>Action</th>
+                </tr>
+              </tfoot>
             </table>
             <nav aria-label="Page navigation">
               <ul class="pagination justify-content-end" id="pagination">
@@ -88,7 +101,8 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const table = document.getElementById('delreq');
-    const searchInput = document.getElementById('searchInput');
+    const globalSearchInput = document.getElementById('globalSearchInput');
+    const columnSearchInputs = document.querySelectorAll('#column-filters .column-search');
     const tbody = table.getElementsByTagName('tbody')[0];
     const rows = Array.from(tbody.getElementsByTagName('tr'));
     const itemsPerPage = 10; // Records to be shown per page
@@ -96,16 +110,26 @@
     let filteredRows = rows;
 
     function filterRows() {
-      const searchTerm = searchInput.value.toLowerCase().trim();
+      const globalSearchTerm = globalSearchInput.value.toLowerCase().trim();
+
       filteredRows = rows.filter(row => {
-        const cells = row.getElementsByTagName('td');
-        for (let cell of cells) {
-          if (cell.textContent.toLowerCase().includes(searchTerm)) {
-            return true;
-          }
-        }
-        return false;
+        const cells = Array.from(row.getElementsByTagName('td'));
+
+        // Global search
+        const matchesGlobalSearch = globalSearchTerm === '' || cells.some(cell =>
+          cell.textContent.toLowerCase().includes(globalSearchTerm)
+        );
+
+        // Column-specific search
+        const matchesColumnSearch = Array.from(columnSearchInputs).every((input, index) => {
+          if (!input.value.trim()) return true;
+          const cellText = cells[index].textContent.toLowerCase();
+          return cellText.includes(input.value.toLowerCase().trim());
+        });
+
+        return matchesGlobalSearch && matchesColumnSearch;
       });
+
       return filteredRows;
     }
 
@@ -183,11 +207,17 @@
       paginationElement.appendChild(nextLi);
     }
 
-    searchInput.addEventListener('input', function () {
+    function updateTable() {
       filterRows();
-      currentPage = 1; // Reset to first page after search
+      currentPage = 1;
       setupPagination();
       showPage(currentPage);
+    }
+
+    globalSearchInput.addEventListener('input', updateTable);
+
+    columnSearchInputs.forEach(input => {
+      input.addEventListener('input', updateTable);
     });
 
     // Initial setup
