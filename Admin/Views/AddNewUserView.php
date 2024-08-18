@@ -32,11 +32,24 @@
           <form action="<?= url_to('saveUser') ?>" method="post">
             <?= csrf_field() ?>
 
+            <!-- Role -->
+            <div class="form-floating mb-3 w-100">
+              <select id="role" name="role" class="form-select" required>
+                <option value="">Select Role</option>
+                <?php if (auth()->user()->inGroup('superadmin')): ?>
+                  <option value="superadmin" data-role="admin-prn">Admin PRN</option>
+                <?php endif; ?>
+                <option value="admin" data-role="admin-company">Admin Company</option>
+                <option value="user" data-role="staff-company">Staff Company</option>
+              </select>
+            </div>
+            <!-- ! -->
+
             <!-- Company Registration No -->
             <!-- Dropdown input for superadmin -->
             <?php if (auth()->user()->inGroup('superadmin')): ?>
               <div class="form-floating mb-3 w-100">
-                <select id="type_poison" name="comp_reg_no" class="form-select" required>
+                <select id="comp_reg_no" name="comp_reg_no" class="form-select" required>
                   <option value="Please select">Company Registration No</option>
                   <?php foreach ($companyData as $data): ?>
                     <option value="<?= $data['comp_reg_no'] ?>"><?= $data['comp_reg_no'] ?></option>
@@ -61,7 +74,7 @@
                 <select id="comp_name" name="comp_name" class="form-select" required>
                   <option value="Please select">Company Name</option>
                   <?php foreach ($companyData as $data): ?>
-                    <option value="<?= $data['comp_name'] ?>"><?= $data['comp_name'] ?></option>
+                    <option value="<?= $data['comp_name'] ?>" data-reg-no="<?= $data['comp_reg_no'] ?>"><?= $data['comp_name'] ?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
@@ -95,19 +108,6 @@
             </div>
             <!-- ! -->
 
-            <!-- Role -->
-            <div class="form-floating mb-3 w-100">
-              <select id="role" name="role" class="form-select" required>
-                <option value="">Select Role</option>
-                <?php if (auth()->user()->inGroup('superadmin')): ?>
-                  <option value="superadmin">Admin PRN</option>
-                <?php endif; ?>
-                <option value="admin">Admin Company</option>
-                <option value="user">Staff Company</option>
-              </select>
-            </div>
-            <!-- ! -->
-
             <!-- Submit button -->
             <div class="d-grid gap-2 mt-4">
               <button type="submit" class="btn btn-primary btn-block">Submit</button>
@@ -124,7 +124,47 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    const roleSelect = document.getElementById('role');
+    const compRegNoSelect = document.getElementById('comp_reg_no');
+    const compNameSelect = document.getElementById('comp_name');
     const emailInput = document.getElementById('floatingEmailInput');
+
+    roleSelect.addEventListener('change', function () {
+      const selectedOption = this.options[this.selectedIndex];
+
+      if (selectedOption.getAttribute('data-role') === 'admin-prn') {
+        // Autofill with the first option (excluding the placeholder)
+        if (compRegNoSelect.options.length > 1) {
+          compRegNoSelect.selectedIndex = 1;
+        }
+        if (compNameSelect.options.length > 1) {
+          compNameSelect.selectedIndex = 1;
+        }
+      } else {
+        // Reset to placeholder
+        compRegNoSelect.selectedIndex = 0;
+        compNameSelect.selectedIndex = 0;
+      }
+    });
+
+    compNameSelect.addEventListener('change', function() {
+    console.log('Company name changed:', this.value);
+    const selectedRole = roleSelect.options[roleSelect.selectedIndex].getAttribute('data-role');
+    console.log('Selected role:', selectedRole);
+
+    if (selectedRole === 'admin-company' || selectedRole === 'staff-company') {
+      const selectedOption = this.options[this.selectedIndex];
+      const regNo = selectedOption.getAttribute('data-reg-no');
+      console.log('Registration number from data attribute:', regNo);
+
+      if (regNo) {
+        compRegNoSelect.value = regNo;
+        console.log('Set registration number to:', regNo);
+      } else {
+        console.log('No registration number found for selected company');
+      }
+    }
+  });
 
     emailInput.addEventListener('input', function () {
       if (emailInput.validity.typeMismatch) {
