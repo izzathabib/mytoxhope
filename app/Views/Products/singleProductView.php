@@ -93,24 +93,6 @@
           </div>
         </form>
       </div>
-      <!-- Modal -->
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this product?
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-outline-danger btn-sm" id="confirmDelete">Delete</button>
-        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
     </div>
   </div>
 
@@ -125,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const cancelDelete = document.getElementById('cancelDelete');
   const deleteReason = document.getElementById('deleteReason');
   const deleteForm = document.getElementById('deleteForm');
-  const confirmDelete = document.getElementById('confirmDelete');
 
   deleteBtn.addEventListener('click', function () {
     deleteBtn.style.display = 'none';
@@ -141,18 +122,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
   deleteForm.addEventListener('submit', function (e) {
     e.preventDefault(); // Prevent form submission
-    if (deleteReason.value.trim() !== '') {
-      // Show the modal
-      var deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-      deleteModal.show();
+    const reason = deleteReason.value.trim();
+    
+    if (reason !== '') {
+      Swal.fire({
+        title: 'Confirm Deletion',
+        text: 'Are you sure you want to delete this product?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Create a hidden input field to store the reason
+          const reasonInput = document.createElement('input');
+          reasonInput.type = 'hidden';
+          reasonInput.name = 'deleteReason';
+          reasonInput.value = reason;
+          
+          // Append the hidden input to the form
+          deleteForm.appendChild(reasonInput);
+          
+          // Submit the form
+          deleteForm.submit();
+        }
+      });
     } else {
-      alert('Please provide a reason for deletion.');
+      Swal.fire({
+        title: 'Error',
+        text: 'Please provide a reason for deletion.',
+        icon: 'error',
+        confirmButtonColor: '#3085d6'
+      });
     }
-  });
-
-  confirmDelete.addEventListener('click', function () {
-    // Submit the form
-    deleteForm.submit();
   });
 
   <?php if (session()->getFlashdata('success')): ?>

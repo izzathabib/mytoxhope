@@ -283,6 +283,9 @@ class ProductsController extends BaseController
         // Get the product detail from products table
         $productData = $productModel->find($id);
 
+        // Get the delete reason from the POST data
+        $deleteReason = $this->request->getPost('deleteReason');
+
         # If prodcut is currently active, deletion of the product need to be approved by Admin PRN
         if ($productData['prod_status']=='Active') {
             if (auth()->user()->inGroup('admin','user')) {
@@ -308,6 +311,8 @@ class ProductsController extends BaseController
 
             } else { 
 
+                // For superadmin, directly delete the product
+                $productData['reason_deletion'] = $deleteReason;
                 // Insert all product data to delete_products table
                 $delProdModel->insert($productData);
                 // Delete product from products table
@@ -317,6 +322,8 @@ class ProductsController extends BaseController
             }
             
         } else { // If product status is currently 'Discontinued' it will straight away delete
+            
+            $productData['reason_deletion'] = $deleteReason;
             // Insert all product data to delete_products table
             $delProdModel->insert($productData);
             // Delete product from products table
