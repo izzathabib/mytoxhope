@@ -1,11 +1,11 @@
 <?= $this->extend('layouts/app.php'); ?>
-<?= $this->section('bodyClass') ?>login-page<?= $this->endSection() ?>
+<?= $this->section('bodyClass') ?>forgot-page<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
-<div class="container d-flex justify-content-center p-5">
-    <div class="card col-12 col-md-5 shadow-sm">
+<div class="forgot-container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card w-100 shadow-sm forgot-card" style="max-width: 400px;">
         <div class="card-body">
-            <h5 class="card-title mb-5">Forgot password?</h5>
+            <h4 class="card-title text-center mb-3">Forgot password?</h4>
 
                 <?php if (session('error') !== null) : ?>
                     <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
@@ -26,13 +26,13 @@
                 <?= csrf_field() ?>
 
                 <!-- Email -->
-                <div class="form-floating mb-2">
+                <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingEmailInput" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
                            value="<?= old('email', auth()->user()->email ?? null) ?>" required>
                     <label for="floatingEmailInput"><?= lang('Auth.email') ?></label>
                 </div>
 
-                <div class="d-grid col-12 col-md-8 mx-auto m-3">
+                <div class="d-grid col-12 mx-auto mt-4 mb-3">
                     <button type="submit" class="btn btn-primary btn-block">Reset password</button>
                 </div>
 
@@ -47,26 +47,27 @@
 
 <?= $this->section('styles') ?>
 <style>
-    .login-page {
+    .forgot-page {
         overflow: hidden;
         background-color: #f8f9fa;
     }
-    .login-container {
+    .forgot-container {
         padding: 20px;
     }
-    .login-card {
+    .forgot-card {
         transform: translateY(-15%);
+        margin-bottom: 160px;
     }
 
     @media (max-height: 600px), (max-width: 450px) {
-        .login-page {
+        .forgot-page {
             overflow-y: auto;
         }
-        .login-container {
+        .forgot-container {
             padding: 30px 20px 80px;
             align-items: flex-start;
         }
-        .login-card {
+        .forgot-card {
             transform: none;
             margin-bottom: 6rem;
         }
