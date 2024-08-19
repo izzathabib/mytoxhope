@@ -65,6 +65,13 @@
           <?php endif; ?>
       </div>
       </div>
+      <?php if (auth()->user()->inGroup('user')): ?>
+      <div class="row mt-3 ">
+            <div class="col-md-12 text-center">
+              <a class="btn btn-secondary" href="">Cancel Delete</a>
+            </div>
+          </div>
+          <?php endif; ?>
     </div>
     
     <?php if ($data->prod_status=='Discontinued'): ?>
@@ -134,6 +141,20 @@
       deleteBtn.style.display = 'inline-block';
       deleteReason.value = ''; // Clear the textarea
     });
+    <?php if (session()->getFlashdata('success')): ?>
+        Swal.fire({
+          position: 'top-end',
+          toast: true,
+          backgroundColor: '#28a745',
+          titleColor: '#fff',
+            title: 'Success!',
+            text: '<?= session()->getFlashdata('success') ?>',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true
+        });
+    <?php endif; ?>
   });
 </script>
 <?= $this->endsection(); ?>

@@ -167,6 +167,7 @@ class ProductsController extends BaseController
         
         // Check if the data have been save
         if ($productModel) {
+            session()->setFlashdata('success', 'Product added successfully!');
             return redirect()->to(base_url('display-prod-detail/'.$id));
         }
     }
@@ -242,6 +243,7 @@ class ProductsController extends BaseController
 
         // Check if the data have been save
         if ($productModel) {
+            session()->setFlashdata('success', 'Product updated successfully!');
             return redirect()->to(base_url('display-prod-detail/'.$id));
         }
     }
@@ -264,7 +266,7 @@ class ProductsController extends BaseController
                 ->get()
                 ->getResult();
 
-
+        session()->setFlashdata('success', 'Product discontinued!');
         return view('Products/ProdDiscontinueView',compact('title','productData'));
 
     }
@@ -310,7 +312,7 @@ class ProductsController extends BaseController
                 $delProdModel->insert($productData);
                 // Delete product from products table
                 $productModel->delete($id);
-
+                session()->setFlashdata('success', 'Product Deleted Successfully!');
                 return redirect()->to(base_url('list-product'));
             }
             
@@ -319,7 +321,7 @@ class ProductsController extends BaseController
             $delProdModel->insert($productData);
             // Delete product from products table
             $productModel->delete($id);
-
+            session()->setFlashdata('success', 'Product Deleted Successfully!');
             return redirect()->to(base_url('list-product'));
         }
 
@@ -385,7 +387,7 @@ class ProductsController extends BaseController
 
         // Delete product from products and delete_requests table
         $productModel->delete($id);
-
+        session()->setFlashdata('success', 'Delete Request Approved');
         return redirect()->to(base_url('list-product'));
 
         /*$productData = $productModel->find($id);
@@ -408,7 +410,7 @@ class ProductsController extends BaseController
 
         $deleteRequestData = $delReqModel->where('prod_id', $productData['id'])->first();
         $delReqModel->delete($deleteRequestData['id']);
-
+        session()->setFlashdata('failed', 'Delete Request Rejected');
         return redirect()->to(base_url('list-product'));
 
     }
@@ -445,6 +447,7 @@ class ProductsController extends BaseController
         $delProductModel = new DeleteProduct();
         
         $delProductModel->delete($id);
+        session()->setFlashdata('success', 'Product deleted successfully!');
         return redirect()->to(base_url('delete-product-list'));
     }
 
@@ -455,6 +458,7 @@ class ProductsController extends BaseController
         ];
         $productModel->update($id, $productData);
 
+        session()->setFlashdata('success', 'Product Activated Successfully!');
         return redirect()->to('list-product');
     }
 

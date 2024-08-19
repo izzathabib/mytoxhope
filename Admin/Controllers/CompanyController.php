@@ -49,7 +49,7 @@ class CompanyController extends BaseController
         ];
 
         $companyModel->update($id,$companyData);
-
+        session()->setFlashdata('success', 'Details Updated Successfully!');
         return redirect()->to('Admin/company');
     }
 
@@ -57,6 +57,7 @@ class CompanyController extends BaseController
         $companyModel = new Company();
         $companyModel->delete($compId);
         //dd($id);
+        session()->setFlashdata('success', 'Company Deleted Successfully!');
         return redirect()->to('Admin/company');
     }
 
@@ -252,6 +253,7 @@ class CompanyController extends BaseController
             // Success!
             /*$session = session();
             $session->setFlashdata('success', "Registration successful!  We'll email you once your account is verified for login.");*/
+            session()->setFlashdata('success', 'Company Added Successfully!');
             return redirect()->to('Admin/company');
         } else {
             return redirect()->back()
