@@ -38,10 +38,10 @@
             <!-- Table data -->
             <div class="table-responsive">
             <div class="mb-3 d-flex justify-content-end">
-              <input type="text" id="searchInput" class="form-control form-control-sm w-25"
+              <input type="text" id="globalSearchInput" class="form-control form-control-sm w-25"
                 placeholder="Enter search term here...">
             </div>
-            <table id="userslist" class="table table-hover table-bordered"
+            <table id="userslist" class="table table-hover table-bordered table-striped"
                   style="width:100%">
                   <thead>
                     <tr>
@@ -67,7 +67,7 @@
                               </td>
                             <?php elseif ($data->status == 'verified'): ?>
                               <td>
-                                <span class="badge  bg-success">Verified</span>
+                                <span class="badge bg-success">Verified</span>
                               </td>
                             <?php endif; ?>
                           <td>
@@ -92,14 +92,14 @@
                     <?php endif; ?>
                   </tbody>
                   <tfoot>
-                  <tr>
-                      <th>Company Name</th>
-                      <th>Company Registration No</th>
-                      <th>Company Main Admin</th>
-                      <th>Admin E-mail</th>
-                      <th>Status</th>
-                      <th style="width: 90px;">Action</th>
-                    </tr>
+                  <tr id="column-filters">
+                  <th><input type="text" class="form-control column-search" placeholder="Search Company Name"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Company Reg. No"></th>
+                    <th><input type="text" class="form-control column-search" placeholder="Search Main Admin"></th>
+                    <th><input type="text" class="form-control column-search" placeholder="Search Admin E-mail"></th>
+                  <th><input type="text" class="form-control column-search" placeholder="Search Status"></th>
+                  <th>Action</th>
+                </tr>
                   </tfoot>
             </table>
             <nav aria-label="Page navigation">
@@ -188,7 +188,8 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const table = document.getElementById('userslist');
-    const searchInput = document.getElementById('searchInput');
+    const globalSearchInput = document.getElementById('globalSearchInput');
+    const columnSearchInputs = document.querySelectorAll('#column-filters .column-search');
     const tbody = table.getElementsByTagName('tbody')[0];
     const rows = Array.from(tbody.getElementsByTagName('tr'));
     const itemsPerPage = 10; // Records to be shown per page
@@ -196,16 +197,26 @@
     let filteredRows = rows;
 
     function filterRows() {
-      const searchTerm = searchInput.value.toLowerCase().trim();
+      const globalSearchTerm = globalSearchInput.value.toLowerCase().trim();
+
       filteredRows = rows.filter(row => {
-        const cells = row.getElementsByTagName('td');
-        for (let cell of cells) {
-          if (cell.textContent.toLowerCase().includes(searchTerm)) {
-            return true;
-          }
-        }
-        return false;
+        const cells = Array.from(row.getElementsByTagName('td'));
+
+        // Global search
+        const matchesGlobalSearch = globalSearchTerm === '' || cells.some(cell =>
+          cell.textContent.toLowerCase().includes(globalSearchTerm)
+        );
+
+        // Column-specific search
+        const matchesColumnSearch = Array.from(columnSearchInputs).every((input, index) => {
+          if (!input.value.trim()) return true;
+          const cellText = cells[index].textContent.toLowerCase();
+          return cellText.includes(input.value.toLowerCase().trim());
+        });
+
+        return matchesGlobalSearch && matchesColumnSearch;
       });
+
       return filteredRows;
     }
 
@@ -283,30 +294,37 @@
       paginationElement.appendChild(nextLi);
     }
 
-    searchInput.addEventListener('input', function () {
+    function updateTable() {
       filterRows();
-      currentPage = 1; // Reset to first page after search
+      currentPage = 1;
       setupPagination();
       showPage(currentPage);
+    }
+
+    globalSearchInput.addEventListener('input', updateTable);
+
+    columnSearchInputs.forEach(input => {
+      input.addEventListener('input', updateTable);
     });
 
     // Initial setup
     setupPagination();
     showPage(currentPage);
 
+    // SweetAlert for success message
     <?php if (session()->getFlashdata('success')): ?>
-        Swal.fire({
-          position: 'top-end',
-          toast: true,
-          backgroundColor: '#28a745',
-          titleColor: '#fff',
-            title: 'Success!',
-            text: '<?= session()->getFlashdata('success') ?>',
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true
-        });
+      Swal.fire({
+        position: 'top-end',
+        toast: true,
+        backgroundColor: '#28a745',
+        titleColor: '#fff',
+        title: 'Success!',
+        text: '<?= session()->getFlashdata('success') ?>',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true
+      });
     <?php endif; ?>
   });
 </script>
