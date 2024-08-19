@@ -65,14 +65,33 @@
           <?php endif; ?>
       </div>
       </div>
-      <?php if (auth()->user()->inGroup('user')): ?>
-      <div class="row mt-3 ">
+
+      <!-- Cancel delete button -->
+      <?php if ($data->prod_status=='To Be Deleted'): ?>
+        <?php if (auth()->user()->inGroup('user')): ?>
+          <?php if ($data->user_id == auth()->user()->id): ?>
+            <div class="row mt-3 ">
+              <div class="col-md-12 text-center">
+                <a class="btn btn-secondary" href="<?= url_to('activateProd', $data->id) ?>">Cancel Delete</a>
+              </div>
+            </div>
+          <?php else: ?>
+            <div class="row mt-3 ">
+              <div class="col-md-12 text-center">
+                <button disabled class="btn btn-secondary" href="">Cancel Delete</button>
+              </div>
+            </div>
+          <?php endif; ?>
+        <?php else: ?>
+          <div class="row mt-3 ">
             <div class="col-md-12 text-center">
-              <a class="btn btn-secondary" href="">Cancel Delete</a>
+              <a class="btn btn-secondary" href="<?= url_to('activateProd', $data->id) ?>">Cancel Delete</a>
             </div>
           </div>
-          <?php endif; ?>
-    </div>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
+    <!-- ! -->
     
     <?php if ($data->prod_status=='Discontinued'): ?>
       <!-- Button -->
