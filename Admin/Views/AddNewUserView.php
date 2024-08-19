@@ -45,28 +45,6 @@
             </div>
             <!-- ! -->
 
-            <!-- Company Registration No -->
-            <!-- Dropdown input for superadmin -->
-            <?php if (auth()->user()->inGroup('superadmin')): ?>
-              <div class="form-floating mb-3 w-100">
-                <select id="comp_reg_no" name="comp_reg_no" class="form-select" required>
-                  <option value="Please select">Company Registration No</option>
-                  <?php foreach ($companyData as $data): ?>
-                    <option value="<?= $data['comp_reg_no'] ?>"><?= $data['comp_reg_no'] ?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-              <!-- Disabled input for company admin -->
-            <?php else: ?>
-              <div class="form-floating mb-3 w-100">
-                <input type="text" class="form-control" name="comp_reg_no" id="comp_reg_no"
-                  value="<?= $companyData['comp_reg_no'] ?>" required disabled>
-                <input type="hidden" class="form-control" name="comp_reg_no" id="comp_reg_no"
-                  value="<?= $companyData['comp_reg_no'] ?>" required>
-              </div>
-            <?php endif; ?>
-            <!-- -->
-
             <!-- Company Name -->
             <!-- Dropdown input for superadmin -->
             <?php if (auth()->user()->inGroup('superadmin')): ?>
@@ -88,6 +66,28 @@
               </div>
             <?php endif; ?>
             <!---->
+
+            <!-- Company Registration No -->
+            <!-- Dropdown input for superadmin -->
+            <?php if (auth()->user()->inGroup('superadmin')): ?>
+              <div class="form-floating mb-3 w-100">
+                <select id="comp_reg_no" name="comp_reg_no" class="form-select" required>
+                  <option value="Please select">Company Registration No</option>
+                  <?php foreach ($companyData as $data): ?>
+                    <option value="<?= $data['comp_reg_no'] ?>"><?= $data['comp_reg_no'] ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <!-- Disabled input for company admin -->
+            <?php else: ?>
+              <div class="form-floating mb-3 w-100">
+                <input type="text" class="form-control" name="comp_reg_no" id="comp_reg_no"
+                  value="<?= $companyData['comp_reg_no'] ?>" required disabled>
+                <input type="hidden" class="form-control" name="comp_reg_no" id="comp_reg_no"
+                  value="<?= $companyData['comp_reg_no'] ?>" required>
+              </div>
+            <?php endif; ?>
+            <!-- -->
 
             <!-- Name -->
             <div class="form-floating mb-3 w-100">
