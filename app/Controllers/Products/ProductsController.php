@@ -461,7 +461,6 @@ class ProductsController extends BaseController
     public function activateProd($id) {
         $productModel = new Product();
         $delReqModel = new DeleteRequest();
-
         
         $productData = $productModel->find($id);
 
@@ -476,9 +475,6 @@ class ProductsController extends BaseController
             $delReqModel->delete($product['id']);
         }
         # --#-- #
-        
-
-        
 
         $productData = [
             'prod_status' => 'Active' 
