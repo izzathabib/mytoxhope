@@ -460,6 +460,26 @@ class ProductsController extends BaseController
 
     public function activateProd($id) {
         $productModel = new Product();
+        $delReqModel = new DeleteRequest();
+
+        
+        $productData = $productModel->find($id);
+
+        # For activation process from "To Be Deleted" status.
+        # To delete the record in 'delete_requests' table
+        if ($productData['prod_status'] == 'To Be Deleted') {
+            # For activation process from "To Be Deleted" status.
+            $product = $productModel
+            ->join('delete_requests', 'delete_requests.prod_id = products.id')
+            ->find($id);
+            
+            $delReqModel->delete($product['id']);
+        }
+        # --#-- #
+        
+
+        
+
         $productData = [
             'prod_status' => 'Active' 
         ];
