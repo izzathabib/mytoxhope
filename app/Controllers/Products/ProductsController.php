@@ -376,15 +376,25 @@ class ProductsController extends BaseController
         
         // Fetch delete product data to insert
         foreach ($productData as $data) {
+            $product_image = $data->product_image;
+            $product_image_path = 'public/assets/images/product/' . $product_image;
+            if (file_exists($product_image_path)) {
+                unlink($product_image_path);
+            }
+
+            $msds = $data->msds;
+            $msds_path = 'public/assets/documents/' . $msds;
+            if (file_exists($msds_path)) {
+                unlink($msds_path);
+            }
+
             $deleteProduct = [
                 'user_id' => $data->user_id,
                 'product_name' => $data->product_name,
-                'product_image' => $data->product_image,
                 'type_poison' => $data->type_poison,
                 'active_ing' => $data->active_ing,
                 'inactive_ing' => $data->inactive_ing,
                 'brand_name' => $data->brand_name,
-                'msds' => $data->msds,
                 'subtype_household' => $data->subtype_household,
                 'reason_deletion' => $data->reason_deletion,
             ];
@@ -396,14 +406,7 @@ class ProductsController extends BaseController
         $productModel->delete($id);
         session()->setFlashdata('success', 'Delete Request Approved');
         return redirect()->to(base_url('list-product'));
-
-        /*$productData = $productModel->find($id);
-        $delReqData = $delReqModel->where('prod_id',$id)->first();
-        $delReason = $delReqData['reason_deletion'];
-
-        $deleteProduct = [
-            'comp_id' => 
-        ];*/
+        
     }
     
     public function rejectDelete($id) {
