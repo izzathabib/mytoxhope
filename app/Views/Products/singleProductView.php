@@ -159,6 +159,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  confirmDelete.addEventListener('click', function () {
+    // Submit the form
+    deleteForm.submit();
+  });
+
   <?php if (session()->getFlashdata('success')): ?>
         Swal.fire({
           position: 'top-end',
